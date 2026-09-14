@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Фитнес Трекер">
+<meta name="theme-color" content="#12110d">
+<title>Фитнес Трекер: Прогресс & Веса</title>
+<style>
+  :root {
+    --bg: #12110d;
+    --surface: #1b1914;
+    --surface-2: #24221b;
+    --surface-3: #2e2b22;
+    --line: #38342c;
+    --line-light: #4a453b;
+    --chalk: #f3eee3;
+    --chalk-dim: #a6a192;
+    --iron: #ff6022;
+    --iron-hover: #ff7842;
+    --iron-glow: rgba(255, 96, 34, 0.25);
+    --iron-dim: #7a3a1b;
+    --steel: #7b888e;
+    --success: #2ecc71;
+    --success-dim: rgba(46, 204, 113, 0.15);
+    --gold: #f1c40f;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; padding: 0; background: var(--bg); color: var(--chalk);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    padding-bottom: calc(75px + env(safe-area-inset-bottom));
+    user-select: none;
+  }
+  input, button, select { font-family: inherit; }
+
+  /* TOP HEADER */
+  header.top-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    padding: 12px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: max(12px, env(safe-area-inset-top));
+  }
+  .header-left h1 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--chalk);
+  }
+  .header-left .meta {
+    font-size: 12px;
+    color: var(--chalk-dim);
+    margin-top: 2px;
+  }
+  .account-switcher {
+    display: flex;
+    align-items: center;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 3px 6px 3px 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    gap: 6px;
+  }
+  .account-switcher:active {
+    transform: scale(0.96);
+    border-color: var(--iron);
+  }
+  .avatar-badge {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--iron);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .account-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--chalk);
+    max-width: 90px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .account-arrow {
+    font-size: 10px;
+    color: var(--steel);
+  }
+
+  /* WORKOUT SUB-TABS */
+  .workout-subtabs {
+    display: flex;
+    background: var(--surface);
+    padding: 6px 12px 10px;
+    gap: 6px;
+    border-bottom: 1px solid var(--line);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .workout-subtabs::-webkit-scrollbar { display: none; }
+  .subtab-btn {
+    flex: 1;
+    min-width: 70px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--chalk-dim);
+    border-radius: var(--radius-sm);
+    padding: 8px 4px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+  }
+  .subtab-btn.active {
+    background: var(--iron);
+    color: #fff;
+    border-color: var(--iron);
+    box-shadow: 0 2px 8px var(--iron-glow);
+  }
+
+  /* MAIN CONTAINER */
+  main#main {
+    padding: 10px 14px 20px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  /* WORKOUT HEADER BAR */
+  .day-title-box {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 10px 4px 6px;
+  }
+  .day-title-box h2 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--chalk);
+  }
+  .day-title-box .day-meta {
+    font-size: 12.5px;
+    color: var(--steel);
+  }
+
+  /* EXERCISE CARD */
+  .ex-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    margin-bottom: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  }
+  .ex-card-header {
+    display: flex;
+    gap: 12px;
+    padding: 14px 14px 10px;
+    align-items: flex-start;
+  }
+  .ex-icon {
+    flex: 0 0 46px;
+    width: 46px;
+    height: 56px;
+  }
+  .ex-icon svg { width: 100%; height: 100%; overflow: visible; }
+  .ex-header-body { flex: 1; min-width: 0; }
+  .ex-title {
+    font-size: 16.5px;
+    font-weight: 800;
+    margin: 0 0 4px;
+    color: var(--chalk);
+  }
+  .ex-targets {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .target-badge {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 2px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--iron);
+  }
+  .rest-badge {
+    font-size: 12px;
+    color: var(--steel);
+  }
+  .weight-ref-badge {
+    display: inline-block;
+    background: var(--surface-3);
+    color: var(--chalk-dim);
+    font-size: 11.5px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-top: 4px;
+  }
+
+  /* GIF VIDEO WRAP */
+  .ex-video-box {
+    margin: 6px 14px 10px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: #000;
+    border: 1px solid var(--line);
+    position: relative;
+    cursor: pointer;
+  }
+  .ex-video-box video {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    object-fit: cover;
+  }
+  .video-tap-hint {
+    position: absolute;
+    bottom: 6px;
+    right: 8px;
+    background: rgba(0,0,0,0.65);
+    color: var(--chalk-dim);
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    pointer-events: none;
+  }
+
+  /* TIPS */
+  .ex-tips {
+    margin: 0 14px 12px;
+    padding: 0;
+    list-style: none;
+  }
+  .ex-tips li {
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: var(--chalk-dim);
+    position: relative;
+    padding-left: 12px;
+    margin-bottom: 3px;
+  }
+  .ex-tips li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--steel);
+  }
+
+  /* SETS TRACKER TABLE */
+  .sets-container {
+    background: var(--surface-2);
+    border-top: 1px solid var(--line);
+    padding: 10px 12px 12px;
+  }
+  .sets-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .sets-table th {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--steel);
+    text-align: center;
+    padding-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .sets-table th:first-child { text-align: left; width: 28px; }
+  .sets-table th:nth-child(2) { text-align: left; width: 68px; }
+  .sets-table th:last-child { width: 36px; }
+  
+  .set-row {
+    border-bottom: 1px solid rgba(56, 52, 44, 0.5);
+  }
+  .set-row:last-child { border-bottom: none; }
+  .set-num {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--chalk-dim);
+  }
+  .set-prev {
+    font-size: 11.5px;
+    color: var(--steel);
+    white-space: nowrap;
+  }
+  .set-inputs-cell {
+    padding: 5px 2px;
+  }
+  .stepper-wrap {
+    display: inline-flex;
+    align-items: center;
+    background: var(--surface-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+  .stepper-btn {
+    background: transparent;
+    border: none;
+    color: var(--chalk);
+    font-size: 14px;
+    font-weight: 700;
+    width: 28px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .stepper-btn:active {
+    background: var(--line);
+    color: var(--iron);
+  }
+  .stepper-input {
+    width: 44px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    color: var(--chalk);
+    font-size: 14px;
+    font-weight: 800;
+    text-align: center;
+    outline: none;
+    user-select: text;
+  }
+  .done-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: var(--surface-3);
+    color: var(--steel);
+    font-size: 15px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .done-btn.completed {
+    background: var(--success);
+    color: #fff;
+    border-color: var(--success);
+    box-shadow: 0 2px 8px var(--success-dim);
+  }
+  .sets-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding-top: 6px;
+  }
+  .action-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--chalk-dim);
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .action-btn:active { background: var(--line); }
+
+  /* PROGRESSION RECO BOX */
+  .prog-reco-box {
+    margin: 8px 0 2px;
+    padding: 7px 10px;
+    background: rgba(255, 96, 34, 0.12);
+    border-left: 3px solid var(--iron);
+    border-radius: 0 4px 4px 0;
+    font-size: 12px;
+    color: var(--chalk);
+    line-height: 1.4;
+  }
+  .prog-reco-box b { color: var(--iron); }
+
+  /* FINISH WORKOUT BUTTON */
+  .finish-workout-box {
+    padding: 14px 4px 20px;
+    text-align: center;
+  }
+  .btn-finish {
+    width: 100%;
+    background: var(--iron);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 15px 20px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 16px var(--iron-glow);
+    transition: transform 0.1s;
+  }
+  .btn-finish:active { transform: scale(0.98); }
+
+  /* FLOATING REST TIMER */
+  .rest-timer-bar {
+    position: fixed;
+    bottom: calc(65px + env(safe-area-inset-bottom));
+    left: 12px;
+    right: 12px;
+    max-width: 500px;
+    margin: 0 auto;
+    background: #1e1b15;
+    border: 1.5px solid var(--iron);
+    border-radius: var(--radius-md);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.6), 0 0 16px var(--iron-glow);
+    padding: 10px 14px;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 200;
+    animation: slideUp 0.25s ease-out;
+  }
+  @keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .timer-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .timer-display {
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--chalk);
+    font-variant-numeric: tabular-nums;
+  }
+  .timer-label {
+    font-size: 11px;
+    color: var(--iron);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .timer-actions {
+    display: flex;
+    gap: 6px;
+  }
+  .timer-btn {
+    background: var(--surface-3);
+    border: 1px solid var(--line);
+    color: var(--chalk);
+    border-radius: var(--radius-sm);
+    padding: 6px 10px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .timer-btn:active { background: var(--line); }
+
+  /* BOTTOM NAVIGATION */
+  nav.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(62px + env(safe-area-inset-bottom));
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    display: flex;
+    z-index: 150;
+  }
+  .nav-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--steel);
+    cursor: pointer;
+    padding: 6px 0;
+    transition: color 0.15s;
+  }
+  .nav-item.active {
+    color: var(--iron);
+  }
+  .nav-icon {
+    font-size: 19px;
+    line-height: 1;
+    margin-bottom: 2px;
+  }
+  .nav-label {
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  /* CALCULATOR TAB */
+  .calc-container {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .calc-title {
+    font-size: 18px;
+    font-weight: 800;
+    margin: 0 0 12px;
+    color: var(--chalk);
+  }
+  .calc-input-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .calc-field {
+    flex: 1;
+  }
+  .calc-field label {
+    display: block;
+    font-size: 12px;
+    color: var(--steel);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .calc-field input {
+    width: 100%;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    color: var(--chalk);
+    font-size: 18px;
+    font-weight: 800;
+    padding: 10px 12px;
+    text-align: center;
+    outline: none;
+  }
+  .calc-field input:focus {
+    border-color: var(--iron);
+  }
+  .onerm-hero {
+    background: linear-gradient(135deg, rgba(255,96,34,0.18), rgba(255,96,34,0.05));
+    border: 1px solid var(--iron-dim);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .onerm-val {
+    font-size: 38px;
+    font-weight: 900;
+    color: var(--iron);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .onerm-subtitle {
+    font-size: 12.5px;
+    color: var(--chalk-dim);
+  }
+  .rep-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  .rep-table th {
+    text-align: left;
+    color: var(--steel);
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--line);
+    font-size: 11.5px;
+    text-transform: uppercase;
+  }
+  .rep-table td {
+    padding: 9px 8px;
+    border-bottom: 1px solid rgba(56,52,44,0.4);
+  }
+  .rep-table tr:last-child td { border-bottom: none; }
+  .tag-hypertrophy { color: var(--iron); font-weight: 700; }
+  .tag-strength { color: var(--gold); font-weight: 700; }
+  .tag-endurance { color: #3498db; font-weight: 700; }
+
+  /* PROGRESS & HISTORY TAB */
+  .pr-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .pr-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--chalk);
+    margin-bottom: 4px;
+  }
+  .pr-stats {
+    font-size: 13px;
+    color: var(--steel);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .pr-weight {
+    font-size: 17px;
+    font-weight: 900;
+    color: var(--gold);
+  }
+
+  /* MODAL */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 300;
+    padding: 16px;
+  }
+  .modal-box {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  }
+  .modal-box h3 { margin: 0 0 14px; font-size: 19px; }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .btn-primary {
+    flex: 1;
+    background: var(--iron);
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .btn-secondary {
+    flex: 1;
+    background: var(--surface-2);
+    color: var(--chalk);
+    border: 1px solid var(--line);
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* NUTRITION & SETTINGS */
+  .nut-block { padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .nut-block h3 { margin: 0 0 10px; font-size: 15.5px; font-weight: 800; color: var(--chalk); }
+  .macro-row { display: flex; justify-content: space-between; font-size: 14.5px; padding: 7px 0; border-bottom: 1px solid var(--line); }
+  .macro-row:last-child { border-bottom: none; }
+  .macro-row b { color: var(--iron); }
+  .nut-block p, .nut-block li { font-size: 13.5px; line-height: 1.55; color: var(--chalk-dim); }
+  .nut-block ul { margin: 6px 0 0; padding-left: 16px; }
+
+  /* SVG ANIMATION CATEGORIES */
+  svg[data-cat] line { stroke: var(--iron); stroke-width: 4; stroke-linecap: round; }
+  svg[data-cat] circle.head { fill: var(--iron); stroke: none; }
+  svg[data-cat] .gear { stroke: var(--steel); stroke-width: 3; fill: none; stroke-linecap: round; }
+  svg[data-cat] circle.gear { fill: var(--steel); stroke: none; }
+  svg[data-cat] rect.gear { fill: var(--line); stroke: var(--steel); stroke-width: 2; }
+
+  svg[data-cat="bench"] .j-w{animation:wY 1.7s ease-in-out infinite;}
+  svg[data-cat="shoulder"] .j-w{animation:wYup 1.8s ease-in-out infinite;}
+  svg[data-cat="row"] .j-w{animation:wRow 1.8s ease-in-out infinite;}
+  svg[data-cat="pulldown"] .j-w{animation:wDown 1.8s ease-in-out infinite;}
+  svg[data-cat="cablerow"] .j-w{animation:wCable 1.8s ease-in-out infinite;}
+  svg[data-cat="calf"] .j-w{animation:wCalf 1.3s ease-in-out infinite;}
+  @keyframes wY{0%,100%{transform:translateY(0);}50%{transform:translateY(16px);}}
+  @keyframes wYup{0%,100%{transform:translateY(0);}50%{transform:translateY(-22px);}}
+  @keyframes wRow{0%,100%{transform:translate(0,0);}50%{transform:translate(-16px,-18px);}}
+  @keyframes wDown{0%,100%{transform:translateY(0);}50%{transform:translateY(30px);}}
+  @keyframes wCable{0%,100%{transform:translate(0,0);}50%{transform:translate(-16px,-6px);}}
+  @keyframes wCalf{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+
+  svg[data-cat="lateral"] .j-armL{animation:latL 1.8s ease-in-out infinite;}
+  svg[data-cat="lateral"] .j-armR{animation:latR 1.8s ease-in-out infinite;}
+  @keyframes latL{0%,100%{transform:rotate(0deg);}50%{transform:rotate(65deg);}}
+  @keyframes latR{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-65deg);}}
+
+  svg[data-cat="armcurl"] .j-fore{animation:curlA 1.5s ease-in-out infinite;}
+  @keyframes curlA{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-100deg);}}
+
+  svg[data-cat="armext"] .j-fore{animation:extA 1.5s ease-in-out infinite;}
+  @keyframes extA{0%,100%{transform:rotate(0deg);}50%{transform:rotate(80deg);}}
+
+  svg[data-cat="squat"] .j-body{animation:sqBody 1.9s ease-in-out infinite;}
+  svg[data-cat="squat"] .j-torso{animation:sqTorso 1.9s ease-in-out infinite;}
+  svg[data-cat="squat"] .j-thigh{animation:sqThigh 1.9s ease-in-out infinite;}
+  svg[data-cat="squat"] .j-shin{animation:sqShin 1.9s ease-in-out infinite;}
+  @keyframes sqBody{0%,100%{transform:translateY(0);}50%{transform:translateY(5px);}}
+  @keyframes sqTorso{0%,100%{transform:rotate(0deg);}50%{transform:rotate(10deg);}}
+  @keyframes sqThigh{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-15deg);}}
+  @keyframes sqShin{0%,100%{transform:rotate(0deg);}50%{transform:rotate(30deg);}}
+
+  svg[data-cat="legpress"] .j-thigh{animation:lpThigh 1.8s ease-in-out infinite;}
+  svg[data-cat="legpress"] .j-shin{animation:lpShin 1.8s ease-in-out infinite;}
+  @keyframes lpThigh{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-8deg);}}
+  @keyframes lpShin{0%,100%{transform:rotate(0deg);}50%{transform:rotate(22deg);}}
+
+  svg[data-cat="hinge"] .j-hinge{animation:hingeA 1.9s ease-in-out infinite;}
+  @keyframes hingeA{0%,100%{transform:rotate(0deg);}50%{transform:rotate(42deg);}}
+
+  svg[data-cat="legcurl"] .j-shin{animation:lcA 1.5s ease-in-out infinite;}
+  @keyframes lcA{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-90deg);}}
+
+  svg[data-cat="legext"] .j-shin{animation:leA 1.5s ease-in-out infinite;}
+  @keyframes leA{0%,100%{transform:rotate(0deg);}50%{transform:rotate(55deg);}}
+
+  svg[data-cat="crunch"] .j-curlup{animation:crA 1.5s ease-in-out infinite;}
+  @keyframes crA{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-25deg);}}
+
+  svg[data-cat="hangraise"] .j-legs{animation:hrA 1.8s ease-in-out infinite;}
+  @keyframes hrA{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-70deg);}}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="top-header">
+  <div class="header-left">
+    <h1 id="app-title">План на массу</h1>
+    <div class="meta" id="app-subtitle">Илья · 178 см · 67 кг</div>
+  </div>
+  <div class="account-switcher" id="user-switcher-btn" onclick="toggleUserModal()">
+    <div class="avatar-badge" id="header-avatar">И</div>
+    <span class="account-name" id="header-username">Илья</span>
+    <span class="account-arrow">▼</span>
+  </div>
+</header>
+
+<!-- WORKOUT DAYS SUB-TABS (Visible only on workout screen) -->
+<div class="workout-subtabs" id="workout-subtabs">
+  <button class="subtab-btn active" data-day="verh1" onclick="switchWorkoutDay('verh1')">Верх 1</button>
+  <button class="subtab-btn" data-day="niz1" onclick="switchWorkoutDay('niz1')">Низ 1</button>
+  <button class="subtab-btn" data-day="verh2" onclick="switchWorkoutDay('verh2')">Верх 2</button>
+  <button class="subtab-btn" data-day="niz2" onclick="switchWorkoutDay('niz2')">Низ 2</button>
+</div>
+
+<!-- MAIN VIEW CONTENT -->
+<main id="main"></main>
+
+<!-- FLOATING REST TIMER -->
+<div class="rest-timer-bar" id="rest-timer-bar">
+  <div class="timer-left">
+    <div class="timer-display" id="timer-countdown">02:00</div>
+    <div class="timer-label">Отдых</div>
+  </div>
+  <div class="timer-actions">
+    <button class="timer-btn" onclick="adjustTimer(30)">+30с</button>
+    <button class="timer-btn" onclick="stopRestTimer()">Пропуск</button>
+  </div>
+</div>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav">
+  <button class="nav-item active" data-tab="workout" onclick="switchMainTab('workout')">
+    <span class="nav-icon">🏋️</span>
+    <span class="nav-label">Тренинг</span>
+  </button>
+  <button class="nav-item" data-tab="calc" onclick="switchMainTab('calc')">
+    <span class="nav-icon">🧮</span>
+    <span class="nav-label">1ПМ & Веса</span>
+  </button>
+  <button class="nav-item" data-tab="progress" onclick="switchMainTab('progress')">
+    <span class="nav-icon">📈</span>
+    <span class="nav-label">Прогресс</span>
+  </button>
+  <button class="nav-item" data-tab="nutrition" onclick="switchMainTab('nutrition')">
+    <span class="nav-icon">🥗</span>
+    <span class="nav-label">Питание</span>
+  </button>
+  <button class="nav-item" data-tab="profile" onclick="switchMainTab('profile')">
+    <span class="nav-icon">⚙️</span>
+    <span class="nav-label">Профиль</span>
+  </button>
+</nav>
+
+<!-- PROFILE SWITCH / EDIT MODAL -->
+<div class="modal-backdrop" id="user-modal">
+  <div class="modal-box">
+    <h3>Выбор аккаунта</h3>
+    <div style="display:flex; gap:10px; margin-bottom:16px;">
+      <button class="subtab-btn" id="modal-btn-u1" style="flex:1; padding:12px;" onclick="selectAccount('user1')">
+        <div style="font-size:18px; margin-bottom:4px;">👤</div>
+        <b id="modal-name-u1">Илья</b>
+      </button>
+      <button class="subtab-btn" id="modal-btn-u2" style="flex:1; padding:12px;" onclick="selectAccount('user2')">
+        <div style="font-size:18px; margin-bottom:4px;">👤</div>
+        <b id="modal-name-u2">Атлет 2</b>
+      </button>
+    </div>
+    
+    <div style="border-top:1px solid var(--line); padding-top:12px;">
+      <h4 style="margin:0 0 10px; font-size:14px; color:var(--steel);">Настройки активного профиля</h4>
+      <div style="margin-bottom:8px;">
+        <label style="font-size:12px; color:var(--chalk-dim);">Имя:</label>
+        <input type="text" id="edit-name" style="width:100%; padding:8px; background:var(--surface-2); border:1px solid var(--line); color:#fff; border-radius:4px; margin-top:3px;">
+      </div>
+      <div style="margin-bottom:8px;">
+        <label style="font-size:12px; color:var(--chalk-dim);">Рост и вес (например: 178 см · 67 кг):</label>
+        <input type="text" id="edit-stats" style="width:100%; padding:8px; background:var(--surface-2); border:1px solid var(--line); color:#fff; border-radius:4px; margin-top:3px;">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveProfileChanges()">Сохранить</button>
+      <button class="btn-secondary" onclick="toggleUserModal()">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const workouts = {
+  verh1: { title:"Верх 1", meta:"7 упражнений · ~90 мин", exercises:[
+    {name:"Жим штанги лёжа", sets:"3×6-8", rest:"2-3 мин", cat:"bench", weight:"неделя 1: ~50 кг",
+      url:"https://gymkee.com/exercises/chest/barbell-bench-press/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4n7j0000fo4821ir7kz7/p2c6485llgsltdh5zym1wwdm/h264-h42t6q9q87ut62y1k65hogLIBRE-DEVCOUCHEBARRE-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/4fbhybl6z4u1c15bbbi4t7thumbnail-1755173799414.jpg", tips:[
+      "Лопатки сведены и опущены к тазу — мост в пояснице","Опускай гриф на низ груди, локти 45-60° к корпусу"]},
+    {name:"Тяга штанги в наклоне", sets:"3×8-10", rest:"2-3 мин", cat:"row", weight:"неделя 1: ~46 кг",
+      url:"https://gymkee.com/exercises/lats/barbell-bent-over-row/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4nmb0008fo48a1pdamxj/ju7uwamfy57s4zeuzsjwwd4b/h264-u65iw922fkfnek2mxyhzylBARRELIBRE-TIRAGEPRISE1-HOMME-CAM2-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/7y8g9kzeadk3duxl4c6g5dthumbnail-1755166117332.jpg", tips:[
+      "Наклон корпуса ~45°, тяни к низу живота","Чередуй прямой и обратный хват от тренировки к тренировке"]},
+    {name:"Жим гантелей на наклонной 30°", sets:"3×10-12", rest:"2 мин", cat:"bench",
+      url:"https://gymkee.com/exercises/chest/incline-dumbbell-bench-press/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4vtq0074fo48drr53rtp/nkrpr8047odmj2xzuh2t4pat/h264-ew136z2hsx6nybi18dakkkDBL-2-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/pu57y8cbjajxrmwi7dpbwthumbnail-1754478164514.jpg", tips:[
+      "Угол скамьи 30°, локти слегка внутрь"]},
+    {name:"Тяга верхнего блока", sets:"3×10-12", rest:"2 мин", cat:"pulldown",
+      url:"https://gymkee.com/exercises/lats/lat-pulldown/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4p4o001jfo48617i49hz/tb1i18p2nn799bq1kxzxshdk/h264-iq2qya9dd1ogkasq0qq4POULIE-TIRAGEHORIZON2-CAM1-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/kx4kf9eki1dtnqkw08c4fthumbnail-1755202035798.jpg", tips:[
+      "Корпус назад на 15-20°, зафиксирован","Начинай с опускания плеч, тяни к ключицам — не за голову"]},
+    {name:"Махи гантелями в стороны", sets:"3×12-15", rest:"1.5 мин", cat:"lateral",
+      url:"https://gymkee.com/exercises/shoulders/dumbbell-lateral-raise/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4tge0054fo4898xo3ep0/odynbrnxsg7d2bi67ky5z3db/h264-r5wikhvz4xz16ha0q5svhDBL-7-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/mxm76x7fvkc5qh5igwfngothumbnail-1754759299893.jpg", tips:[
+      "Руки слегка согнуты, без рывков"]},
+    {name:"Подъём штанги на бицепс", sets:"3×10-12", rest:"1.5 мин", cat:"armcurl",
+      url:"https://gymkee.com/exercises/biceps/barbell-curl-straight-bar/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4t7b004wfo48h1fc42hg/c4hs12p78w3mlcoj4mizu35a/h264-jpgedopjze61lu32wmgguBARBELL-CURL1-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/aardnmg09yn5idtbj1y5nithumbnail-1755101186895.jpg", tips:[
+      "Локти прижаты к корпусу"]},
+    {name:"Разгибания рук с канатом", sets:"3×10-12", rest:"1.5 мин", cat:"armext",
+      url:"https://gymkee.com/exercises/triceps/cable-triceps-pushdown-rope/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4xdb008efo485olu9s8b/hwng5tmhk7uyjin5yssf5709/h264-tbs4l3roak8rhrtiw0k8apPOULIE-CORDEEXT-CAM1-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/8qhmgpssplycbhdjusesothumbnail-1755198059186.jpg", tips:[
+      "В нижней точке разводи кисти в стороны"]},
+  ], note:"Дошёл до верхней границы повторений во всех подходах — на следующей тренировке этого дня добавляй 1.25-2.5 кг с каждой стороны."},
+
+  niz1: { title:"Низ 1", meta:"6 упражнений · ~80 мин", exercises:[
+    {name:"Присед в Смите", sets:"3×8-10", rest:"2-3 мин", cat:"squat", weight:"неделя 1: ~40 кг",
+      url:"https://gymkee.com/exercises/quadriceps/barbell-squat/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4x620088fo488ucndx0u/ga0gth7plpv665clbsfk6m86/h264-4zadvk9m3t54lqdzrnogjoBARRELIBRE-SQUAT-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/mq9ku3v56hgvkt44781dothumbnail-1755157497618.jpg", tips:[
+      "Стопы на полшага вперёд от грифа — голень перпендикулярна полу","Так снимается сдвигающая нагрузка с колен, давишь пяткой",
+      "Видео показывает свободный присед — суть постановки стоп та же, просто в Смите гриф движется по прямой"]},
+    {name:"Жим ногами (стопы по центру)", sets:"3×10-12", rest:"2-3 мин", cat:"legpress",
+      url:"https://gymkee.com/exercises/quadriceps/leg-press/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4qs1002yfo48fd9r5k2q/vvh97n73yf5835xqnrka2cdp/h264-2u9j1f7hz0db0fofh1c4n6MACHINE-LEGPRESS-CLASSIQUE-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/fo6hzyzt60jfez6jc45nirthumbnail-1755187528944.jpg", tips:[
+      "Опускай платформу до угла 90° в коленях, не глубже","В верхней точке не блокируй колени"]},
+    {name:"Румынская тяга с гантелями", sets:"3×10-12", rest:"2 мин", cat:"hinge",
+      url:"https://gymkee.com/exercises/hamstrings/dumbbell-romanian-deadlift/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4ts1005efo485c658suw/j91lim52qxa60klym9wziumq/h264-0p2bwnirr0pokg8bxxrf08pDBL-35-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/zpymrj4zw2d6i6lqu2a2jthumbnail-1754919529408.jpg", tips:[
+      "Таз назад, колени чуть согнуты, спина жёсткая","Гантели скользят по ногам, не отрываются вперёд"]},
+    {name:"Сгибания ног в тренажёре", sets:"3×12-15", rest:"1.5 мин", cat:"legcurl",
+      url:"https://gymkee.com/exercises/hamstrings/seated-leg-curl/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4s1e003wfo48hczvaclh/y67errewy6xh7yd2os0w54oe/h264-xtv2kr58euhqrmyfeqldeMACHINE-LEGCURL2-CAM1-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/ei9f518edh76abvevpl63tthumbnail-1754222766226.jpg", tips:[
+      "Контролируй опускание, без рывков"]},
+    {name:"Подъём на носки стоя", sets:"4×15-20", rest:"1.5 мин", cat:"calf",
+      url:"https://gymkee.com/exercises/calves/calf-extension-machine/", video:"https://cdn.gymkee.io/gymkee/exercises/n6xz0ppgxh0czid5il8eoq2c/qy6xoza33fynaucf0zzcsosr/h264-rgmj8j7h40dcx8tkeri7u9MACHINE-MOLLET-CAM1-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/uee864dqac3vyrppjm5hthumbnail-1754223336624.jpg", tips:[
+      "Пауза и глубокое растяжение внизу"]},
+    {name:"Скручивания на пресс", sets:"3×15-20", rest:"1.5 мин", cat:"crunch",
+      url:"https://gymkee.com/exercises/abs/crunch/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4u55005pfo487s8h4x26/b6jjcp2iztgfzetb4lwtz94p/h264-l6ak0fqv0yqh0y62maum57BW-11-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/mqt8td34b2k9e28a9j0r2ithumbnail-1754661679035.jpg", tips:[
+      "Поясница прижата к полу, без рывков"]},
+  ], note:"Та же логика прогрессии: закрыл все подходы по верхней границе — следующая тренировка этого дня чуть тяжелее."},
+
+  verh2: { title:"Верх 2", meta:"7 упражнений · ~90 мин", exercises:[
+    {name:"Жим гантелей сидя (плечи)", sets:"3×8-10", rest:"2-3 мин", cat:"shoulder",
+      url:"https://www.bodybuilding.com/exercises/dumbbell-shoulder-press", video:"https://shop.bodybuilding.com/cdn/shop/videos/c/vp/f54ea90190f942dfb363d67420bde85f/f54ea90190f942dfb363d67420bde85f.HD-1080p-2.5Mbps-65228975.mp4", thumb:"https://shop.bodybuilding.com/cdn/shop/files/preview_images/f54ea90190f942dfb363d67420bde85f.thumbnail.0000000000_1920x.jpg?v=1765833705", tips:[
+      "Спинка скамьи 75-80°, не строго вертикально","Не бей гантели друг о друга в верхней точке"]},
+    {name:"Тяга блока узким хватом", sets:"3×8-10", rest:"2-3 мин", cat:"pulldown",
+      url:"https://gymkee.com/exercises/lats/lat-pulldown-v-bar/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4p70001lfo481i6xafdk/z1lozh75ah4gb4kzga7am5f1/h264-3ub66xr7dttfeoldzkmqzaPOULIE-TIRAGEHORIZON4-CAM1-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/b2zmlsahvx6i7jaceka53fthumbnail-1755202515314.jpg", tips:[
+      "V-рукоять, тяни к верхней части груди"]},
+    {name:"Жим гантелей лёжа", sets:"3×8-10", rest:"2 мин", cat:"bench",
+      url:"https://gymkee.com/exercises/chest/dumbbell-bench-press/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4vmh006yfo483wku3kej/fewlvyr4zfuechs6ntmqhgqe/h264-ktfttdjprhupgj9jdajmDBL-1-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/pnn7d0feqgvwurwv6jjisthumbnail-1754477286866.jpg", tips:[
+      "Глубокая растяжка грудных в нижней точке"]},
+    {name:"Тяга нижнего блока сидя", sets:"3×10-12", rest:"2 мин", cat:"cablerow",
+      url:"https://gymkee.com/exercises/lats/seated-row-lat-bar/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4q50002efo48gzti3v79/nup53bvzj8mr3ahtiaj9oe5i/h264-fjnlxtthd06gkqocbfewl5POULIE-TIRAGEASSIS2-CAM2-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/j8t726xlnem0bw0z19xq7ithumbnail-1755199306927.jpg", tips:[
+      "Поясница прямая, не скругляй","Тяни к низу живота, своди лопатки в конце"]},
+    {name:"Махи гантелями в стороны", sets:"4×12-15", rest:"1.5 мин", cat:"lateral",
+      url:"https://gymkee.com/exercises/shoulders/dumbbell-lateral-raise/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4tge0054fo4898xo3ep0/odynbrnxsg7d2bi67ky5z3db/h264-r5wikhvz4xz16ha0q5svhDBL-7-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/mxm76x7fvkc5qh5igwfngothumbnail-1754759299893.jpg", tips:[]},
+    {name:"Молотковые сгибания", sets:"3×10-12", rest:"1.5 мин", cat:"armcurl",
+      url:"https://gymkee.com/exercises/biceps/dumbbell-hammer-curl/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4te40052fo48g4nsc1s8/cfgtr2j62usm9783hc4elzwr/h264-qn4vur62tsmxdc57cds3gDBL-19-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/ltg20l4bhfhv53vbae9g7thumbnail-1754812129140.jpg", tips:[
+      "Нейтральный хват, ладони друг к другу"]},
+    {name:"Французский жим гантели", sets:"3×10-12", rest:"1.5 мин", cat:"armext",
+      url:"https://gymkee.com/exercises/triceps/seated-overhead-dumbbell-triceps-extension/", video:"https://cdn.gymkee.io/gymkee/exercises/g93icu4jm4cepwcb3875pwqt/heceyrnnlkhoj7a4ibnxp0fm/h264-1t1zbkofiom2o6f9r9wch6DBL-237-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/20jqgq0ytxdfsc0ne9usoqthumbnail-1755095544072.jpg", tips:[
+      "Сидя, из-за головы, локти неподвижны"]},
+  ], note:"Прогрессия та же: 3 подхода по верхней границе повторов — плюс небольшой вес на следующей тренировке этого дня."},
+
+  niz2: { title:"Низ 2", meta:"6 упражнений · ~80 мин", exercises:[
+    {name:"Румынская тяга со штангой", sets:"3×8-10", rest:"2-3 мин", cat:"hinge",
+      url:"https://gymkee.com/exercises/hamstrings/romanian-deadlift/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4obt000ufo484p4p1kg2/oojlyjt77vskrpaoz9rib1g4/h264-wytbyroih9yxjr4am27bqBARRELIBRE-DEADLIFT2-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/ifvw7s8fgbkqk1o7myg1jthumbnail-1755109147881.jpg", tips:[
+      "Спина жёсткая, таз максимально назад"]},
+    {name:"Жим ногами (стопы высоко)", sets:"3×10-12", rest:"2-3 мин", cat:"legpress",
+      url:"https://gymkee.com/exercises/quadriceps/leg-press/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4qs1002yfo48fd9r5k2q/vvh97n73yf5835xqnrka2cdp/h264-2u9j1f7hz0db0fofh1c4n6MACHINE-LEGPRESS-CLASSIQUE-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/fo6hzyzt60jfez6jc45nirthumbnail-1755187528944.jpg", tips:[
+      "Стопы у верхнего края платформы — акцент на заднюю поверхность бедра и ягодицы"]},
+    {name:"Разгибания ног сидя", sets:"3×12-15", rest:"1.5 мин", cat:"legext",
+      url:"https://gymkee.com/exercises/quadriceps/leg-extension/", video:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/efsec0edsxpz9m32qzyfvMACHINE-LEGEXT-CAM1-HOMME-HORIZONTAL.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/pr6pk2pamhw191s8mhhdethumbnail-1754221893553.jpg", tips:[
+      "Пик-сокращение квадрицепса в верхней точке"]},
+    {name:"Сгибания ног в тренажёре", sets:"3×10-12", rest:"1.5 мин", cat:"legcurl",
+      url:"https://gymkee.com/exercises/hamstrings/lying-leg-curl/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4sgu0049fo4879o5cw6l/cfn27t7xgd26e7hwspwbotmt/h264-eklmso7dgm5s662htlrvfhMACHINE-LEGCURL-CAM1-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/x7k36ohlx3ry4d75dv5p1cthumbnail-1754233839629.jpg", tips:[]},
+    {name:"Подъём на носки сидя", sets:"3×15-20", rest:"1.5 мин", cat:"calf",
+      url:"https://gymkee.com/exercises/calves/seated-calf-raise/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4q8g002hfo48e1qj1pye/k3ssxh6mbctqimq8y62stqme/h264-2z665t9pnsvqah56yq8ldMACHINE-MOLLETEXT-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/csh6baugnoeryhkjmdq86thumbnail-1755190160112.jpg", tips:[]},
+    {name:"Подъём ног в висе", sets:"3×12-15", rest:"1.5 мин", cat:"hangraise",
+      url:"https://gymkee.com/exercises/abs/hanging-l-sit-hold/", video:"https://cdn.gymkee.io/gymkee/exercises/wqkq8n9md8vy95ij161u4hpx/agea3q2mnw6zj3ex7tpt17c9/h264-lpia4ay4bznrtpi07m20aBW-ABS-STANDING-CAM1-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/xseflm3algvtogujdh5adthumbnail-1754392100524.jpg", tips:[
+      "Скручивай таз вверх, а не просто маши ногами"]},
+  ], note:"Прогрессия та же логика."},
+};
+
+const iconPaths = {
+  bench: `<rect class="gear" x="4" y="50" width="48" height="4" rx="1"/>
+    <circle class="head" cx="14" cy="45" r="5"/>
+    <line x1="19" y1="46" x2="40" y2="46"/>
+    <line x1="40" y1="46" x2="40" y2="59"/>
+    <line x1="40" y1="59" x2="31" y2="64"/>
+    <line x1="24" y1="46" x2="24" y2="32"/>
+    <g class="j-w"><line x1="24" y1="32" x2="24" y2="18"/>
+      <line class="gear" x1="10" y1="18" x2="38" y2="18"/>
+      <circle class="gear" cx="10" cy="18" r="3"/><circle class="gear" cx="38" cy="18" r="3"/></g>`,
+
+  shoulder: `<rect class="gear" x="44" y="14" width="4" height="34" rx="1"/>
+    <circle class="head" cx="28" cy="10" r="5"/>
+    <line x1="28" y1="15" x2="28" y2="40"/>
+    <line x1="28" y1="40" x2="36" y2="50"/>
+    <line x1="36" y1="50" x2="36" y2="64"/>
+    <line x1="30" y1="18" x2="40" y2="20"/>
+    <g class="j-w"><line x1="40" y1="20" x2="40" y2="30"/><circle class="gear" cx="40" cy="32" r="4"/></g>`,
+
+  row: `<circle class="head" cx="42" cy="20" r="5"/>
+    <line x1="38" y1="24" x2="20" y2="44"/>
+    <line x1="20" y1="44" x2="20" y2="60"/>
+    <line x1="20" y1="60" x2="28" y2="72"/>
+    <line x1="30" y1="30" x2="46" y2="50"/>
+    <g class="j-w"><line class="gear" x1="40" y1="50" x2="54" y2="50"/>
+      <circle class="gear" cx="40" cy="50" r="3"/><circle class="gear" cx="54" cy="50" r="3"/></g>`,
+
+  pulldown: `<rect class="gear" x="6" y="60" width="30" height="4" rx="1"/>
+    <circle class="head" cx="24" cy="14" r="5"/>
+    <line x1="26" y1="19" x2="30" y2="46"/>
+    <line x1="30" y1="46" x2="20" y2="58"/>
+    <line x1="20" y1="58" x2="30" y2="63"/>
+    <line x1="27" y1="24" x2="27" y2="8"/>
+    <g class="j-w"><line class="gear" x1="12" y1="8" x2="42" y2="8"/></g>`,
+
+  cablerow: `<rect class="gear" x="50" y="20" width="4" height="34" rx="1"/>
+    <circle class="head" cx="20" cy="16" r="5"/>
+    <line x1="20" y1="21" x2="24" y2="44"/>
+    <line x1="24" y1="44" x2="42" y2="48"/>
+    <line x1="42" y1="48" x2="50" y2="46"/>
+    <line x1="22" y1="28" x2="40" y2="34"/>
+    <g class="j-w"><circle class="gear" cx="40" cy="34" r="3"/></g>`,
+
+  calf: `<circle class="head" cx="30" cy="10" r="5"/>
+    <line x1="30" y1="15" x2="30" y2="42"/>
+    <line x1="26" y1="20" x2="18" y2="30"/>
+    <line x1="34" y1="20" x2="42" y2="30"/>
+    <g class="j-w"><line x1="30" y1="42" x2="30" y2="60"/>
+      <line class="gear" x1="24" y1="66" x2="42" y2="66"/>
+      <line x1="30" y1="60" x2="38" y2="66"/></g>`,
+
+  lateral: `<circle class="head" cx="30" cy="10" r="5"/>
+    <line x1="30" y1="15" x2="30" y2="44"/>
+    <line x1="30" y1="44" x2="24" y2="48"/><line x1="30" y1="44" x2="36" y2="48"/>
+    <line x1="24" y1="48" x2="20" y2="66"/>
+    <line x1="36" y1="48" x2="40" y2="66"/>
+    <g class="j-armL" style="transform-origin:30px 18px"><line x1="30" y1="18" x2="20" y2="34"/><circle class="gear" cx="20" cy="34" r="3"/></g>
+    <g class="j-armR" style="transform-origin:30px 18px"><line x1="30" y1="18" x2="40" y2="34"/><circle class="gear" cx="40" cy="34" r="3"/></g>`,
+
+  armcurl: `<circle class="head" cx="30" cy="10" r="5"/>
+    <line x1="30" y1="15" x2="30" y2="42"/>
+    <line x1="30" y1="42" x2="26" y2="46"/><line x1="30" y1="42" x2="34" y2="46"/>
+    <line x1="26" y1="46" x2="22" y2="64"/><line x1="34" y1="46" x2="38" y2="64"/>
+    <line x1="32" y1="20" x2="40" y2="34"/>
+    <g class="j-fore" style="transform-origin:40px 34px"><line x1="40" y1="34" x2="40" y2="52"/><circle class="gear" cx="40" cy="52" r="3"/></g>`,
+
+  armext: `<circle class="head" cx="30" cy="10" r="5"/>
+    <line x1="30" y1="15" x2="30" y2="42"/>
+    <line x1="30" y1="42" x2="26" y2="46"/><line x1="30" y1="42" x2="34" y2="46"/>
+    <line x1="26" y1="46" x2="22" y2="64"/><line x1="34" y1="46" x2="38" y2="64"/>
+    <line x1="30" y1="20" x2="38" y2="30"/>
+    <g class="j-fore" style="transform-origin:38px 30px"><line x1="38" y1="30" x2="30" y2="40"/><circle class="gear" cx="30" cy="40" r="3"/></g>`,
+
+  squat: `<line class="gear" x1="16" y1="4" x2="16" y2="74" stroke-dasharray="3,3"/>
+    <g class="j-body">
+      <g class="j-torso" style="transform-origin:30px 42px">
+        <circle class="head" cx="30" cy="10" r="5"/>
+        <line x1="30" y1="15" x2="30" y2="42"/>
+        <line class="gear" x1="18" y1="17" x2="42" y2="17"/>
+        <circle class="gear" cx="18" cy="17" r="3"/><circle class="gear" cx="42" cy="17" r="3"/>
+        <line x1="30" y1="20" x2="20" y2="18"/>
+      </g>
+      <g class="j-thigh" style="transform-origin:30px 42px">
+        <line x1="30" y1="42" x2="30" y2="58"/>
+        <g class="j-shin" style="transform-origin:30px 58px">
+          <line x1="30" y1="58" x2="38" y2="72"/>
+          <line x1="38" y1="72" x2="46" y2="72"/>
+        </g>
+      </g>
+    </g>`,
+
+  legpress: `<line class="gear" x1="6" y1="62" x2="42" y2="66"/>
+    <line class="gear" x1="6" y1="62" x2="16" y2="18"/>
+    <rect class="gear" x="50" y="14" width="4" height="46" rx="1"/>
+    <circle class="head" cx="14" cy="24" r="5"/>
+    <line x1="16" y1="29" x2="22" y2="52"/>
+    <g class="j-thigh" style="transform-origin:22px 52px">
+      <line x1="22" y1="52" x2="40" y2="52"/>
+      <g class="j-shin" style="transform-origin:40px 52px"><line x1="40" y1="52" x2="50" y2="40"/></g>
+    </g>`,
+
+  hinge: `<g class="j-hinge" style="transform-origin:30px 42px">
+      <circle class="head" cx="30" cy="10" r="5"/>
+      <line x1="30" y1="15" x2="30" y2="42"/>
+      <line x1="30" y1="20" x2="30" y2="36"/>
+      <line class="gear" x1="18" y1="36" x2="42" y2="36"/>
+      <circle class="gear" cx="18" cy="36" r="3"/><circle class="gear" cx="42" cy="36" r="3"/>
+    </g>
+    <line x1="30" y1="42" x2="26" y2="58"/><line x1="30" y1="42" x2="34" y2="58"/>
+    <line x1="26" y1="58" x2="20" y2="72"/><line x1="34" y1="58" x2="38" y2="72"/>`,
+
+  legcurl: `<rect class="gear" x="4" y="40" width="40" height="4" rx="1"/>
+    <circle class="head" cx="12" cy="36" r="5"/>
+    <line x1="17" y1="38" x2="38" y2="38"/>
+    <g class="j-shin" style="transform-origin:38px 38px"><line x1="38" y1="38" x2="52" y2="38"/><circle class="gear" cx="52" cy="38" r="3"/></g>`,
+
+  legext: `<rect class="gear" x="40" y="10" width="4" height="30" rx="1"/>
+    <circle class="head" cx="26" cy="14" r="5"/>
+    <line x1="28" y1="19" x2="30" y2="42"/>
+    <g class="j-shin" style="transform-origin:30px 42px"><line x1="30" y1="42" x2="30" y2="60"/><circle class="gear" cx="30" cy="60" r="3"/></g>`,
+
+  crunch: `<line class="gear" x1="4" y1="56" x2="48" y2="56"/>
+    <g class="j-curlup" style="transform-origin:34px 52px"><circle class="head" cx="18" cy="46" r="5"/><line x1="23" y1="48" x2="34" y2="52"/></g>
+    <line x1="34" y1="52" x2="30" y2="40"/><line x1="30" y1="40" x2="42" y2="36"/>`,
+
+  hangraise: `<line class="gear" x1="8" y1="6" x2="52" y2="6"/>
+    <line x1="18" y1="6" x2="18" y2="10"/><line x1="42" y1="6" x2="42" y2="10"/>
+    <circle class="head" cx="30" cy="16" r="5"/>
+    <line x1="30" y1="21" x2="30" y2="10"/>
+    <line x1="18" y1="10" x2="30" y2="21"/><line x1="42" y1="10" x2="30" y2="21"/>
+    <line x1="30" y1="21" x2="30" y2="44"/>
+    <g class="j-legs" style="transform-origin:30px 44px"><line x1="30" y1="44" x2="30" y2="60"/><line x1="30" y1="60" x2="30" y2="70"/></g>`,
+};
+
+function iconSvg(cat){
+  return `<svg viewBox="0 0 60 78" data-cat="${cat}">${iconPaths[cat] || ''}</svg>`;
+}
+
+/* ================== APP STATE & LOCALSTORAGE ================== */
+const STORAGE_KEY = 'workout_pwa_data_v1';
+
+function getDefaultState(){
+  return {
+    activeUser: 'user1',
+    users: {
+      user1: {
+        id: 'user1',
+        name: 'Илья',
+        stats: '178 см · 67 кг',
+        activeDay: 'verh1',
+        activeTab: 'workout',
+        sessionSets: {}, // { "Жим штанги лёжа": [ {weight: 50, reps: 8, done: false}, ... ] }
+        history: [],    // [ { date, dayKey, dayTitle, volume, exercises: {...} } ]
+        prs: {}         // { "Жим штанги лёжа": { weight: 50, reps: 8, est1RM: 63.3, date: '...' } }
+      },
+      user2: {
+        id: 'user2',
+        name: 'Атлет 2',
+        stats: '180 см · 75 кг',
+        activeDay: 'verh1',
+        activeTab: 'workout',
+        sessionSets: {},
+        history: [],
+        prs: {}
+      }
+    }
+  };
+}
+
+let appState = (function(){
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e){}
+  return getDefaultState();
+})();
+
+function saveState(){
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+  } catch(e){}
+}
+
+function getCurUser(){
+  if (!appState.users[appState.activeUser]) {
+    appState.activeUser = 'user1';
+  }
+  return appState.users[appState.activeUser];
+}
+
+/* ================== SOUND & HAPTIC ================== */
+let audioCtx = null;
+function playBeep(){
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(880, audioCtx.currentTime); // Note A5
+    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.4);
+  } catch(e){}
+}
+
+function triggerHaptic(duration = 40){
+  try {
+    if (navigator.vibrate) navigator.vibrate(duration);
+  } catch(e){}
+}
+
+/* ================== REST TIMER ================== */
+let timerInterval = null;
+let timerSecondsLeft = 0;
+
+function startRestTimer(seconds = 120){
+  clearInterval(timerInterval);
+  timerSecondsLeft = seconds;
+  const bar = document.getElementById('rest-timer-bar');
+  bar.style.display = 'flex';
+  updateTimerUI();
+  
+  timerInterval = setInterval(()=>{
+    timerSecondsLeft--;
+    if (timerSecondsLeft <= 0) {
+      clearInterval(timerInterval);
+      playBeep();
+      triggerHaptic([100, 50, 150]);
+      setTimeout(playBeep, 250);
+      bar.style.display = 'none';
+    } else {
+      updateTimerUI();
+    }
+  }, 1000);
+}
+
+function updateTimerUI(){
+  const el = document.getElementById('timer-countdown');
+  const m = Math.floor(timerSecondsLeft / 60);
+  const s = timerSecondsLeft % 60;
+  el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+function adjustTimer(deltaSec){
+  timerSecondsLeft = Math.max(5, timerSecondsLeft + deltaSec);
+  updateTimerUI();
+}
+
+function stopRestTimer(){
+  clearInterval(timerInterval);
+  document.getElementById('rest-timer-bar').style.display = 'none';
+}
+
+/* ================== 1RM CALCULATIONS ================== */
+// Epley formula: 1RM = Weight * (1 + Reps / 30)
+function calc1RM(weight, reps){
+  if (!weight || weight <= 0) return 0;
+  if (reps <= 1) return Math.round(weight * 10) / 10;
+  const est = weight * (1 + reps / 30);
+  return Math.round(est * 10) / 10;
+}
+
+// Target weights for percentage table
+function calcWeightForReps(oneRM, targetReps){
+  if (!oneRM || oneRM <= 0) return 0;
+  // Inverse Epley
+  const w = oneRM / (1 + targetReps / 30);
+  // Round to nearest 0.5 or 2.5 kg
+  return Math.round(w * 2) / 2;
+}
+
+/* ================== WORKOUT LOGIC ================== */
+function initExerciseSets(exName, exDef){
+  const u = getCurUser();
+  if (!u.sessionSets[exName]) {
+    // Determine default sets count (e.g. "3x6-8" -> 3 sets)
+    let numSets = 3;
+    let targetWeight = 0;
+    const matchSets = exDef.sets.match(/^(\d+)×/);
+    if (matchSets) numSets = parseInt(matchSets[1], 10);
+    
+    // Check if we have previous history
+    const lastSession = getLastExerciseSession(exName);
+    if (lastSession && lastSession.length) {
+      u.sessionSets[exName] = lastSession.map(s => ({
+        weight: s.weight,
+        reps: s.reps,
+        done: false
+      }));
+    } else {
+      // Default initial weight from note or 0
+      const matchWeight = (exDef.weight || '').match(/(\d+(\.\d+)?)/);
+      if (matchWeight) targetWeight = parseFloat(matchWeight[1]);
+      
+      const defaultRepsMatch = exDef.sets.match(/×(\d+)/);
+      const defaultReps = defaultRepsMatch ? parseInt(defaultRepsMatch[1], 10) : 8;
+
+      u.sessionSets[exName] = [];
+      for (let i = 0; i < numSets; i++) {
+        u.sessionSets[exName].push({
+          weight: targetWeight,
+          reps: defaultReps,
+          done: false
+        });
+      }
+    }
+    saveState();
+  }
+}
+
+function getLastExerciseSession(exName){
+  const u = getCurUser();
+  for (let i = u.history.length - 1; i >= 0; i--) {
+    const h = u.history[i];
+    if (h.exercises && h.exercises[exName]) {
+      return h.exercises[exName];
+    }
+  }
+  return null;
+}
+
+function updateSetField(exName, setIndex, field, value){
+  const u = getCurUser();
+  if (u.sessionSets[exName] && u.sessionSets[exName][setIndex]) {
+    u.sessionSets[exName][setIndex][field] = Math.max(0, parseFloat(value) || 0);
+    saveState();
+  }
+}
+
+function stepSetField(exName, setIndex, field, step){
+  const u = getCurUser();
+  if (u.sessionSets[exName] && u.sessionSets[exName][setIndex]) {
+    const cur = u.sessionSets[exName][setIndex][field] || 0;
+    const updated = Math.max(0, Math.round((cur + step) * 10) / 10);
+    u.sessionSets[exName][setIndex][field] = updated;
+    saveState();
+    // update DOM directly for snappy responsiveness
+    const inputEl = document.getElementById(`input-${exName}-${setIndex}-${field}`);
+    if (inputEl) inputEl.value = updated;
+  }
+}
+
+function toggleSetDone(exName, setIndex, restSec = 120){
+  const u = getCurUser();
+  if (u.sessionSets[exName] && u.sessionSets[exName][setIndex]) {
+    const setObj = u.sessionSets[exName][setIndex];
+    setObj.done = !setObj.done;
+    saveState();
+    
+    const btn = document.getElementById(`btn-done-${exName}-${setIndex}`);
+    if (btn) {
+      btn.classList.toggle('completed', setObj.done);
+      btn.textContent = setObj.done ? '✓' : '';
+    }
+    
+    if (setObj.done) {
+      triggerHaptic(40);
+      // Check for PR
+      const est1RM = calc1RM(setObj.weight, setObj.reps);
+      const curPr = u.prs[exName] ? u.prs[exName].est1RM : 0;
+      if (est1RM > curPr) {
+        u.prs[exName] = {
+          weight: setObj.weight,
+          reps: setObj.reps,
+          est1RM: est1RM,
+          date: new Date().toLocaleDateString('ru-RU')
+        };
+        saveState();
+      }
+      // Start rest timer
+      startRestTimer(restSec);
+    }
+    
+    // Check if exercise completed for progression feedback
+    updateProgressionFeedback(exName);
+  }
+}
+
+function addSet(exName){
+  const u = getCurUser();
+  if (u.sessionSets[exName]) {
+    const last = u.sessionSets[exName][u.sessionSets[exName].length - 1] || {weight:0, reps:8};
+    u.sessionSets[exName].push({
+      weight: last.weight,
+      reps: last.reps,
+      done: false
+    });
+    saveState();
+    renderWorkoutScreen();
+  }
+}
+
+function removeSet(exName){
+  const u = getCurUser();
+  if (u.sessionSets[exName] && u.sessionSets[exName].length > 1) {
+    u.sessionSets[exName].pop();
+    saveState();
+    renderWorkoutScreen();
+  }
+}
+
+function updateProgressionFeedback(exName){
+  const box = document.getElementById(`prog-reco-${exName}`);
+  if (!box) return;
+  const u = getCurUser();
+  const sets = u.sessionSets[exName] || [];
+  const allDone = sets.length > 0 && sets.every(s => s.done);
+  if (!allDone) {
+    box.style.display = 'none';
+    return;
+  }
+  
+  // Analyze progression
+  const maxRep = Math.max(...sets.map(s=>s.reps));
+  const minRep = Math.min(...sets.map(s=>s.reps));
+  const avgWeight = Math.round(sets.reduce((a,b)=>a+b.weight, 0) / sets.length * 10)/10;
+  const est1RM = calc1RM(avgWeight, maxRep);
+  
+  // Progression prompt
+  if (minRep >= 8) {
+    box.innerHTML = `🔥 <b>Отличный прогресс!</b> Все ${sets.length} подходов закрыты по верхней границе повторений (≥${minRep}). Рекомендация на следующую тренировку: <b>${Math.round((avgWeight + 2.5)*10)/10} кг (+2.5 кг)</b>.`;
+    box.style.display = 'block';
+  } else if (minRep < 6 && avgWeight > 0) {
+    const recWeight = Math.max(0, Math.round((avgWeight - 2.5)*10)/10);
+    box.innerHTML = `💡 <b>Оптимизация стимула:</b> Повторения (${minRep}) ниже диапазона гипертрофии (6-8). Рекомендуем чуть снизить вес до <b>${recWeight} кг</b>, чтобы набрать чистый рабочий объём.`;
+    box.style.display = 'block';
+  } else {
+    box.innerHTML = `💪 <b>Рабочий вес зафиксирован:</b> Расчётный 1ПМ = <b>${est1RM} кг</b>. Повторите этот вес на следующей тренировке до закрытия верхней границы повторов.`;
+    box.style.display = 'block';
+  }
+}
+
+function finishCurrentWorkout(){
+  const u = getCurUser();
+  const dayKey = u.activeDay;
+  const w = workouts[dayKey];
+  if (!w) return;
+  
+  let totalVolume = 0;
+  let totalCompletedSets = 0;
+  const savedEx = {};
+  
+  w.exercises.forEach(ex => {
+    const sets = u.sessionSets[ex.name] || [];
+    const completed = sets.filter(s => s.done);
+    if (completed.length) {
+      savedEx[ex.name] = completed.map(s => ({ weight: s.weight, reps: s.reps }));
+      completed.forEach(s => {
+        totalVolume += (s.weight * s.reps);
+        totalCompletedSets++;
+      });
+    }
+  });
+  
+  if (totalCompletedSets === 0) {
+    alert('Вы ещё не отметили ни одного выполненного подхода (✓)!');
+    return;
+  }
+  
+  const historyEntry = {
+    date: new Date().toLocaleDateString('ru-RU', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' }),
+    dayKey: dayKey,
+    dayTitle: w.title,
+    volume: Math.round(totalVolume),
+    setsCount: totalCompletedSets,
+    exercises: savedEx
+  };
+  
+  u.history.unshift(historyEntry);
+  
+  // Clear current day session done flags for next time
+  w.exercises.forEach(ex => {
+    if (u.sessionSets[ex.name]) {
+      u.sessionSets[ex.name].forEach(s => s.done = false);
+    }
+  });
+  
+  saveState();
+  triggerHaptic([150, 100, 200]);
+  
+  alert(`🎉 Тренировка «${w.title}» завершена!\n\nВыполнено подходов: ${totalCompletedSets}\nОбщий тоннаж: ${Math.round(totalVolume)} кг\nДанные сохранены в истории прогресса.`);
+  switchMainTab('progress');
+}
+
+/* ================== SCREENS RENDERING ================== */
+function renderWorkoutScreen(){
+  const u = getCurUser();
+  const key = u.activeDay || 'verh1';
+  const w = workouts[key];
+  if (!w) return;
+  
+  let html = `<div class="day-title-box">
+    <h2>${w.title}</h2>
+    <span class="day-meta">${w.meta}</span>
+  </div>`;
+  
+  w.exercises.forEach((ex, exIdx) => {
+    initExerciseSets(ex.name, ex);
+    const sets = u.sessionSets[ex.name] || [];
+    const prevSession = getLastExerciseSession(ex.name);
+    
+    // Parse target rest seconds
+    let restSec = 120;
+    if (ex.rest.includes('1.5')) restSec = 90;
+    else if (ex.rest.includes('3')) restSec = 180;
+    
+    html += `<div class="ex-card">
+      <div class="ex-card-header">
+        <div class="ex-icon">${iconSvg(ex.cat)}</div>
+        <div class="ex-header-body">
+          <div class="ex-title">${ex.name}</div>
+          <div class="ex-targets">
+            <span class="target-badge">${ex.sets}</span>
+            <span class="rest-badge">отдых ${ex.rest}</span>
+          </div>
+          ${ex.weight ? `<div class="weight-ref-badge">${ex.weight}</div>` : ''}
+        </div>
+      </div>
+      
+      <!-- GIF VIDEO -->
+      ${ex.video ? `
+      <div class="ex-video-box">
+        <video autoplay loop muted playsinline webkit-playsinline preload="auto" poster="${ex.thumb || ''}" onclick="this.paused ? this.play() : this.pause()">
+          <source src="${ex.video}" type="video/mp4">
+        </video>
+        <span class="video-tap-hint">нажми для паузы</span>
+      </div>` : ''}
+      
+      <!-- TIPS -->
+      ${ex.tips && ex.tips.length ? `
+      <ul class="ex-tips">
+        ${ex.tips.map(t=>`<li>${t}</li>`).join('')}
+      </ul>` : ''}
+      
+      <!-- SETS TRACKER -->
+      <div class="sets-container">
+        <table class="sets-table">
+          <thead>
+            <tr>
+              <th>Сет</th>
+              <th>Пред.</th>
+              <th>Вес (кг)</th>
+              <th>Повт.</th>
+              <th>✓</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${sets.map((s, idx) => {
+              const prev = prevSession && prevSession[idx] ? `${prevSession[idx].weight}×${prevSession[idx].reps}` : '—';
+              return `
+              <tr class="set-row">
+                <td class="set-num">${idx + 1}</td>
+                <td class="set-prev">${prev}</td>
+                <td class="set-inputs-cell">
+                  <div class="stepper-wrap">
+                    <button class="stepper-btn" onclick="stepSetField('${ex.name}', ${idx}, 'weight', -2.5)">-</button>
+                    <input type="number" step="0.5" id="input-${ex.name}-${idx}-weight" class="stepper-input" value="${s.weight}" onchange="updateSetField('${ex.name}', ${idx}, 'weight', this.value)">
+                    <button class="stepper-btn" onclick="stepSetField('${ex.name}', ${idx}, 'weight', 2.5)">+</button>
+                  </div>
+                </td>
+                <td class="set-inputs-cell">
+                  <div class="stepper-wrap">
+                    <button class="stepper-btn" onclick="stepSetField('${ex.name}', ${idx}, 'reps', -1)">-</button>
+                    <input type="number" step="1" id="input-${ex.name}-${idx}-reps" class="stepper-input" style="width:36px;" value="${s.reps}" onchange="updateSetField('${ex.name}', ${idx}, 'reps', this.value)">
+                    <button class="stepper-btn" onclick="stepSetField('${ex.name}', ${idx}, 'reps', 1)">+</button>
+                  </div>
+                </td>
+                <td>
+                  <button class="done-btn ${s.done ? 'completed' : ''}" id="btn-done-${ex.name}-${idx}" onclick="toggleSetDone('${ex.name}', ${idx}, ${restSec})">${s.done ? '✓' : ''}</button>
+                </td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+        
+        <div id="prog-reco-${ex.name}" class="prog-reco-box" style="display:none;"></div>
+        
+        <div class="sets-actions">
+          <button class="action-btn" onclick="addSet('${ex.name}')">+ Сет</button>
+          <button class="action-btn" onclick="removeSet('${ex.name}')">- Удалить</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  
+  html += `<div class="finish-workout-box">
+    <button class="btn-finish" onclick="finishCurrentWorkout()">Завершить тренировку</button>
+  </div>`;
+  
+  document.getElementById('main').innerHTML = html;
+  
+  // Highlight completed exercise states
+  w.exercises.forEach(ex => updateProgressionFeedback(ex.name));
+  
+  // Ensure videos autoplay on mobile
+  document.querySelectorAll('#main video').forEach(v => {
+    v.muted = true;
+    v.play().catch(()=>{});
+  });
+}
+
+/* ================== CALCULATOR SCREEN ================== */
+function renderCalculatorScreen(){
+  const html = `
+  <div class="day-title-box">
+    <h2>1ПМ & Веса</h2>
+    <span class="day-meta">Оптимальный подбор</span>
+  </div>
+  
+  <div class="calc-container">
+    <div class="calc-title">Калькулятор рабочего максимума</div>
+    <div class="calc-input-row">
+      <div class="calc-field">
+        <label>Вес снаряда (кг)</label>
+        <input type="number" id="calc-weight" value="60" step="2.5" oninput="recalc1RM()">
+      </div>
+      <div class="calc-field">
+        <label>Повторения</label>
+        <input type="number" id="calc-reps" value="8" min="1" max="15" oninput="recalc1RM()">
+      </div>
+    </div>
+    
+    <div class="onerm-hero">
+      <div class="onerm-val" id="calc-result-1rm">76 кг</div>
+      <div class="onerm-subtitle">Расчётный 1ПМ (Одноповторный максимум)</div>
+    </div>
+    
+    <div class="calc-title" style="font-size:15px; margin-top:20px;">Оптимальные рабочие веса:</div>
+    <table class="rep-table" id="calc-table"></table>
+  </div>`;
+  
+  document.getElementById('main').innerHTML = html;
+  recalc1RM();
+}
+
+function recalc1RM(){
+  const w = parseFloat(document.getElementById('calc-weight').value) || 0;
+  const r = parseInt(document.getElementById('calc-reps').value, 10) || 1;
+  const onerm = calc1RM(w, r);
+  
+  const heroEl = document.getElementById('calc-result-1rm');
+  if (heroEl) heroEl.textContent = `${Math.round(onerm)} кг`;
+  
+  const tableEl = document.getElementById('calc-table');
+  if (!tableEl) return;
+  
+  const zones = [
+    { pct: 100, reps: 1, label: 'Пиковая сила', cls: 'tag-strength' },
+    { pct: 90, reps: 3, label: 'Силовой блок', cls: 'tag-strength' },
+    { pct: 85, reps: 5, label: 'Силовая гипертрофия', cls: 'tag-strength' },
+    { pct: 80, reps: 8, label: 'Оптимум гипертрофии', cls: 'tag-hypertrophy' },
+    { pct: 75, reps: 10, label: 'Объёмная гипертрофия', cls: 'tag-hypertrophy' },
+    { pct: 70, reps: 12, label: 'Пампинг / выносливость', cls: 'tag-hypertrophy' },
+    { pct: 65, reps: 15, label: 'Выносливость', cls: 'tag-endurance' }
+  ];
+  
+  tableEl.innerHTML = `
+    <thead>
+      <tr>
+        <th>Зона</th>
+        <th>% 1ПМ</th>
+        <th>Повт.</th>
+        <th style="text-align:right;">Вес (кг)</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${zones.map(z => {
+        const targetW = Math.round((onerm * z.pct / 100) * 2) / 2;
+        return `
+        <tr>
+          <td class="${z.cls}">${z.label}</td>
+          <td style="color:var(--steel); font-weight:700;">${z.pct}%</td>
+          <td style="font-weight:700;">${z.reps}</td>
+          <td style="text-align:right; font-weight:800; font-size:15px; color:var(--chalk);">${targetW} кг</td>
+        </tr>`;
+      }).join('')}
+    </tbody>
+  `;
+}
+
+/* ================== PROGRESS SCREEN ================== */
+function renderProgressScreen(){
+  const u = getCurUser();
+  const prList = Object.keys(u.prs).map(k => ({ name: k, ...u.prs[k] }));
+  
+  let html = `
+  <div class="day-title-box">
+    <h2>Прогресс</h2>
+    <span class="day-meta">${u.name} · Аналитика</span>
+  </div>`;
+  
+  // Total summary
+  const totalWorkouts = u.history.length;
+  const totalVolume = u.history.reduce((a,b)=>a + (b.volume || 0), 0);
+  
+  html += `
+  <div style="display:flex; gap:10px; margin-bottom:16px;">
+    <div class="pr-card" style="flex:1; text-align:center; padding:12px;">
+      <div style="font-size:22px; font-weight:900; color:var(--iron);">${totalWorkouts}</div>
+      <div style="font-size:11.5px; color:var(--steel); margin-top:2px;">Тренировок</div>
+    </div>
+    <div class="pr-card" style="flex:1; text-align:center; padding:12px;">
+      <div style="font-size:22px; font-weight:900; color:var(--gold);">${Math.round(totalVolume/1000)} т</div>
+      <div style="font-size:11.5px; color:var(--steel); margin-top:2px;">Тоннаж</div>
+    </div>
+    <div class="pr-card" style="flex:1; text-align:center; padding:12px;">
+      <div style="font-size:22px; font-weight:900; color:var(--success);">${prList.length}</div>
+      <div style="font-size:11.5px; color:var(--steel); margin-top:2px;">Рекордов</div>
+    </div>
+  </div>`;
+  
+  // PRs section
+  html += `<h3 style="margin:16px 0 10px; font-size:16px; color:var(--chalk);">🏆 Личные рекорды (1ПМ)</h3>`;
+  if (!prList.length) {
+    html += `<div class="pr-card" style="color:var(--steel); text-align:center; padding:20px;">
+      Пока нет зафиксированных рекордов. Выполняйте подходы на тренировке, и здесь появится статистика!
+    </div>`;
+  } else {
+    prList.sort((a,b)=>b.est1RM - a.est1RM);
+    html += prList.map(pr => `
+      <div class="pr-card">
+        <div class="pr-title">${pr.name}</div>
+        <div class="pr-stats">
+          <span>Сет: <b>${pr.weight} кг × ${pr.reps}</b> (${pr.date})</span>
+          <span class="pr-weight">${Math.round(pr.est1RM)} кг 1ПМ</span>
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  // History section
+  html += `<h3 style="margin:20px 0 10px; font-size:16px; color:var(--chalk);">📅 История тренировок</h3>`;
+  if (!u.history.length) {
+    html += `<div class="pr-card" style="color:var(--steel); text-align:center; padding:20px;">
+      История пуста. Нажмите «Завершить тренировку» после занятия, чтобы сохранить запись.
+    </div>`;
+  } else {
+    html += u.history.slice(0, 15).map(h => `
+      <div class="pr-card">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
+          <b style="font-size:15.5px; color:var(--chalk);">${h.dayTitle}</b>
+          <span style="font-size:12px; color:var(--steel);">${h.date}</span>
+        </div>
+        <div style="font-size:12.5px; color:var(--chalk-dim); margin-bottom:6px;">
+          Подходов: <b>${h.setsCount}</b> · Тоннаж: <b style="color:var(--iron);">${h.volume} кг</b>
+        </div>
+        <div style="font-size:12px; color:var(--steel); line-height:1.4;">
+          ${Object.keys(h.exercises || {}).map(k => `${k} (${(h.exercises[k]||[]).map(s=>`${s.weight}×${s.reps}`).join(', ')})`).join('<br>')}
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  document.getElementById('main').innerHTML = html;
+}
+
+/* ================== NUTRITION SCREEN ================== */
+function renderNutritionScreen(){
+  const u = getCurUser();
+  const html = `
+  <div class="day-title-box">
+    <h2>Питание</h2>
+    <span class="day-meta">${u.name} · Рацион & КБЖУ</span>
+  </div>
+  
+  <div class="nut-block">
+    <h3>Целевой КБЖУ</h3>
+    <div class="macro-row"><span>Калории</span><b>2600-2700 ккал</b></div>
+    <div class="macro-row"><span>Белки</span><b>135-145 г</b></div>
+    <div class="macro-row"><span>Жиры</span><b>70-75 г</b></div>
+    <div class="macro-row"><span>Углеводы</span><b>350-370 г</b></div>
+    <p style="margin-top:10px;">Раскидывай белок примерно по 30-35 г на приём пищи — за раз усваивается ограниченный объём.</p>
+  </div>
+  
+  <div class="nut-block">
+    <h3>Ориентир по приёмам пищи</h3>
+    <ul>
+      <li><b>Завтрак:</b> овсянка или гречка (100 г сухой) + масло, 3 яйца</li>
+      <li><b>Перекус:</b> протеиновый коктейль, банан, 30 г орехов — сюда же креатин</li>
+      <li><b>Обед:</b> 100-120 г крупы/макарон (сухой вес), 150-200 г мяса/птицы, салат с ложкой масла</li>
+      <li><b>Перекус:</b> творог 150-200 г 5%</li>
+      <li><b>Ужин:</b> 150 г рыбы или курицы, картофель/крупа, овощи</li>
+    </ul>
+  </div>
+  
+  <div class="nut-block">
+    <h3>Спортивные добавки</h3>
+    <p><b style="color:var(--iron)">Креатин моногидрат</b> — 5 г каждый день без пауз, вместе с углеводным приёмом пищи (время суток не важно, важна регулярность).</p>
+    <p><b style="color:var(--iron)">Омега-3 / Витамин D3</b> — для суставов, связок и поддержки тестостерона.</p>
+    <p><b style="color:var(--iron)">Сывороточный протеин</b> — если не успеваешь набрать норму белка из обычной еды.</p>
+  </div>
+  
+  <div class="nut-block">
+    <h3>Контроль веса</h3>
+    <p>Взвешивайся 2 раза в неделю утром натощак. Целевой темп набора — 300-500 г в неделю. Вес стоит 10 дней на месте — добавь 50 г крупы. Растёт быстрее 600 г — чуть убавь быстрые углеводы.</p>
+  </div>`;
+  
+  document.getElementById('main').innerHTML = html;
+}
+
+/* ================== PROFILE & DATA SYNC ================== */
+function renderProfileScreen(){
+  const u = getCurUser();
+  const html = `
+  <div class="day-title-box">
+    <h2>Профиль</h2>
+    <span class="day-meta">Аккаунты & Синхронизация</span>
+  </div>
+  
+  <div class="calc-container">
+    <div style="display:flex; align-items:center; gap:14px; margin-bottom:16px;">
+      <div class="avatar-badge" style="width:48px; height:48px; font-size:20px;">${u.name.charAt(0)}</div>
+      <div>
+        <h3 style="margin:0; font-size:18px;">${u.name}</h3>
+        <div style="color:var(--steel); font-size:13px; margin-top:2px;">${u.stats}</div>
+      </div>
+    </div>
+    
+    <button class="btn-secondary" style="width:100%; margin-bottom:8px;" onclick="toggleUserModal()">Сменить аккаунт или данные</button>
+  </div>
+  
+  <div class="calc-container">
+    <div class="calc-title">Резервное копирование и экспорт</div>
+    <p style="font-size:13px; color:var(--chalk-dim); margin-top:0; line-height:1.45;">
+      Приложение работает автономно (PWA / GitHub Pages). Все ваши тренировки и рекорды сохраняются в памяти устройства. Вы можете в любой момент выгрузить файл базы данных и перенести на другое устройство.
+    </p>
+    
+    <div style="display:flex; flex-direction:column; gap:10px; margin-top:14px;">
+      <button class="btn-primary" onclick="exportDataJSON()">📥 Экспорт базы данных (JSON)</button>
+      <button class="btn-secondary" onclick="document.getElementById('import-file').click()">📤 Импорт базы данных (JSON)</button>
+      <input type="file" id="import-file" accept=".json" style="display:none;" onchange="importDataJSON(event)">
+    </div>
+    
+    <div style="margin-top:20px; border-top:1px solid var(--line); padding-top:14px;">
+      <button class="btn-secondary" style="color:#e74c3c; width:100%;" onclick="resetCurrentUserData()">⚠️ Сбросить историю активного аккаунта</button>
+    </div>
+  </div>`;
+  
+  document.getElementById('main').innerHTML = html;
+}
+
+function exportDataJSON(){
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+  const downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", `workout_backup_${new Date().toISOString().slice(0,10)}.json`);
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
+}
+
+function importDataJSON(event){
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e){
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if (parsed && parsed.users) {
+        appState = parsed;
+        saveState();
+        alert('База данных успешно импортирована!');
+        updateHeaderUI();
+        switchMainTab('workout');
+      } else {
+        alert('Некорректный формат файла бэкапа.');
+      }
+    } catch(err){
+      alert('Ошибка при чтении файла JSON.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function resetCurrentUserData(){
+  const u = getCurUser();
+  if (confirm(`Вы уверены, что хотите сбросить историю и рекорды аккаунта «${u.name}»? Это действие необратимо.`)) {
+    u.sessionSets = {};
+    u.history = [];
+    u.prs = {};
+    saveState();
+    alert('История сброшена.');
+    switchMainTab('workout');
+  }
+}
+
+/* ================== NAVIGATION & ROUTING ================== */
+let currentMainTab = 'workout';
+
+function switchMainTab(tab){
+  currentMainTab = tab;
+  document.querySelectorAll('nav.bottom-nav .nav-item').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tab);
+  });
+  
+  const subtabs = document.getElementById('workout-subtabs');
+  if (tab === 'workout') {
+    subtabs.style.display = 'flex';
+    renderWorkoutScreen();
+  } else {
+    subtabs.style.display = 'none';
+    if (tab === 'calc') renderCalculatorScreen();
+    else if (tab === 'progress') renderProgressScreen();
+    else if (tab === 'nutrition') renderNutritionScreen();
+    else if (tab === 'profile') renderProfileScreen();
+  }
+  window.scrollTo(0, 0);
+}
+
+function switchWorkoutDay(dayKey){
+  const u = getCurUser();
+  u.activeDay = dayKey;
+  saveState();
+  
+  document.querySelectorAll('#workout-subtabs .subtab-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.day === dayKey);
+  });
+  renderWorkoutScreen();
+  window.scrollTo(0, 0);
+}
+
+/* ================== USER MODAL ================== */
+function toggleUserModal(){
+  const m = document.getElementById('user-modal');
+  const isOpen = m.style.display === 'flex';
+  m.style.display = isOpen ? 'none' : 'flex';
+  if (!isOpen) {
+    // Populate form
+    const u = getCurUser();
+    document.getElementById('edit-name').value = u.name;
+    document.getElementById('edit-stats').value = u.stats;
+    document.getElementById('modal-name-u1').textContent = appState.users.user1.name;
+    document.getElementById('modal-name-u2').textContent = appState.users.user2.name;
+    document.getElementById('modal-btn-u1').classList.toggle('active', appState.activeUser === 'user1');
+    document.getElementById('modal-btn-u2').classList.toggle('active', appState.activeUser === 'user2');
+  }
+}
+
+function selectAccount(userId){
+  appState.activeUser = userId;
+  saveState();
+  updateHeaderUI();
+  toggleUserModal();
+  switchMainTab(currentMainTab);
+}
+
+function saveProfileChanges(){
+  const u = getCurUser();
+  const newName = document.getElementById('edit-name').value.trim();
+  const newStats = document.getElementById('edit-stats').value.trim();
+  if (newName) u.name = newName;
+  if (newStats) u.stats = newStats;
+  saveState();
+  updateHeaderUI();
+  toggleUserModal();
+  if (currentMainTab === 'profile') renderProfileScreen();
+}
+
+function updateHeaderUI(){
+  const u = getCurUser();
+  document.getElementById('header-username').textContent = u.name;
+  document.getElementById('header-avatar').textContent = u.name.charAt(0).toUpperCase();
+  document.getElementById('app-subtitle').textContent = `${u.name} · ${u.stats}`;
+}
+
+/* ================== INITIALIZATION ================== */
+updateHeaderUI();
+switchMainTab('workout');
+</script>
+</body>
+</html>
