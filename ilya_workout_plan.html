@@ -227,10 +227,14 @@
     margin: 6px 14px 10px;
     border-radius: var(--radius-sm);
     overflow: hidden;
-    background: #000;
+    background: #141310;
     border: 1px solid var(--line);
     position: relative;
     cursor: pointer;
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .ex-video-box video {
     display: block;
@@ -239,16 +243,94 @@
     background: #000;
     object-fit: cover;
   }
+  .video-play-btn {
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+    z-index: 2;
+  }
+  .video-play-btn svg {
+    margin-left: 3px;
+  }
+  .ex-video-box:not(.is-paused) .video-play-btn {
+    opacity: 0;
+    transform: scale(0.7);
+    pointer-events: none;
+  }
+  .video-spinner {
+    display: none;
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    border: 3px solid rgba(255,255,255,0.2);
+    border-top-color: var(--iron);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    pointer-events: none;
+    z-index: 2;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .ex-video-box.is-buffering .video-spinner {
+    display: block;
+  }
+  .ex-video-box.is-buffering .video-play-btn {
+    display: none;
+  }
   .video-tap-hint {
     position: absolute;
-    bottom: 6px;
+    bottom: 8px;
     right: 8px;
-    background: rgba(0,0,0,0.65);
-    color: var(--chalk-dim);
-    font-size: 10px;
-    padding: 2px 6px;
+    background: rgba(0,0,0,0.75);
+    color: var(--chalk);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
     border-radius: 4px;
     pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 2;
+  }
+  .video-error-banner {
+    position: absolute;
+    inset: 0;
+    background: rgba(18, 17, 13, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--chalk-dim);
+    font-size: 12.5px;
+    padding: 16px;
+    text-align: center;
+    z-index: 3;
+  }
+  .video-error-banner a {
+    color: var(--iron);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 7px 14px;
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
   }
 
   /* TIPS */
@@ -1462,11 +1544,29 @@ function renderWorkoutScreen(){
       
       <!-- GIF VIDEO -->
       ${ex.video ? `
-      <div class="ex-video-box">
-        <video autoplay loop muted playsinline webkit-playsinline preload="auto" poster="${ex.thumb || ''}" onclick="this.paused ? this.play() : this.pause()">
-          <source src="${ex.video}" type="video/mp4">
-        </video>
-        <span class="video-tap-hint">нажми для паузы</span>
+      <div class="ex-video-box is-paused" onclick="toggleVideoPlayback(this)">
+        <video 
+          src="${ex.video}" 
+          playsinline 
+          webkit-playsinline 
+          muted 
+          loop 
+          preload="metadata" 
+          poster="${ex.thumb || ''}"
+          onwaiting="this.parentElement.classList.add('is-buffering')"
+          onplaying="this.parentElement.classList.remove('is-buffering', 'is-paused'); const h=this.parentElement.querySelector('.video-tap-hint'); if(h) h.textContent='⏸ Пауза';"
+          onpause="this.parentElement.classList.add('is-paused'); const h=this.parentElement.querySelector('.video-tap-hint'); if(h) h.textContent='▶ Нажмите для запуска';"
+          onerror="handleVideoError(this)"
+        ></video>
+        <div class="video-play-btn" title="Воспроизвести">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
+        </div>
+        <div class="video-spinner"></div>
+        <div class="video-tap-hint">▶ Нажмите для запуска</div>
+        <div class="video-error-banner" style="display:none;">
+          <span>Не удалось загрузить видео</span>
+          <a href="${ex.video}" target="_blank" onclick="event.stopPropagation()">Открыть видео в плеере ↗</a>
+        </div>
       </div>` : ''}
       
       <!-- TIPS -->
@@ -1535,12 +1635,142 @@ function renderWorkoutScreen(){
   // Highlight completed exercise states
   w.exercises.forEach(ex => updateProgressionFeedback(ex.name));
   
-  // Ensure videos autoplay on mobile
-  document.querySelectorAll('#main video').forEach(v => {
-    v.muted = true;
-    v.play().catch(()=>{});
-  });
+  // Setup intersection observer & lazy playback for videos
+  setupVideoObserver();
 }
+
+
+/* ================== VIDEO OBSERVER & PLAYBACK ================== */
+let videoObserver = null;
+
+function setupVideoObserver() {
+  if (videoObserver) {
+    videoObserver.disconnect();
+  }
+  
+  const boxes = document.querySelectorAll('.ex-video-box');
+  if (!boxes.length) return;
+  
+  if ('IntersectionObserver' in window) {
+    videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const box = entry.target;
+        const video = box.querySelector('video');
+        if (!video) return;
+        
+        // When video is well inside the screen: autoplay
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
+          video.muted = true;
+          const p = video.play();
+          if (p !== undefined) {
+            p.then(() => {
+              box.classList.remove('is-paused');
+              const h = box.querySelector('.video-tap-hint');
+              if (h) h.textContent = '⏸ Пауза';
+            }).catch(() => {
+              box.classList.add('is-paused');
+              const h = box.querySelector('.video-tap-hint');
+              if (h) h.textContent = '▶ Нажмите для запуска';
+            });
+          }
+        } else {
+          // When scrolled away: pause to conserve memory, data & battery
+          if (!video.paused) {
+            video.pause();
+            box.classList.add('is-paused');
+            const h = box.querySelector('.video-tap-hint');
+            if (h) h.textContent = '▶ Нажмите для запуска';
+          }
+        }
+      });
+    }, {
+      threshold: [0.1, 0.45, 0.7]
+    });
+
+    boxes.forEach(box => {
+      box.classList.add('is-paused');
+      videoObserver.observe(box);
+    });
+  } else {
+    // Fallback if no IntersectionObserver
+    boxes.forEach(box => {
+      box.classList.add('is-paused');
+    });
+  }
+}
+
+function toggleVideoPlayback(box) {
+  const video = box.querySelector('video');
+  if (!video) return;
+  
+  const hint = box.querySelector('.video-tap-hint');
+  if (video.paused) {
+    // Pause other videos on the page
+    document.querySelectorAll('.ex-video-box video').forEach(v => {
+      if (v !== video && !v.paused) {
+        v.pause();
+        v.parentElement.classList.add('is-paused');
+        const h = v.parentElement.querySelector('.video-tap-hint');
+        if (h) h.textContent = '▶ Нажмите для запуска';
+      }
+    });
+    
+    video.muted = true;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        box.classList.remove('is-paused');
+        if (hint) hint.textContent = '⏸ Пауза';
+      }).catch(err => {
+        console.warn('Playback blocked:', err);
+        box.classList.add('is-paused');
+        if (hint) hint.textContent = '▶ Нажмите для запуска';
+      });
+    }
+  } else {
+    video.pause();
+    box.classList.add('is-paused');
+    if (hint) hint.textContent = '▶ Нажмите для запуска';
+  }
+}
+
+function handleVideoError(video) {
+  console.warn('Video load error:', video.src);
+  const box = video.parentElement;
+  if (!box) return;
+  box.classList.remove('is-buffering');
+  box.classList.add('is-paused');
+  const banner = box.querySelector('.video-error-banner');
+  if (banner) banner.style.display = 'flex';
+  const hint = box.querySelector('.video-tap-hint');
+  if (hint) hint.style.display = 'none';
+  const btn = box.querySelector('.video-play-btn');
+  if (btn) btn.style.display = 'none';
+}
+
+// User-gesture touch unlock for mobile iOS/Android
+let userTouchUnlocked = false;
+function unlockMobileMedia() {
+  if (userTouchUnlocked) return;
+  userTouchUnlocked = true;
+  document.removeEventListener('touchstart', unlockMobileMedia);
+  document.removeEventListener('click', unlockMobileMedia);
+  
+  const firstBox = document.querySelector('.ex-video-box');
+  if (firstBox) {
+    const v = firstBox.querySelector('video');
+    if (v && v.paused) {
+      v.muted = true;
+      v.play().then(() => {
+        firstBox.classList.remove('is-paused');
+        const h = firstBox.querySelector('.video-tap-hint');
+        if (h) h.textContent = '⏸ Пауза';
+      }).catch(()=>{});
+    }
+  }
+}
+document.addEventListener('touchstart', unlockMobileMedia, { passive: true });
+document.addEventListener('click', unlockMobileMedia, { passive: true });
 
 /* ================== CALCULATOR SCREEN ================== */
 function renderCalculatorScreen(){
