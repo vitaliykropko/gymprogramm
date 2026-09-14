@@ -831,6 +831,169 @@
 
   svg[data-cat="hangraise"] .j-legs{animation:hrA 1.8s ease-in-out infinite;}
   @keyframes hrA{0%,100%{transform:rotate(0deg);}50%{transform:rotate(-70deg);}}
+
+  /* SCHEDULE BANNER */
+  .schedule-card {
+    margin: 12px 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .schedule-card.is-training-day {
+    border-color: rgba(255, 96, 34, 0.4);
+    background: linear-gradient(145deg, #1f1b14 0%, #151410 100%);
+    box-shadow: 0 4px 18px rgba(255, 96, 34, 0.08);
+  }
+  .schedule-card.is-rest-day {
+    border-color: rgba(123, 136, 142, 0.3);
+    background: linear-gradient(145deg, #17191b 0%, #121315 100%);
+  }
+  .sched-badge-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .sched-chip {
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .sched-chip.chip-active {
+    background: var(--iron-glow);
+    color: var(--iron);
+    border: 1px solid rgba(255, 96, 34, 0.3);
+  }
+  .sched-chip.chip-rest {
+    background: rgba(123, 136, 142, 0.15);
+    color: var(--steel);
+    border: 1px solid rgba(123, 136, 142, 0.25);
+  }
+  .sched-date-label {
+    font-size: 12px;
+    color: var(--chalk-dim);
+    font-weight: 600;
+  }
+  .sched-main-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 12px;
+  }
+  .sched-title-box {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .sched-hint {
+    font-size: 12px;
+    color: var(--chalk-dim);
+  }
+  .sched-target-name {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--chalk);
+    letter-spacing: -0.01em;
+  }
+  .schedule-card.is-training-day .sched-target-name {
+    color: var(--iron);
+  }
+  .sched-go-btn {
+    background: var(--iron);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 7px 12px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+  }
+  .sched-go-btn:active {
+    transform: scale(0.96);
+  }
+  .sched-current-mark {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--success);
+    background: var(--success-dim);
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid rgba(46, 204, 113, 0.3);
+  }
+  .sched-footer {
+    border-top: 1px solid var(--line);
+    padding-top: 8px;
+    font-size: 11.5px;
+    color: var(--steel);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .tab-star-badge {
+    font-size: 9px;
+    font-weight: 900;
+    background: var(--iron);
+    color: #fff;
+    padding: 1px 4px;
+    border-radius: 3px;
+    margin-left: 3px;
+    vertical-align: middle;
+    letter-spacing: 0;
+  }
+  .user-select-card {
+    flex: 1;
+    background: var(--surface-2);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--chalk);
+  }
+  .user-select-card.active {
+    border-color: var(--iron);
+    background: rgba(255, 96, 34, 0.12);
+  }
+  .user-select-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--surface-3);
+    color: var(--chalk);
+    font-size: 20px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+  }
+  .user-select-card.active .user-select-avatar {
+    background: var(--iron);
+    color: #fff;
+    border-color: var(--iron);
+  }
+
 </style>
 </head>
 <body>
@@ -898,16 +1061,22 @@
 <!-- PROFILE SWITCH / EDIT MODAL -->
 <div class="modal-backdrop" id="user-modal">
   <div class="modal-box">
-    <h3>Выбор аккаунта</h3>
-    <div style="display:flex; gap:10px; margin-bottom:16px;">
-      <button class="subtab-btn" id="modal-btn-u1" style="flex:1; padding:12px;" onclick="selectAccount('user1')">
-        <div style="font-size:18px; margin-bottom:4px;">👤</div>
-        <b id="modal-name-u1">Илья</b>
-      </button>
-      <button class="subtab-btn" id="modal-btn-u2" style="flex:1; padding:12px;" onclick="selectAccount('user2')">
-        <div style="font-size:18px; margin-bottom:4px;">👤</div>
-        <b id="modal-name-u2">Атлет 2</b>
-      </button>
+    <h3 id="modal-heading" style="text-align:center; font-size:18px; margin-top:0;">Кто тренируется?</h3>
+    <p style="text-align:center; font-size:12.5px; color:var(--chalk-dim); margin-top:-6px; margin-bottom:16px;">
+      У каждого атлета свои веса, подходы, рекорды и история
+    </p>
+    
+    <div style="display:flex; gap:12px; margin-bottom:16px;">
+      <div class="user-select-card" id="card-u1" onclick="selectAccount('user1')">
+        <div class="user-select-avatar">В</div>
+        <b id="modal-name-u1" style="font-size:16px;">Виталик</b>
+        <span id="modal-stats-u1" style="font-size:11px; color:var(--chalk-dim);">Атлет 1</span>
+      </div>
+      <div class="user-select-card" id="card-u2" onclick="selectAccount('user2')">
+        <div class="user-select-avatar">И</div>
+        <b id="modal-name-u2" style="font-size:16px;">Илья</b>
+        <span id="modal-stats-u2" style="font-size:11px; color:var(--chalk-dim);">Атлет 2</span>
+      </div>
     </div>
     
     <div style="border-top:1px solid var(--line); padding-top:12px;">
@@ -1166,18 +1335,18 @@ function getDefaultState(){
     users: {
       user1: {
         id: 'user1',
-        name: 'Илья',
-        stats: '178 см · 67 кг',
+        name: 'Виталик',
+        stats: '178 см · 72 кг',
         activeDay: 'verh1',
         activeTab: 'workout',
-        sessionSets: {}, // { "Жим штанги лёжа": [ {weight: 50, reps: 8, done: false}, ... ] }
-        history: [],    // [ { date, dayKey, dayTitle, volume, exercises: {...} } ]
-        prs: {}         // { "Жим штанги лёжа": { weight: 50, reps: 8, est1RM: 63.3, date: '...' } }
+        sessionSets: {},
+        history: [],
+        prs: {}
       },
       user2: {
         id: 'user2',
-        name: 'Атлет 2',
-        stats: '180 см · 75 кг',
+        name: 'Илья',
+        stats: '180 см · 68 кг',
         activeDay: 'verh1',
         activeTab: 'workout',
         sessionSets: {},
@@ -1207,6 +1376,88 @@ function getCurUser(){
     appState.activeUser = 'user1';
   }
   return appState.users[appState.activeUser];
+}
+
+
+/* ================== AUTOMATIC WORKOUT SCHEDULE (3/WEEK MOSCOW) ================== */
+/**
+ * 3 workouts per week: Monday, Wednesday, Friday
+ * Cycle of 4 workouts: Верх 1 -> Низ 1 -> Верх 2 -> Низ 2 -> repeat
+ * Base anchor: Monday, 14 September 2026 (Moscow time) = Верх 1
+ */
+function getMoscowDayInfo(date = new Date()) {
+  try {
+    const moscowStr = date.toLocaleString('en-US', { timeZone: 'Europe/Moscow' });
+    const moscowDate = new Date(moscowStr);
+    
+    // Base: 2026-09-14 00:00:00 (Monday)
+    const base = new Date(2026, 8, 14, 0, 0, 0);
+    const cur = new Date(moscowDate.getFullYear(), moscowDate.getMonth(), moscowDate.getDate(), 0, 0, 0);
+    
+    const diffDays = Math.round((cur - base) / (1000 * 60 * 60 * 24));
+    const fullWeeks = Math.floor(diffDays / 7);
+    // Monday=0, Tuesday=1, Wednesday=2, Thursday=3, Friday=4, Saturday=5, Sunday=6
+    const dow = (cur.getDay() + 6) % 7;
+    
+    const dayNames = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+    const cycle = [
+      { key: 'verh1', title: 'Верх 1' },
+      { key: 'niz1', title: 'Низ 1' },
+      { key: 'verh2', title: 'Верх 2' },
+      { key: 'niz2', title: 'Низ 2' }
+    ];
+    
+    let trainingIndex;
+    let isTrainingDay = false;
+    let nextDayText = '';
+    
+    if (dow === 0) { // Mon
+      trainingIndex = fullWeeks * 3 + 0;
+      isTrainingDay = true;
+      nextDayText = 'Среда (' + cycle[((trainingIndex + 1) % 4 + 4) % 4].title + ')';
+    } else if (dow === 1) { // Tue
+      trainingIndex = fullWeeks * 3 + 1;
+      isTrainingDay = false;
+      nextDayText = 'Среда (' + cycle[((trainingIndex) % 4 + 4) % 4].title + ')';
+    } else if (dow === 2) { // Wed
+      trainingIndex = fullWeeks * 3 + 1;
+      isTrainingDay = true;
+      nextDayText = 'Пятница (' + cycle[((trainingIndex + 1) % 4 + 4) % 4].title + ')';
+    } else if (dow === 3) { // Thu
+      trainingIndex = fullWeeks * 3 + 2;
+      isTrainingDay = false;
+      nextDayText = 'Пятница (' + cycle[((trainingIndex) % 4 + 4) % 4].title + ')';
+    } else if (dow === 4) { // Fri
+      trainingIndex = fullWeeks * 3 + 2;
+      isTrainingDay = true;
+      nextDayText = 'Понедельник (' + cycle[((trainingIndex + 1) % 4 + 4) % 4].title + ')';
+    } else { // Sat, Sun
+      trainingIndex = (fullWeeks + 1) * 3 + 0;
+      isTrainingDay = false;
+      nextDayText = 'Понедельник (' + cycle[((trainingIndex) % 4 + 4) % 4].title + ')';
+    }
+    
+    const cycleIdx = ((trainingIndex % 4) + 4) % 4;
+    const targetWorkout = cycle[cycleIdx];
+    
+    return {
+      curDateStr: cur.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' }),
+      dayName: dayNames[dow],
+      isTrainingDay,
+      targetKey: targetWorkout.key,
+      targetTitle: targetWorkout.title,
+      nextDayText
+    };
+  } catch(e) {
+    return {
+      curDateStr: 'Сегодня',
+      dayName: 'Тренировочный день',
+      isTrainingDay: true,
+      targetKey: 'verh1',
+      targetTitle: 'Верх 1',
+      nextDayText: 'Среда (Низ 1)'
+    };
+  }
 }
 
 /* ================== SOUND & HAPTIC ================== */
@@ -2093,27 +2344,49 @@ function switchWorkoutDay(dayKey){
 }
 
 /* ================== USER MODAL ================== */
-function toggleUserModal(){
+function toggleUserModal(forceOpen = false){
   const m = document.getElementById('user-modal');
-  const isOpen = m.style.display === 'flex';
-  m.style.display = isOpen ? 'none' : 'flex';
-  if (!isOpen) {
-    // Populate form
+  const isCurrentlyOpen = m.style.display === 'flex';
+  const shouldOpen = forceOpen ? true : !isCurrentlyOpen;
+  m.style.display = shouldOpen ? 'flex' : 'none';
+  if (shouldOpen) {
     const u = getCurUser();
-    document.getElementById('edit-name').value = u.name;
-    document.getElementById('edit-stats').value = u.stats;
-    document.getElementById('modal-name-u1').textContent = appState.users.user1.name;
-    document.getElementById('modal-name-u2').textContent = appState.users.user2.name;
-    document.getElementById('modal-btn-u1').classList.toggle('active', appState.activeUser === 'user1');
-    document.getElementById('modal-btn-u2').classList.toggle('active', appState.activeUser === 'user2');
+    const editName = document.getElementById('edit-name');
+    const editStats = document.getElementById('edit-stats');
+    if (editName) editName.value = u.name;
+    if (editStats) editStats.value = u.stats;
+    
+    const n1 = document.getElementById('modal-name-u1');
+    const n2 = document.getElementById('modal-name-u2');
+    const s1 = document.getElementById('modal-stats-u1');
+    const s2 = document.getElementById('modal-stats-u2');
+    if (n1) n1.textContent = appState.users.user1.name;
+    if (n2) n2.textContent = appState.users.user2.name;
+    if (s1) s1.textContent = appState.users.user1.stats || 'Атлет 1';
+    if (s2) s2.textContent = appState.users.user2.stats || 'Атлет 2';
+    
+    const c1 = document.getElementById('card-u1');
+    const c2 = document.getElementById('card-u2');
+    if (c1) c1.classList.toggle('active', appState.activeUser === 'user1');
+    if (c2) c2.classList.toggle('active', appState.activeUser === 'user2');
   }
 }
 
 function selectAccount(userId){
   appState.activeUser = userId;
+  try {
+    localStorage.setItem('workout_active_user_v2', userId);
+    localStorage.setItem('workout_user_chosen_v2', 'true');
+  } catch(e){}
   saveState();
   updateHeaderUI();
-  toggleUserModal();
+  toggleUserModal(false);
+  
+  // Also synchronize active scheduled day if user switches account
+  const sched = getMoscowDayInfo();
+  const u = getCurUser();
+  if (!u.activeDay) u.activeDay = sched.targetKey;
+  
   switchMainTab(currentMainTab);
 }
 
@@ -2136,9 +2409,55 @@ function updateHeaderUI(){
   document.getElementById('app-subtitle').textContent = `${u.name} · ${u.stats}`;
 }
 
-/* ================== INITIALIZATION ================== */
+/* ================== INITIALIZATION & MIGRATION ================== */
+// 1. Data Migration for existing localStorage (rename user1/user2 to Vitalik and Ilya)
+try {
+  if (appState.users) {
+    if (appState.users.user1 && (appState.users.user1.name === 'Илья' || !appState.users.user1.name)) {
+      appState.users.user1.name = 'Виталик';
+      if (!appState.users.user1.stats || appState.users.user1.stats.includes('67')) {
+        appState.users.user1.stats = '178 см · 72 кг';
+      }
+    }
+    if (appState.users.user2 && (appState.users.user2.name === 'Атлет 2' || !appState.users.user2.name)) {
+      appState.users.user2.name = 'Илья';
+      if (!appState.users.user2.stats || appState.users.user2.stats.includes('75')) {
+        appState.users.user2.stats = '180 см · 68 кг';
+      }
+    }
+    saveState();
+  }
+} catch(e){}
+
+// 2. Remember last active user from localStorage
+try {
+  const savedUser = localStorage.getItem('workout_active_user_v2');
+  if (savedUser && appState.users[savedUser]) {
+    appState.activeUser = savedUser;
+  }
+} catch(e){}
+
+// 3. Set today's scheduled workout as default for current user
+try {
+  const sched = getMoscowDayInfo();
+  const u = getCurUser();
+  // If active day was not set or matches initial default, set to today's schedule
+  u.activeDay = sched.targetKey;
+  saveState();
+} catch(e){}
+
 updateHeaderUI();
 switchMainTab('workout');
+
+// 4. If first time ever on this device, prompt to choose between Vitalik and Ilya
+try {
+  const hasChosen = localStorage.getItem('workout_user_chosen_v2');
+  if (!hasChosen) {
+    setTimeout(() => {
+      toggleUserModal(true);
+    }, 350);
+  }
+} catch(e){}
 </script>
 </body>
 </html>
