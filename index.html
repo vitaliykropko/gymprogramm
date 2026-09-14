@@ -108,38 +108,6 @@
     color: var(--steel);
   }
 
-  /* WORKOUT SUB-TABS */
-  .workout-subtabs {
-    display: flex;
-    background: var(--surface);
-    padding: 6px 12px 10px;
-    gap: 6px;
-    border-bottom: 1px solid var(--line);
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .workout-subtabs::-webkit-scrollbar { display: none; }
-  .subtab-btn {
-    flex: 1;
-    min-width: 70px;
-    background: var(--surface-2);
-    border: 1px solid var(--line);
-    color: var(--chalk-dim);
-    border-radius: var(--radius-sm);
-    padding: 8px 4px;
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.15s;
-  }
-  .subtab-btn.active {
-    background: var(--iron);
-    color: #fff;
-    border-color: var(--iron);
-    box-shadow: 0 2px 8px var(--iron-glow);
-  }
-
   /* MAIN CONTAINER */
   main#main {
     padding: 10px 14px 20px;
@@ -994,6 +962,175 @@
     border-color: var(--iron);
   }
 
+
+  /* STRICT TODAY WORKOUT HEADER */
+  .today-workout-header {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 16px;
+    background: linear-gradient(145deg, #1d1913 0%, #151410 100%);
+    border-color: rgba(255, 96, 34, 0.35);
+    box-shadow: 0 4px 18px rgba(255, 96, 34, 0.08);
+  }
+  .today-tag-pill {
+    display: inline-block;
+    background: var(--iron-glow);
+    color: var(--iron);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 96, 34, 0.3);
+    margin-bottom: 8px;
+  }
+  .today-workout-title {
+    margin: 0 0 6px;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--chalk);
+    letter-spacing: -0.02em;
+  }
+  .today-workout-meta {
+    font-size: 13px;
+    color: var(--chalk-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .today-next-hint {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--steel);
+  }
+  .today-next-hint b {
+    color: var(--chalk-dim);
+  }
+
+  /* REST DAY SCREEN */
+  .rest-day-card {
+    background: var(--surface);
+    border: 1px solid rgba(123, 136, 142, 0.25);
+    border-radius: var(--radius-md);
+    padding: 22px 18px;
+    background: linear-gradient(145deg, #17191b 0%, #121315 100%);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+  }
+  .rest-badge {
+    display: inline-block;
+    background: rgba(123, 136, 142, 0.15);
+    color: var(--steel);
+    border: 1px solid rgba(123, 136, 142, 0.3);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+  }
+  .rest-day-card h2 {
+    margin: 0 0 4px;
+    font-size: 23px;
+    font-weight: 900;
+    color: var(--chalk);
+  }
+  .rest-date-text {
+    font-size: 13px;
+    color: var(--chalk-dim);
+    margin-bottom: 18px;
+  }
+  .next-workout-box {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    margin-bottom: 20px;
+  }
+  .next-label {
+    font-size: 11.5px;
+    color: var(--steel);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .next-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--iron);
+    margin-bottom: 4px;
+  }
+  .next-schedule-rule {
+    font-size: 11.5px;
+    color: var(--chalk-dim);
+    margin-bottom: 12px;
+  }
+  .btn-preview-next {
+    width: 100%;
+    background: var(--surface-3);
+    border: 1px solid var(--line-light);
+    color: var(--chalk);
+    padding: 10px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-preview-next:active {
+    background: var(--iron);
+    border-color: var(--iron);
+  }
+  .recovery-tips-box {
+    border-top: 1px solid var(--line);
+    padding-top: 16px;
+  }
+  .recovery-tips-box h3 {
+    margin: 0 0 12px;
+    font-size: 14px;
+    color: var(--chalk);
+    font-weight: 800;
+  }
+  .recovery-tip-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--chalk-dim);
+  }
+  .tip-icon {
+    font-size: 18px;
+    line-height: 1;
+  }
+  .preview-top-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 14px;
+  }
+  .btn-back-rest {
+    background: transparent;
+    border: 1px solid var(--steel);
+    color: var(--chalk);
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
 </style>
 </head>
 <body>
@@ -1011,13 +1148,7 @@
   </div>
 </header>
 
-<!-- WORKOUT DAYS SUB-TABS (Visible only on workout screen) -->
-<div class="workout-subtabs" id="workout-subtabs">
-  <button class="subtab-btn active" data-day="verh1" onclick="switchWorkoutDay('verh1')">Верх 1</button>
-  <button class="subtab-btn" data-day="niz1" onclick="switchWorkoutDay('niz1')">Низ 1</button>
-  <button class="subtab-btn" data-day="verh2" onclick="switchWorkoutDay('verh2')">Верх 2</button>
-  <button class="subtab-btn" data-day="niz2" onclick="switchWorkoutDay('niz2')">Низ 2</button>
-</div>
+<!-- AUTOMATIC WORKOUT OF THE DAY (NO MANUAL CHOICE) -->
 
 <!-- MAIN VIEW CONTENT -->
 <main id="main"></main>
@@ -1706,9 +1837,10 @@ function updateProgressionFeedback(exName){
   }
 }
 
-function finishCurrentWorkout(){
+function finishCurrentWorkout(explicitDayKey){
   const u = getCurUser();
-  const dayKey = u.activeDay;
+  const sched = getMoscowDayInfo();
+  const dayKey = explicitDayKey || sched.targetKey;
   const w = workouts[dayKey];
   if (!w) return;
   
@@ -1759,17 +1891,118 @@ function finishCurrentWorkout(){
 }
 
 /* ================== SCREENS RENDERING ================== */
+let isPreviewMode = false;
+let previewDayKey = null;
+
 function renderWorkoutScreen(){
+  const sched = getMoscowDayInfo();
+  
+  // If in preview mode, render preview
+  if (isPreviewMode && previewDayKey) {
+    renderWorkoutForDay(previewDayKey, true);
+    return;
+  }
+  
+  // If today is a REST DAY (Tue, Thu, Sat, Sun) -> render Rest Day screen
+  if (!sched.isTrainingDay) {
+    renderRestDayScreen(sched);
+    return;
+  }
+  
+  // Strict Training Day -> strictly render today's workout (Verh 1, Niz 1, etc.)
+  renderWorkoutForDay(sched.targetKey, false);
+}
+
+function renderRestDayScreen(sched){
+  const html = `
+  <div class="rest-day-card">
+    <div class="rest-badge">💤 ДЕНЬ ОТДЫХА И ВОССТАНОВЛЕНИЯ</div>
+    <h2>Сегодня день отдыха</h2>
+    <div class="rest-date-text">Москва: <b>${sched.curDateStr} (${sched.dayName})</b></div>
+    
+    <div class="next-workout-box">
+      <div class="next-label">Ближайшая тренировка по графику:</div>
+      <div class="next-title">${sched.nextDayText}</div>
+      <div class="next-schedule-rule">График тренировок: Пн · Ср · Пт (ротация 4 программ)</div>
+      <button class="btn-preview-next" onclick="openWorkoutPreview('${sched.targetKey}')">
+        👀 Посмотреть упражнения тренировки (${sched.targetTitle}) ➔
+      </button>
+    </div>
+
+    <div class="recovery-tips-box">
+      <h3>План восстановления для максимального набора мышц:</h3>
+      <div class="recovery-tip-item">
+        <div class="tip-icon">🥩</div>
+        <div><b>Питание и белок:</b> наберите 135–145 г белка (по 30-35 г на прием). Мышцы растут именно во время отдыха, когда есть строительный материал.</div>
+      </div>
+      <div class="recovery-tip-item">
+        <div class="tip-icon">💧</div>
+        <div><b>Вода:</b> выпейте не менее 2–2.5 л чистой воды для восстановления гликогена и наполнения мышечных клеток.</div>
+      </div>
+      <div class="recovery-tip-item">
+        <div class="tip-icon">😴</div>
+        <div><b>Сон 8 часов:</b> главный анаболический фактор. Основной выброс гормона роста происходит в фазе глубокого сна.</div>
+      </div>
+      <div class="recovery-tip-item">
+        <div class="tip-icon">⚡️</div>
+        <div><b>Креатин:</b> 5 г моногидрата каждый день без перерывов вместе с углеводами.</div>
+      </div>
+    </div>
+  </div>`;
+  
+  document.getElementById('main').innerHTML = html;
+}
+
+function openWorkoutPreview(dayKey){
+  isPreviewMode = true;
+  previewDayKey = dayKey;
+  renderWorkoutForDay(dayKey, true);
+  window.scrollTo(0, 0);
+}
+
+function closeWorkoutPreview(){
+  isPreviewMode = false;
+  previewDayKey = null;
+  renderWorkoutScreen();
+  window.scrollTo(0, 0);
+}
+
+function renderWorkoutForDay(key, isPreview = false){
   const u = getCurUser();
-  const key = u.activeDay || 'verh1';
   const w = workouts[key];
   if (!w) return;
   
-  let html = `<div class="day-title-box">
-    <h2>${w.title}</h2>
-    <span class="day-meta">${w.meta}</span>
-  </div>`;
+  const sched = getMoscowDayInfo();
   
+  let headerHtml = '';
+  if (isPreview) {
+    headerHtml = `
+    <div class="preview-top-banner">
+      <span style="font-size:12.5px; color:var(--chalk-dim);">👀 Режим предпросмотра: <b>${w.title}</b></span>
+      <button class="btn-back-rest" onclick="closeWorkoutPreview()">✕ Закрыть</button>
+    </div>
+    <div class="day-title-box">
+      <h2>${w.title}</h2>
+      <span class="day-meta">${w.meta}</span>
+      ${w.note ? `<div class="day-note">${w.note}</div>` : ''}
+    </div>`;
+  } else {
+    headerHtml = `
+    <div class="today-workout-header">
+      <div class="today-tag-pill">🔥 ТРЕНИРОВКА ПО РАСПИСАНИЮ НА СЕГОДНЯ</div>
+      <h2 class="today-workout-title">${w.title}</h2>
+      <div class="today-workout-meta">
+        <span>Москва: <b>${sched.curDateStr} (${sched.dayName})</b></span>
+        <span>·</span>
+        <span>${w.meta}</span>
+      </div>
+      <div class="today-next-hint">Следующая тренировка по графику: <b>${sched.nextDayText}</b></div>
+      ${w.note ? `<div class="day-note" style="margin-top:10px;">${w.note}</div>` : ''}
+    </div>`;
+  }
+
+  let html = headerHtml;
+
   w.exercises.forEach((ex, exIdx) => {
     initExerciseSets(ex.name, ex);
     const sets = u.sessionSets[ex.name] || [];
@@ -1778,12 +2011,14 @@ function renderWorkoutScreen(){
     // Parse target rest seconds
     let restSec = 120;
     if (ex.rest.includes('1.5')) restSec = 90;
-    else if (ex.rest.includes('3')) restSec = 180;
+    else if (ex.rest.includes('3')) restSec = 150;
+    else if (ex.rest.includes('1')) restSec = 60;
     
-    html += `<div class="ex-card">
-      <div class="ex-card-header">
-        <div class="ex-icon">${iconSvg(ex.cat)}</div>
-        <div class="ex-header-body">
+    html += `
+    <div class="exercise-card" id="card-ex-${exIdx}">
+      <div class="ex-header">
+        <div class="ex-num">${exIdx + 1}</div>
+        <div style="flex:1;">
           <div class="ex-title">${ex.name}</div>
           <div class="ex-targets">
             <span class="target-badge">${ex.sets}</span>
@@ -1878,7 +2113,7 @@ function renderWorkoutScreen(){
   });
   
   html += `<div class="finish-workout-box">
-    <button class="btn-finish" onclick="finishCurrentWorkout()">Завершить тренировку</button>
+    <button class="btn-finish" onclick="finishCurrentWorkout('${key}')">Завершить тренировку</button>
   </div>`;
   
   document.getElementById('main').innerHTML = html;
@@ -1889,7 +2124,6 @@ function renderWorkoutScreen(){
   // Setup intersection observer & lazy playback for videos
   setupVideoObserver();
 }
-
 
 /* ================== VIDEO OBSERVER & PLAYBACK ================== */
 let videoObserver = null;
@@ -2331,7 +2565,7 @@ function switchMainTab(tab){
   window.scrollTo(0, 0);
 }
 
-function switchWorkoutDay(dayKey){
+function switchWorkoutDay_legacy(dayKey){
   const u = getCurUser();
   u.activeDay = dayKey;
   saveState();
