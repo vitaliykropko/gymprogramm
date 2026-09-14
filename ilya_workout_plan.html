@@ -2551,16 +2551,16 @@ function switchMainTab(tab){
     btn.classList.toggle('active', btn.dataset.tab === tab);
   });
   
-  const subtabs = document.getElementById('workout-subtabs');
   if (tab === 'workout') {
-    subtabs.style.display = 'flex';
     renderWorkoutScreen();
-  } else {
-    subtabs.style.display = 'none';
-    if (tab === 'calc') renderCalculatorScreen();
-    else if (tab === 'progress') renderProgressScreen();
-    else if (tab === 'nutrition') renderNutritionScreen();
-    else if (tab === 'profile') renderProfileScreen();
+  } else if (tab === 'calc') {
+    renderCalculatorScreen();
+  } else if (tab === 'progress') {
+    renderProgressScreen();
+  } else if (tab === 'nutrition') {
+    renderNutritionScreen();
+  } else if (tab === 'profile') {
+    renderProfileScreen();
   }
   window.scrollTo(0, 0);
 }
