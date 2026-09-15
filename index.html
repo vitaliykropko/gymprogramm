@@ -2207,7 +2207,7 @@ function iconSvg(cat){
 // Offline Service Worker & Persistent Storage Registration
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=9').then(reg => {
+    navigator.serviceWorker.register('./sw.js?v=10').then(reg => {
       reg.update();
       reg.onupdatefound = () => {
         const installingWorker = reg.installing;
@@ -3377,18 +3377,20 @@ function renderWorkoutForDay(key, isPreview = false){
     
     <!-- GIF VIDEO -->
     ${ex.video ? `
-    <div class="ex-video-box is-paused" onclick="toggleVideoPlayback(this)">
+    <div class="ex-video-box" onclick="toggleVideoPlayback(this)">
       <video 
         src="${ex.video}" 
+        autoplay 
         playsinline 
         webkit-playsinline 
         muted 
+        defaultmuted
         loop 
-        preload="metadata" 
+        preload="auto" 
         poster="${ex.thumb || ''}"
         onwaiting="this.parentElement.classList.add('is-buffering')"
         onplaying="this.parentElement.classList.remove('is-buffering', 'is-paused'); const h=this.parentElement.querySelector('.video-tap-hint'); if(h) h.textContent='⏸ Пауза';"
-        onpause="this.parentElement.classList.add('is-paused'); const h=this.parentElement.querySelector('.video-tap-hint'); if(h) h.textContent='▶ Нажмите для запуска';"
+        onpause="this.parentElement.classList.add('is-paused'); const h=this.parentElement.querySelector('.video-tap-hint'); if(h) h.textContent='▶ Запустить';"
         onerror="handleVideoError(this)"
       ></video>
       <div class="video-play-btn" title="Воспроизвести">
@@ -4371,6 +4373,30 @@ function skipFirstLaunchProfile(){
 /* ================== VIDEO OBSERVER & PLAYBACK ================== */
 let videoObserver = null;
 
+function startCurrentExerciseVideo() {
+  const box = document.querySelector('.ex-video-box');
+  if (!box) return;
+  const video = box.querySelector('video');
+  if (!video) return;
+  
+  video.muted = true;
+  video.defaultMuted = true;
+  video.playsInline = true;
+  
+  const playPromise = video.play();
+  if (playPromise !== undefined) {
+    playPromise.then(() => {
+      box.classList.remove('is-paused', 'is-buffering');
+      const hint = box.querySelector('.video-tap-hint');
+      if (hint) hint.textContent = '⏸ Пауза';
+    }).catch(() => {
+      box.classList.add('is-paused');
+      const hint = box.querySelector('.video-tap-hint');
+      if (hint) hint.textContent = '▶ Нажмите для запуска';
+    });
+  }
+}
+
 function setupVideoObserver() {
   if (videoObserver) {
     videoObserver.disconnect();
@@ -4384,15 +4410,27 @@ function setupVideoObserver() {
       const video = box.querySelector('video');
       if (!video) return;
 
-      if (!entry.isIntersecting) {
+      if (entry.isIntersecting) {
+        video.muted = true;
+        const p = video.play();
+        if (p !== undefined) {
+          p.then(() => {
+            box.classList.remove('is-paused', 'is-buffering');
+          }).catch(() => {
+            box.classList.add('is-paused');
+          });
+        }
+      } else {
         if (!video.paused) {
           video.pause();
+          box.classList.add('is-paused');
         }
       }
     });
-  }, { threshold: 0.25 });
+  }, { threshold: 0.15 });
 
   videoBoxes.forEach(box => videoObserver.observe(box));
+  startCurrentExerciseVideo();
 }
 
 function toggleVideoPlayback(box) {
@@ -4404,14 +4442,22 @@ function toggleVideoPlayback(box) {
       if (v !== video && !v.paused) v.pause();
     });
 
+    video.muted = true;
     const playPromise = video.play();
     if (playPromise !== undefined) {
-      playPromise.catch(() => {
+      playPromise.then(() => {
+        box.classList.remove('is-paused', 'is-buffering');
+        const hint = box.querySelector('.video-tap-hint');
+        if (hint) hint.textContent = '⏸ Пауза';
+      }).catch(() => {
         box.classList.add('is-paused');
       });
     }
   } else {
     video.pause();
+    box.classList.add('is-paused');
+    const hint = box.querySelector('.video-tap-hint');
+    if (hint) hint.textContent = '▶ Запустить';
   }
 }
 
@@ -4424,6 +4470,25 @@ function handleVideoError(video) {
   if (errBanner) errBanner.style.display = 'flex';
   const playBtn = box.querySelector('.video-play-btn');
   if (playBtn) playBtn.style.display = 'none';
+}
+
+// Global user interaction unlock for iOS Safari & Android WebKit
+if (typeof window !== 'undefined' && window.addEventListener) {
+  window.addEventListener('touchstart', function unlockVideoAutoplay() {
+    const v = document.querySelector('.ex-video-box video');
+    if (v && v.paused) {
+      v.muted = true;
+      v.play().catch(() => {});
+    }
+  }, { once: true, passive: true });
+
+  window.addEventListener('click', function unlockVideoAutoplayClick() {
+    const v = document.querySelector('.ex-video-box video');
+    if (v && v.paused) {
+      v.muted = true;
+      v.play().catch(() => {});
+    }
+  }, { once: true, passive: true });
 }
 
 function exportDataJSON(){
