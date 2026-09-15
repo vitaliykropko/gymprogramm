@@ -2207,7 +2207,7 @@ function iconSvg(cat){
 // Offline Service Worker & Persistent Storage Registration
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=7').then(reg => {
+    navigator.serviceWorker.register('./sw.js?v=8').then(reg => {
       reg.update();
       reg.onupdatefound = () => {
         const installingWorker = reg.installing;
@@ -4337,6 +4337,42 @@ function updateHeaderUI(){
       hSubtitle.textContent = `${name} · настройте данные в Профиле`;
     }
   }
+}
+
+
+/* ================== TAB SWITCHER ================== */
+function switchMainTab(tab){
+  appState.activeTab = tab;
+  saveState();
+  
+  document.querySelectorAll('.nav-item').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tab);
+  });
+  
+  try {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  } catch(e){}
+  
+  if (tab === 'workout') {
+    renderWorkoutScreen();
+  } else if (tab === 'optimal' || tab === 'calc') {
+    renderOptimalWeightScreen();
+  } else if (tab === 'progress') {
+    renderProgressScreen();
+  } else if (tab === 'calendar' || tab === 'nutrition') {
+    renderCalendarScreen();
+  } else if (tab === 'profile') {
+    renderProfileScreen();
+  }
+}
+
+function skipFirstLaunchProfile(){
+  try {
+    localStorage.setItem(PROFILE_SAVED_KEY, 'true');
+  } catch(e){}
+  const modal = document.getElementById('first-launch-modal');
+  if (modal) modal.style.display = 'none';
+  renderWorkoutScreen();
 }
 
 /* ================== VIDEO OBSERVER & PLAYBACK ================== */
