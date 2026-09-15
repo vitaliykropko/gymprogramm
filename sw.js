@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gym-tracker-v3';
+const CACHE_NAME = 'gym-tracker-v4';
 const ASSETS = [
   './',
   './index.html',
@@ -6,8 +6,9 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', event => {
+  self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
   );
 });
 
@@ -21,20 +22,36 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
-  
+  const url = new URL(event.request.url);
+
+  // Network-First for HTML navigation documents so updates show up immediately
+  if (event.request.mode === 'navigate' || event.request.destination === 'document' || url.pathname.endsWith('.html') || url.pathname.endsWith('/')) {
+    event.respondWith(
+      fetch(event.request).then(response => {
+        if (response && response.status === 200) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+        }
+        return response;
+      }).catch(() => {
+        return caches.match(event.request).then(cached => cached || caches.match('./index.html'));
+      })
+    );
+    return;
+  }
+
+  // Cache-First for static assets (videos, images, icons)
   event.respondWith(
     caches.match(event.request).then(cached => {
       if (cached) return cached;
-      return fetch(event.request).then(resp => {
-        if (resp && resp.status === 200 && event.request.url.startsWith(self.location.origin)) {
-          const clone = resp.clone();
-          caches.open(CACHE_NAME).then(c => c.put(event.request, clone));
+      return fetch(event.request).then(response => {
+        if (response && response.status === 200 && event.request.url.startsWith(self.location.origin)) {
+          const clone = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
         }
-        return resp;
-      }).catch(() => {
-        if (event.request.mode === 'navigate') {
-          return caches.match('./index.html') || caches.match('./');
-        }
+        return response;
+      }).catch(err => {
+        console.warn('Offline fetch failed:', event.request.url);
       });
     })
   );

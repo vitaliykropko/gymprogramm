@@ -2216,7 +2216,28 @@ function iconSvg(cat){
 // Offline Service Worker & Persistent Storage Registration
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(e => console.warn('SW:', e));
+    navigator.serviceWorker.register('./sw.js?v=4').then(reg => {
+      reg.update();
+      reg.onupdatefound = () => {
+        const installingWorker = reg.installing;
+        if (installingWorker) {
+          installingWorker.onstatechange = () => {
+            if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              console.log('New version available, auto-updating...');
+              window.location.reload();
+            }
+          };
+        }
+      };
+    }).catch(e => console.warn('SW:', e));
+
+    let refreshing = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!refreshing) {
+        refreshing = true;
+        window.location.reload();
+      }
+    });
   });
 }
 if (navigator.storage && navigator.storage.persist) {
