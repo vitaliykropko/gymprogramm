@@ -6,6 +6,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Фитнес Трекер">
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#12110d">
 <title>Фитнес Трекер: Прогресс & Веса</title>
 <style>
@@ -1614,6 +1616,19 @@ const iconPaths = {
 
 function iconSvg(cat){
   return `<svg viewBox="0 0 60 78" data-cat="${cat}">${iconPaths[cat] || ''}</svg>`;
+}
+
+
+// Offline Service Worker & Persistent Storage Registration
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(e => console.warn('SW:', e));
+  });
+}
+if (navigator.storage && navigator.storage.persist) {
+  navigator.storage.persist().then(granted => {
+    console.log('Persistent storage granted:', granted);
+  }).catch(() => {});
 }
 
 /* ================== APP STATE & LOCALSTORAGE ================== */
