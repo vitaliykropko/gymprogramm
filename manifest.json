@@ -5,8 +5,8 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#12110d",
-  "theme_color": "#12110d",
+  "background_color": "#07080B",
+  "theme_color": "#07080B",
   "icons": [
     {
       "src": "thumbs/zhim-shtangi-lezha.jpg",

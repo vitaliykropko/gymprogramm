@@ -1403,6 +1403,508 @@
     cursor: pointer;
   }
 
+
+  /* ================== EXERCISE PAGER & CAROUSEL ================== */
+  .ex-pager-bar {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  }
+  .pager-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .pager-count-badge {
+    font-size: 12px;
+    font-weight: 900;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .pager-count-badge b {
+    color: var(--cyan);
+  }
+  .pager-nav-btns {
+    display: flex;
+    gap: 6px;
+  }
+  .btn-pager-nav {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--chalk);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .btn-pager-nav:hover:not(:disabled) {
+    background: var(--surface-3);
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+  .btn-pager-nav:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .pager-segments {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+  }
+  .pager-seg {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--surface-3);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .pager-seg.active {
+    background: var(--cyan);
+    box-shadow: 0 0 10px var(--cyan-glow);
+  }
+  .pager-seg.completed {
+    background: var(--red);
+    box-shadow: 0 0 6px var(--red-dim);
+  }
+  .pager-seg.completed.active {
+    background: linear-gradient(90deg, var(--red) 0%, var(--cyan) 100%);
+    box-shadow: 0 0 10px var(--cyan-glow);
+  }
+
+  .btn-next-ex {
+    width: 100%;
+    background: var(--surface-3);
+    border: 1.5px solid var(--cyan);
+    color: #ffffff;
+    padding: 13px 16px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 900;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 18px rgba(0, 240, 255, 0.15);
+    transition: all 0.15s ease;
+    margin-top: 12px;
+  }
+  .btn-next-ex:hover, .btn-next-ex:active {
+    background: var(--cyan);
+    color: #07080b;
+    box-shadow: 0 0 20px var(--cyan-glow);
+    transform: translateY(-1px);
+  }
+
+  /* ================== TWIN TARGET & REST BADGES ================== */
+  .ex-targets {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .target-badge, .rest-badge {
+    height: 26px;
+    padding: 0 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11.5px;
+    font-weight: 800;
+    border-radius: 6px;
+    box-sizing: border-box;
+    line-height: 1;
+    letter-spacing: 0.3px;
+  }
+  .target-badge {
+    background: rgba(0, 240, 255, 0.1);
+    border: 1px solid rgba(0, 240, 255, 0.4);
+    color: var(--cyan);
+    box-shadow: 0 0 8px rgba(0, 240, 255, 0.15);
+  }
+  .rest-badge {
+    background: var(--surface-3);
+    border: 1px solid var(--line);
+    color: var(--chalk-dim);
+  }
+
+  /* ================== ANATOMY & TECHNIQUE ACCORDION ================== */
+  .anatomy-accordion {
+    margin: 4px 14px 12px;
+  }
+  .anatomy-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(14, 18, 26, 0.6);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    color: var(--chalk-dim);
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .anatomy-toggle:hover, .anatomy-toggle.open {
+    background: var(--surface-2);
+    border-color: rgba(0, 240, 255, 0.3);
+    color: #ffffff;
+  }
+  .anatomy-toggle-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .anatomy-toggle-left .icon {
+    font-size: 14px;
+  }
+  .anatomy-arrow {
+    font-size: 10px;
+    color: var(--cyan);
+    transition: transform 0.2s ease;
+  }
+  .anatomy-toggle.open .anatomy-arrow {
+    transform: rotate(180deg);
+  }
+  .anatomy-box {
+    background: #090c13;
+    border: 1px solid var(--line);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 12px 14px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    animation: fadeIn 0.2s ease-out;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .anat-block {
+    margin-bottom: 10px;
+  }
+  .anat-block:last-child {
+    margin-bottom: 0;
+  }
+  .anat-lbl {
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--cyan);
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .anat-lbl.warning {
+    color: var(--red);
+  }
+  .anat-text {
+    color: var(--chalk-dim);
+    font-size: 12px;
+  }
+  .anat-text b {
+    color: #ffffff;
+  }
+  .anat-steps {
+    margin: 4px 0 0;
+    padding-left: 18px;
+    color: var(--chalk-dim);
+    font-size: 12px;
+  }
+  .anat-steps li {
+    margin-bottom: 3px;
+  }
+
+  /* ================== CALENDAR TAB ================== */
+  .calendar-container {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .cal-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .cal-month-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+  }
+  .cal-nav-btn {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--chalk);
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .cal-nav-btn:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+  .cal-stats-ribbon {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .cal-stat-pill {
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 8px 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  .cal-stat-pill .lbl {
+    font-size: 9.5px;
+    text-transform: uppercase;
+    color: var(--steel);
+    font-weight: 800;
+  }
+  .cal-stat-pill .val {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--cyan);
+  }
+  .cal-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--steel);
+    margin-bottom: 8px;
+  }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+  }
+  .cal-cell {
+    aspect-ratio: 1;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s ease;
+  }
+  .cal-cell.empty {
+    background: transparent;
+    border-color: transparent;
+    cursor: default;
+  }
+  .cal-cell.today {
+    border-color: var(--cyan);
+    box-shadow: 0 0 8px var(--cyan-dim);
+  }
+  .cal-cell.has-workout {
+    background: rgba(255, 42, 95, 0.12);
+    border-color: rgba(255, 42, 95, 0.45);
+  }
+  .cal-cell.selected {
+    background: var(--surface-3);
+    border-color: var(--cyan);
+  }
+  .cal-cell-num {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--chalk);
+  }
+  .cal-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--red);
+    box-shadow: 0 0 6px var(--red);
+  }
+
+  .cal-session-drawer {
+    background: #090c13;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    margin-top: 14px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.5);
+  }
+
+  /* ================== METRICS DASHBOARD (PROGRESS TAB) ================== */
+  .metrics-dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .metric-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+  .metric-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--cyan) 0%, transparent 100%);
+  }
+  .metric-card.red::after {
+    background: linear-gradient(90deg, var(--red) 0%, transparent 100%);
+  }
+  .metric-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .metric-label {
+    font-size: 10.5px;
+    font-weight: 800;
+    color: var(--steel);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .metric-icon {
+    font-size: 15px;
+  }
+  .metric-val {
+    font-size: 22px;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.1;
+  }
+  .metric-sub {
+    font-size: 11px;
+    color: var(--chalk-dim);
+    margin-top: 3px;
+  }
+
+  /* ================== OPTIMAL WEIGHT SCIENTIFIC CALCULATOR ================== */
+  .athlete-stats-card {
+    background: linear-gradient(135deg, rgba(0, 240, 255, 0.08) 0%, rgba(255, 42, 95, 0.06) 100%);
+    border: 1px solid rgba(0, 240, 255, 0.3);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    margin-bottom: 16px;
+  }
+  .athlete-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .athlete-stat-item {
+    background: rgba(14, 18, 26, 0.7);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 6px 8px;
+    text-align: center;
+  }
+  .athlete-stat-item .l {
+    font-size: 9.5px;
+    text-transform: uppercase;
+    color: var(--steel);
+    font-weight: 800;
+  }
+  .athlete-stat-item .v {
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--cyan);
+  }
+
+  /* ================== WEIGHT TRACKER (PROFILE TAB) ================== */
+  .weight-tracker-box {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+  }
+  .quick-weight-steppers {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .btn-weight-step {
+    flex: 1;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--chalk);
+    border-radius: 6px;
+    padding: 8px 4px;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .btn-weight-step:hover, .btn-weight-step:active {
+    background: var(--surface-3);
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+  .weight-history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin-top: 10px;
+  }
+  .weight-history-table th {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    color: var(--steel);
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--line);
+  }
+  .weight-history-table td {
+    padding: 8px;
+    border-bottom: 1px solid rgba(32, 41, 59, 0.4);
+    color: var(--chalk);
+  }
+  .weight-history-table tr:last-child td {
+    border-bottom: none;
+  }
+
 </style>
 </head>
 <body>
@@ -1410,13 +1912,13 @@
 <!-- TOP BAR -->
 <header class="top-header">
   <div class="header-left">
-    <h1 id="app-title">План на массу</h1>
+    <h1 id="app-title">Фитнес трекер</h1>
     <div class="meta" id="app-subtitle">Илья · 178 см · 67 кг</div>
   </div>
-  <div class="account-switcher" id="user-switcher-btn" onclick="toggleUserModal()">
-    <div class="avatar-badge" id="header-avatar">И</div>
-    <span class="account-name" id="header-username">Илья</span>
-    <span class="account-arrow">▼</span>
+  <div class="account-switcher" id="user-switcher-btn" onclick="switchMainTab('profile')" title="Открыть профиль и трекер веса">
+    <div class="avatar-badge" id="header-avatar">👤</div>
+    <span class="account-name" id="header-username">Атлет</span>
+    <span class="account-arrow">⚙️</span>
   </div>
 </header>
 
@@ -1443,44 +1945,25 @@
     <span class="nav-icon">🏋️</span>
     <span class="nav-label">Тренинг</span>
   </button>
-  <button class="nav-item" data-tab="calc" onclick="switchMainTab('calc')">
-    <span class="nav-icon">🧮</span>
-    <span class="nav-label">1ПМ & Веса</span>
+  <button class="nav-item" data-tab="optimal" onclick="switchMainTab('optimal')">
+    <span class="nav-icon">🎯</span>
+    <span class="nav-label">Оптим. вес</span>
   </button>
   <button class="nav-item" data-tab="progress" onclick="switchMainTab('progress')">
-    <span class="nav-icon">📈</span>
-    <span class="nav-label">Прогресс</span>
+    <span class="nav-icon">📊</span>
+    <span class="nav-label">Метрики</span>
   </button>
-  <button class="nav-item" data-tab="nutrition" onclick="switchMainTab('nutrition')">
-    <span class="nav-icon">🥗</span>
-    <span class="nav-label">Питание</span>
+  <button class="nav-item" data-tab="calendar" onclick="switchMainTab('calendar')">
+    <span class="nav-icon">📅</span>
+    <span class="nav-label">Календарь</span>
   </button>
   <button class="nav-item" data-tab="profile" onclick="switchMainTab('profile')">
-    <span class="nav-icon">⚙️</span>
+    <span class="nav-icon">👤</span>
     <span class="nav-label">Профиль</span>
   </button>
 </nav>
 
-<!-- PROFILE SWITCH / EDIT MODAL -->
-<div class="modal-backdrop" id="user-modal">
-  <div class="modal-box">
-    <h3 id="modal-heading" style="text-align:center; font-size:18px; margin-top:0;">Кто тренируется?</h3>
-    <p style="text-align:center; font-size:12.5px; color:var(--chalk-dim); margin-top:-6px; margin-bottom:16px;">
-      У каждого атлета свои веса, подходы, рекорды и история
-    </p>
-    
-    <div style="display:flex; gap:12px; margin-bottom:16px;">
-      <div class="user-select-card" id="card-u1" onclick="selectAccount('user1')">
-        <div class="user-select-avatar">В</div>
-        <b id="modal-name-u1" style="font-size:16px;">Виталик</b>
-        <span id="modal-stats-u1" style="font-size:11px; color:var(--chalk-dim);">Атлет 1</span>
-      </div>
-      <div class="user-select-card" id="card-u2" onclick="selectAccount('user2')">
-        <div class="user-select-avatar">И</div>
-        <b id="modal-name-u2" style="font-size:16px;">Илья</b>
-        <span id="modal-stats-u2" style="font-size:11px; color:var(--chalk-dim);">Атлет 2</span>
-      </div>
-    </div>
+
     
     <div style="border-top:1px solid var(--line); padding-top:12px;">
       <h4 style="margin:0 0 10px; font-size:14px; color:var(--steel);">Настройки активного профиля</h4>
@@ -1504,89 +1987,89 @@
 const workouts = {
   verh1: { title:"Верх 1", meta:"7 упражнений · ~90 мин", exercises:[
     {name:"Жим штанги лёжа", sets:"3×6-8", rest:"2-3 мин", cat:"bench", weight:"неделя 1: ~50 кг",
-      url:"https://gymkee.com/exercises/chest/barbell-bench-press/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4n7j0000fo4821ir7kz7/p2c6485llgsltdh5zym1wwdm/h264-h42t6q9q87ut62y1k65hogLIBRE-DEVCOUCHEBARRE-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/4fbhybl6z4u1c15bbbi4t7thumbnail-1755173799414.jpg", tips:[
+      url:"https://gymkee.com/exercises/chest/barbell-bench-press/", video:"videos/zhim-shtangi-lezha.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/4fbhybl6z4u1c15bbbi4t7thumbnail-1755173799414.jpg", tips:[
       "Лопатки сведены и опущены к тазу — мост в пояснице","Опускай гриф на низ груди, локти 45-60° к корпусу"]},
     {name:"Тяга штанги в наклоне", sets:"3×8-10", rest:"2-3 мин", cat:"row", weight:"неделя 1: ~46 кг",
-      url:"https://gymkee.com/exercises/lats/barbell-bent-over-row/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4nmb0008fo48a1pdamxj/ju7uwamfy57s4zeuzsjwwd4b/h264-u65iw922fkfnek2mxyhzylBARRELIBRE-TIRAGEPRISE1-HOMME-CAM2-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/7y8g9kzeadk3duxl4c6g5dthumbnail-1755166117332.jpg", tips:[
+      url:"https://gymkee.com/exercises/lats/barbell-bent-over-row/", video:"videos/tyaga-shtangi-v-naklone.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/7y8g9kzeadk3duxl4c6g5dthumbnail-1755166117332.jpg", tips:[
       "Наклон корпуса ~45°, тяни к низу живота","Чередуй прямой и обратный хват от тренировки к тренировке"]},
     {name:"Жим гантелей на наклонной 30°", sets:"3×10-12", rest:"2 мин", cat:"bench",
-      url:"https://gymkee.com/exercises/chest/incline-dumbbell-bench-press/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4vtq0074fo48drr53rtp/nkrpr8047odmj2xzuh2t4pat/h264-ew136z2hsx6nybi18dakkkDBL-2-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/pu57y8cbjajxrmwi7dpbwthumbnail-1754478164514.jpg", tips:[
+      url:"https://gymkee.com/exercises/chest/incline-dumbbell-bench-press/", video:"videos/zhim-ganteley-naklon-30.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/pu57y8cbjajxrmwi7dpbwthumbnail-1754478164514.jpg", tips:[
       "Угол скамьи 30°, локти слегка внутрь"]},
     {name:"Тяга верхнего блока", sets:"3×10-12", rest:"2 мин", cat:"pulldown",
-      url:"https://gymkee.com/exercises/lats/lat-pulldown/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4p4o001jfo48617i49hz/tb1i18p2nn799bq1kxzxshdk/h264-iq2qya9dd1ogkasq0qq4POULIE-TIRAGEHORIZON2-CAM1-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/kx4kf9eki1dtnqkw08c4fthumbnail-1755202035798.jpg", tips:[
+      url:"https://gymkee.com/exercises/lats/lat-pulldown/", video:"videos/tyaga-verhnego-bloka.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/kx4kf9eki1dtnqkw08c4fthumbnail-1755202035798.jpg", tips:[
       "Корпус назад на 15-20°, зафиксирован","Начинай с опускания плеч, тяни к ключицам — не за голову"]},
     {name:"Махи гантелями в стороны", sets:"3×12-15", rest:"1.5 мин", cat:"lateral",
-      url:"https://gymkee.com/exercises/shoulders/dumbbell-lateral-raise/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4tge0054fo4898xo3ep0/odynbrnxsg7d2bi67ky5z3db/h264-r5wikhvz4xz16ha0q5svhDBL-7-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/mxm76x7fvkc5qh5igwfngothumbnail-1754759299893.jpg", tips:[
+      url:"https://gymkee.com/exercises/shoulders/dumbbell-lateral-raise/", video:"videos/mahi-gantelyami-v-storony.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/mxm76x7fvkc5qh5igwfngothumbnail-1754759299893.jpg", tips:[
       "Руки слегка согнуты, без рывков"]},
     {name:"Подъём штанги на бицепс", sets:"3×10-12", rest:"1.5 мин", cat:"armcurl",
-      url:"https://gymkee.com/exercises/biceps/barbell-curl-straight-bar/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4t7b004wfo48h1fc42hg/c4hs12p78w3mlcoj4mizu35a/h264-jpgedopjze61lu32wmgguBARBELL-CURL1-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/aardnmg09yn5idtbj1y5nithumbnail-1755101186895.jpg", tips:[
+      url:"https://gymkee.com/exercises/biceps/barbell-curl-straight-bar/", video:"videos/podyom-shtangi-na-biceps.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/aardnmg09yn5idtbj1y5nithumbnail-1755101186895.jpg", tips:[
       "Локти прижаты к корпусу"]},
     {name:"Разгибания рук с канатом", sets:"3×10-12", rest:"1.5 мин", cat:"armext",
-      url:"https://gymkee.com/exercises/triceps/cable-triceps-pushdown-rope/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4xdb008efo485olu9s8b/hwng5tmhk7uyjin5yssf5709/h264-tbs4l3roak8rhrtiw0k8apPOULIE-CORDEEXT-CAM1-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/8qhmgpssplycbhdjusesothumbnail-1755198059186.jpg", tips:[
+      url:"https://gymkee.com/exercises/triceps/cable-triceps-pushdown-rope/", video:"videos/razgibaniya-ruk-s-kanatom.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/8qhmgpssplycbhdjusesothumbnail-1755198059186.jpg", tips:[
       "В нижней точке разводи кисти в стороны"]},
   ], note:"Дошёл до верхней границы повторений во всех подходах — на следующей тренировке этого дня добавляй 1.25-2.5 кг с каждой стороны."},
 
   niz1: { title:"Низ 1", meta:"6 упражнений · ~80 мин", exercises:[
     {name:"Присед в Смите", sets:"3×8-10", rest:"2-3 мин", cat:"squat", weight:"неделя 1: ~40 кг",
-      url:"https://gymkee.com/exercises/quadriceps/barbell-squat/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4x620088fo488ucndx0u/ga0gth7plpv665clbsfk6m86/h264-4zadvk9m3t54lqdzrnogjoBARRELIBRE-SQUAT-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/mq9ku3v56hgvkt44781dothumbnail-1755157497618.jpg", tips:[
+      url:"https://gymkee.com/exercises/quadriceps/barbell-squat/", video:"videos/prised-v-smite.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/mq9ku3v56hgvkt44781dothumbnail-1755157497618.jpg", tips:[
       "Стопы на полшага вперёд от грифа — голень перпендикулярна полу","Так снимается сдвигающая нагрузка с колен, давишь пяткой",
       "Видео показывает свободный присед — суть постановки стоп та же, просто в Смите гриф движется по прямой"]},
     {name:"Жим ногами (стопы по центру)", sets:"3×10-12", rest:"2-3 мин", cat:"legpress",
-      url:"https://gymkee.com/exercises/quadriceps/leg-press/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4qs1002yfo48fd9r5k2q/vvh97n73yf5835xqnrka2cdp/h264-2u9j1f7hz0db0fofh1c4n6MACHINE-LEGPRESS-CLASSIQUE-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/fo6hzyzt60jfez6jc45nirthumbnail-1755187528944.jpg", tips:[
+      url:"https://gymkee.com/exercises/quadriceps/leg-press/", video:"videos/zhim-nogami-centr.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/fo6hzyzt60jfez6jc45nirthumbnail-1755187528944.jpg", tips:[
       "Опускай платформу до угла 90° в коленях, не глубже","В верхней точке не блокируй колени"]},
     {name:"Румынская тяга с гантелями", sets:"3×10-12", rest:"2 мин", cat:"hinge",
-      url:"https://gymkee.com/exercises/hamstrings/dumbbell-romanian-deadlift/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4ts1005efo485c658suw/j91lim52qxa60klym9wziumq/h264-0p2bwnirr0pokg8bxxrf08pDBL-35-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/zpymrj4zw2d6i6lqu2a2jthumbnail-1754919529408.jpg", tips:[
+      url:"https://gymkee.com/exercises/hamstrings/dumbbell-romanian-deadlift/", video:"videos/rumynskaya-tyaga-ganteli.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/zpymrj4zw2d6i6lqu2a2jthumbnail-1754919529408.jpg", tips:[
       "Таз назад, колени чуть согнуты, спина жёсткая","Гантели скользят по ногам, не отрываются вперёд"]},
     {name:"Сгибания ног в тренажёре", sets:"3×12-15", rest:"1.5 мин", cat:"legcurl",
-      url:"https://gymkee.com/exercises/hamstrings/seated-leg-curl/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4s1e003wfo48hczvaclh/y67errewy6xh7yd2os0w54oe/h264-xtv2kr58euhqrmyfeqldeMACHINE-LEGCURL2-CAM1-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/ei9f518edh76abvevpl63tthumbnail-1754222766226.jpg", tips:[
+      url:"https://gymkee.com/exercises/hamstrings/seated-leg-curl/", video:"videos/sgibaniya-nog-trenazher.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/ei9f518edh76abvevpl63tthumbnail-1754222766226.jpg", tips:[
       "Контролируй опускание, без рывков"]},
     {name:"Подъём на носки стоя", sets:"4×15-20", rest:"1.5 мин", cat:"calf",
-      url:"https://gymkee.com/exercises/calves/calf-extension-machine/", video:"https://cdn.gymkee.io/gymkee/exercises/n6xz0ppgxh0czid5il8eoq2c/qy6xoza33fynaucf0zzcsosr/h264-rgmj8j7h40dcx8tkeri7u9MACHINE-MOLLET-CAM1-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/uee864dqac3vyrppjm5hthumbnail-1754223336624.jpg", tips:[
+      url:"https://gymkee.com/exercises/calves/calf-extension-machine/", video:"videos/podyom-na-noski-stoya.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/uee864dqac3vyrppjm5hthumbnail-1754223336624.jpg", tips:[
       "Пауза и глубокое растяжение внизу"]},
     {name:"Скручивания на пресс", sets:"3×15-20", rest:"1.5 мин", cat:"crunch",
-      url:"https://gymkee.com/exercises/abs/crunch/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4u55005pfo487s8h4x26/b6jjcp2iztgfzetb4lwtz94p/h264-l6ak0fqv0yqh0y62maum57BW-11-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/mqt8td34b2k9e28a9j0r2ithumbnail-1754661679035.jpg", tips:[
+      url:"https://gymkee.com/exercises/abs/crunch/", video:"videos/skruchivaniya-press.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/mqt8td34b2k9e28a9j0r2ithumbnail-1754661679035.jpg", tips:[
       "Поясница прижата к полу, без рывков"]},
   ], note:"Та же логика прогрессии: закрыл все подходы по верхней границе — следующая тренировка этого дня чуть тяжелее."},
 
   verh2: { title:"Верх 2", meta:"7 упражнений · ~90 мин", exercises:[
     {name:"Жим гантелей сидя (плечи)", sets:"3×8-10", rest:"2-3 мин", cat:"shoulder",
-      url:"https://www.bodybuilding.com/exercises/dumbbell-shoulder-press", video:"https://shop.bodybuilding.com/cdn/shop/videos/c/vp/f54ea90190f942dfb363d67420bde85f/f54ea90190f942dfb363d67420bde85f.HD-1080p-2.5Mbps-65228975.mp4", thumb:"https://shop.bodybuilding.com/cdn/shop/files/preview_images/f54ea90190f942dfb363d67420bde85f.thumbnail.0000000000_1920x.jpg?v=1765833705", tips:[
+      url:"https://www.bodybuilding.com/exercises/dumbbell-shoulder-press", video:"videos/zhim-ganteley-sidya.mp4", thumb:"https://shop.bodybuilding.com/cdn/shop/files/preview_images/f54ea90190f942dfb363d67420bde85f.thumbnail.0000000000_1920x.jpg?v=1765833705", tips:[
       "Спинка скамьи 75-80°, не строго вертикально","Не бей гантели друг о друга в верхней точке"]},
     {name:"Тяга блока узким хватом", sets:"3×8-10", rest:"2-3 мин", cat:"pulldown",
-      url:"https://gymkee.com/exercises/lats/lat-pulldown-v-bar/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4p70001lfo481i6xafdk/z1lozh75ah4gb4kzga7am5f1/h264-3ub66xr7dttfeoldzkmqzaPOULIE-TIRAGEHORIZON4-CAM1-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/b2zmlsahvx6i7jaceka53fthumbnail-1755202515314.jpg", tips:[
+      url:"https://gymkee.com/exercises/lats/lat-pulldown-v-bar/", video:"videos/tyaga-bloka-uzkim-hvatom.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/b2zmlsahvx6i7jaceka53fthumbnail-1755202515314.jpg", tips:[
       "V-рукоять, тяни к верхней части груди"]},
     {name:"Жим гантелей лёжа", sets:"3×8-10", rest:"2 мин", cat:"bench",
-      url:"https://gymkee.com/exercises/chest/dumbbell-bench-press/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4vmh006yfo483wku3kej/fewlvyr4zfuechs6ntmqhgqe/h264-ktfttdjprhupgj9jdajmDBL-1-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/pnn7d0feqgvwurwv6jjisthumbnail-1754477286866.jpg", tips:[
+      url:"https://gymkee.com/exercises/chest/dumbbell-bench-press/", video:"videos/zhim-ganteley-lezha.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/pnn7d0feqgvwurwv6jjisthumbnail-1754477286866.jpg", tips:[
       "Глубокая растяжка грудных в нижней точке"]},
     {name:"Тяга нижнего блока сидя", sets:"3×10-12", rest:"2 мин", cat:"cablerow",
-      url:"https://gymkee.com/exercises/lats/seated-row-lat-bar/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4q50002efo48gzti3v79/nup53bvzj8mr3ahtiaj9oe5i/h264-fjnlxtthd06gkqocbfewl5POULIE-TIRAGEASSIS2-CAM2-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/j8t726xlnem0bw0z19xq7ithumbnail-1755199306927.jpg", tips:[
+      url:"https://gymkee.com/exercises/lats/seated-row-lat-bar/", video:"videos/tyaga-nizhnego-bloka.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/j8t726xlnem0bw0z19xq7ithumbnail-1755199306927.jpg", tips:[
       "Поясница прямая, не скругляй","Тяни к низу живота, своди лопатки в конце"]},
     {name:"Махи гантелями в стороны", sets:"4×12-15", rest:"1.5 мин", cat:"lateral",
-      url:"https://gymkee.com/exercises/shoulders/dumbbell-lateral-raise/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4tge0054fo4898xo3ep0/odynbrnxsg7d2bi67ky5z3db/h264-r5wikhvz4xz16ha0q5svhDBL-7-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/mxm76x7fvkc5qh5igwfngothumbnail-1754759299893.jpg", tips:[]},
+      url:"https://gymkee.com/exercises/shoulders/dumbbell-lateral-raise/", video:"videos/mahi-gantelyami-v-storony.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/mxm76x7fvkc5qh5igwfngothumbnail-1754759299893.jpg", tips:[]},
     {name:"Молотковые сгибания", sets:"3×10-12", rest:"1.5 мин", cat:"armcurl",
-      url:"https://gymkee.com/exercises/biceps/dumbbell-hammer-curl/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4te40052fo48g4nsc1s8/cfgtr2j62usm9783hc4elzwr/h264-qn4vur62tsmxdc57cds3gDBL-19-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/ltg20l4bhfhv53vbae9g7thumbnail-1754812129140.jpg", tips:[
+      url:"https://gymkee.com/exercises/biceps/dumbbell-hammer-curl/", video:"videos/molotkovye-sgibaniya.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/ltg20l4bhfhv53vbae9g7thumbnail-1754812129140.jpg", tips:[
       "Нейтральный хват, ладони друг к другу"]},
     {name:"Французский жим гантели", sets:"3×10-12", rest:"1.5 мин", cat:"armext",
-      url:"https://gymkee.com/exercises/triceps/seated-overhead-dumbbell-triceps-extension/", video:"https://cdn.gymkee.io/gymkee/exercises/g93icu4jm4cepwcb3875pwqt/heceyrnnlkhoj7a4ibnxp0fm/h264-1t1zbkofiom2o6f9r9wch6DBL-237-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/20jqgq0ytxdfsc0ne9usoqthumbnail-1755095544072.jpg", tips:[
+      url:"https://gymkee.com/exercises/triceps/seated-overhead-dumbbell-triceps-extension/", video:"videos/francuzskiy-zhim-ganteli.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/20jqgq0ytxdfsc0ne9usoqthumbnail-1755095544072.jpg", tips:[
       "Сидя, из-за головы, локти неподвижны"]},
   ], note:"Прогрессия та же: 3 подхода по верхней границе повторов — плюс небольшой вес на следующей тренировке этого дня."},
 
   niz2: { title:"Низ 2", meta:"6 упражнений · ~80 мин", exercises:[
     {name:"Румынская тяга со штангой", sets:"3×8-10", rest:"2-3 мин", cat:"hinge",
-      url:"https://gymkee.com/exercises/hamstrings/romanian-deadlift/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4obt000ufo484p4p1kg2/oojlyjt77vskrpaoz9rib1g4/h264-wytbyroih9yxjr4am27bqBARRELIBRE-DEADLIFT2-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/ifvw7s8fgbkqk1o7myg1jthumbnail-1755109147881.jpg", tips:[
+      url:"https://gymkee.com/exercises/hamstrings/romanian-deadlift/", video:"videos/rumynskaya-tyaga-shtanga.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/ifvw7s8fgbkqk1o7myg1jthumbnail-1755109147881.jpg", tips:[
       "Спина жёсткая, таз максимально назад"]},
     {name:"Жим ногами (стопы высоко)", sets:"3×10-12", rest:"2-3 мин", cat:"legpress",
-      url:"https://gymkee.com/exercises/quadriceps/leg-press/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4qs1002yfo48fd9r5k2q/vvh97n73yf5835xqnrka2cdp/h264-2u9j1f7hz0db0fofh1c4n6MACHINE-LEGPRESS-CLASSIQUE-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/fo6hzyzt60jfez6jc45nirthumbnail-1755187528944.jpg", tips:[
+      url:"https://gymkee.com/exercises/quadriceps/leg-press/", video:"videos/zhim-nogami-vysoko.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/fo6hzyzt60jfez6jc45nirthumbnail-1755187528944.jpg", tips:[
       "Стопы у верхнего края платформы — акцент на заднюю поверхность бедра и ягодицы"]},
     {name:"Разгибания ног сидя", sets:"3×12-15", rest:"1.5 мин", cat:"legext",
-      url:"https://gymkee.com/exercises/quadriceps/leg-extension/", video:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/efsec0edsxpz9m32qzyfvMACHINE-LEGEXT-CAM1-HOMME-HORIZONTAL.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/pr6pk2pamhw191s8mhhdethumbnail-1754221893553.jpg", tips:[
+      url:"https://gymkee.com/exercises/quadriceps/leg-extension/", video:"videos/razgibaniya-nog-sidya.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/pr6pk2pamhw191s8mhhdethumbnail-1754221893553.jpg", tips:[
       "Пик-сокращение квадрицепса в верхней точке"]},
     {name:"Сгибания ног в тренажёре", sets:"3×10-12", rest:"1.5 мин", cat:"legcurl",
-      url:"https://gymkee.com/exercises/hamstrings/lying-leg-curl/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4sgu0049fo4879o5cw6l/cfn27t7xgd26e7hwspwbotmt/h264-eklmso7dgm5s662htlrvfhMACHINE-LEGCURL-CAM1-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/x7k36ohlx3ry4d75dv5p1cthumbnail-1754233839629.jpg", tips:[]},
+      url:"https://gymkee.com/exercises/hamstrings/lying-leg-curl/", video:"videos/sgibaniya-nog-trenazher.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/x7k36ohlx3ry4d75dv5p1cthumbnail-1754233839629.jpg", tips:[]},
     {name:"Подъём на носки сидя", sets:"3×15-20", rest:"1.5 мин", cat:"calf",
-      url:"https://gymkee.com/exercises/calves/seated-calf-raise/", video:"https://cdn.gymkee.io/gymkee/exercises/ckdpq4q8g002hfo48e1qj1pye/k3ssxh6mbctqimq8y62stqme/h264-2z665t9pnsvqah56yq8ldMACHINE-MOLLETEXT-HOMME-CAM1-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/csh6baugnoeryhkjmdq86thumbnail-1755190160112.jpg", tips:[]},
+      url:"https://gymkee.com/exercises/calves/seated-calf-raise/", video:"videos/podyom-na-noski-sidya.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/csh6baugnoeryhkjmdq86thumbnail-1755190160112.jpg", tips:[]},
     {name:"Подъём ног в висе", sets:"3×12-15", rest:"1.5 мин", cat:"hangraise",
-      url:"https://gymkee.com/exercises/abs/hanging-l-sit-hold/", video:"https://cdn.gymkee.io/gymkee/exercises/wqkq8n9md8vy95ij161u4hpx/agea3q2mnw6zj3ex7tpt17c9/h264-lpia4ay4bznrtpi07m20aBW-ABS-STANDING-CAM1-HOMME-HORIZONTAL_1080p.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/xseflm3algvtogujdh5adthumbnail-1754392100524.jpg", tips:[
+      url:"https://gymkee.com/exercises/abs/hanging-l-sit-hold/", video:"videos/podyom-nog-v-vise.mp4", thumb:"https://s3.eu-west-3.amazonaws.com/gymkee.users/admin/exercises/xseflm3algvtogujdh5adthumbnail-1754392100524.jpg", tips:[
       "Скручивай таз вверх, а не просто маши ногами"]},
   ], note:"Прогрессия та же логика."},
 };
@@ -1742,42 +2225,366 @@ if (navigator.storage && navigator.storage.persist) {
   }).catch(() => {});
 }
 
-/* ================== APP STATE & LOCALSTORAGE ================== */
-const STORAGE_KEY = 'workout_pwa_data_v1';
+/* ================== ANATOMY & TECHNIQUE DATABASE ================== */
+const exAnatomyData = {
+  "Жим штанги лёжа": {
+    "focus": "Горизонтальный жимовой вектор. Базовое полисуставное движение для гипертрофии грудных мышц с акцентом на механическое натяжение в нижней фазе.",
+    "primary": "Большая грудная мышца (стернальная и ключичная части)",
+    "secondary": "Передняя дельта, медиальная и латеральная головки трицепса, передняя зубчатая мышца",
+    "technique": [
+      "Лопатки плотно сведены и опущены к тазу, образуя устойчивый мост; стопы упираются в пол.",
+      "Снимите штангу и зафиксируйте над плечевыми суставами. Опускайте гриф подконтрольно (2-3 сек) на линию сосков.",
+      "Локти удерживайте под углом 45-60° к корпусу, не разводя в стороны под 90°.",
+      "На выдохе мощно выжмите штангу вверх по слегка дугообразной траектории, не отрывая таз от скамьи."
+    ],
+    "mistakes": "Разведение локтей на 90° (перегрузка плечевых суставов), отбив грифа от груди, отрыв таза, залом кистей."
+  },
+  "Тяга штанги в наклоне": {
+    "focus": "Горизонтальная тяга. Базовое упражнение для толщины спины, максимального включения широчайших мышц и ромбовидных при сведении лопаток.",
+    "primary": "Широчайшие мышцы спины, ромбовидные мышцы, средняя часть трапеции",
+    "secondary": "Задняя дельта, двуглавая мышца плеча (бицепс), плечелучевая, выпрямители позвоночника (статика)",
+    "technique": [
+      "Наклон корпуса ~45-50° с прямой спиной и лёгким сгибом в коленях, таз отведён назад.",
+      "Тяните гриф к низу живота за счёт движения локтей назад и сжатия лопаток, а не усилием бицепса.",
+      "В верхней точке сделайте паузу на 1 секунду для пикового сокращения мышц спины.",
+      "Плавно опускайте штангу вниз, полностью растягивая широчайшие мышцы в нижней точке."
+    ],
+    "mistakes": "Скругление поясницы, рывки корпусом (читинг), тяга к груди вместо низа живота."
+  },
+  "Жим гантелей на наклонной 30°": {
+    "focus": "Наклонный жим под углом 30°. Акцент на стимуляцию ключичной (верхней) части большой грудной мышцы с увеличенной амплитудой движения.",
+    "primary": "Верхний (ключичный) отдел большой грудной мышцы",
+    "secondary": "Передний пучок дельтовидной мышцы, трицепс",
+    "technique": [
+      "Установите скамью на угол ровно 30° (более 30-40° переносит нагрузку на плечи).",
+      "Лопатки сведены, естественный прогиб в пояснице. Опускайте гантели по бокам от груди с акцентом на глубокое растяжение.",
+      "Жмите гантели вверх по сходящейся траектории, сводя их над ключицами без удара друг о друга."
+    ],
+    "mistakes": "Слишком крутой угол скамьи (>45°), сведение гантелей со стуком, расслабление лопаток в нижней точке."
+  },
+  "Тяга верхнего блока": {
+    "focus": "Вертикальный тяговый вектор. Формирование V-образного силуэта и ширины широчайших мышц спины.",
+    "primary": "Верхняя и средняя часть широчайших мышц спины",
+    "secondary": "Большая круглая мышца, ромбовидные, бицепс, брахиалис",
+    "technique": [
+      "Хват чуть шире плеч, бедра плотно зафиксированы валиками тренажёра.",
+      "Отклоните корпус назад на 15-20°. Начинайте движение с опускания плеч и сведения лопаток.",
+      "Тяните рукоять к ключицам, направляя локти вниз и к рёбрам. Задержитесь внизу на 1 секунду.",
+      "Плавно верните рукоять вверх, чувствуя растяжение широчайших."
+    ],
+    "mistakes": "Тяга за голову (опасно для шеи и ротаторов плеча), раскачивание корпусом, округление плеч вперёд."
+  },
+  "Махи гантелями в стороны": {
+    "focus": "Изолированная проработка боковой (средней) головки дельтовидной мышцы для придания плечам шарообразной формы.",
+    "primary": "Средняя (боковая) дельтовидная мышца",
+    "secondary": "Надостная мышца, верхняя трапеция, передняя дельта",
+    "technique": [
+      "Встаньте ровно или с микронаклоном вперёд (5°). Руки слегка согнуты в локтях и зафиксированы.",
+      "Поднимайте гантели через стороны до параллели с полом, ведя движение локтями, а не кистями.",
+      "В верхней точке мизинец чуть выше большого пальца (будто выливаете воду из кувшина).",
+      "Медленно опускайте гантели за 2-3 секунды, не бросая вниз."
+    ],
+    "mistakes": "Подъём за счёт трапеции (пожимание плечами), инерция и заброс корпусом, подъём кистей выше локтей."
+  },
+  "Подъём штанги на бицепс": {
+    "focus": "Базовая изоляция сгибателей предплечья. Увеличение пика и массы двуглавой мышцы плеча.",
+    "primary": "Двуглавая мышца плеча (длинная и короткая головки бицепса)",
+    "secondary": "Плечевая мышца (брахиалис), плечелучевая мышца, круглый пронатор",
+    "technique": [
+      "Стопы на ширине плеч, локти прижаты к бокам и зафиксированы на месте.",
+      "Сгибайте руки за счёт сокращения бицепса, не выдвигая локти вперёд.",
+      "В верхней точке сожмите бицепс на 1 секунду в пиковом сокращении.",
+      "Опускайте штангу полностью подконтрольно, не допуская расслабления внизу."
+    ],
+    "mistakes": "Вывод локтей вперёд (включает переднюю дельту), раскачка спиной, неполное разгибание."
+  },
+  "Разгибания рук с канатом": {
+    "focus": "Изолированная проработка трицепса на блоке с возможностью дополнительного разведения кистей в фазе пикового сокращения.",
+    "primary": "Трицепс (акцент на латеральную и медиальную головки)",
+    "secondary": "Анконеус (локтевая мышца), мышцы предплечья",
+    "technique": [
+      "Займите устойчивое положение, корпус слегка наклонён вперёд, локти прижаты к корпусу.",
+      "Разгибайте руки вниз строго за счёт работы трицепса, сохраняя плечи неподвижными.",
+      "В нижней точке разведите кисти наружу в стороны для максимального сокращения.",
+      "Плавно сгибайте руки до угла 90° в локтях, удерживая напряжение."
+    ],
+    "mistakes": "Движение локтями вперёд-назад, использование веса тела для давления на канат, неполное разгибание."
+  },
+  "Присед в Смите": {
+    "focus": "Коленно-доминантный компаундный вектор с фиксированной траекторией. Безопасная целевая перегрузка квадрицепсов без риска потери баланса.",
+    "primary": "Четырёхглавая мышца бедра (квадрицепс: прямая, латеральная, медиальная, промежуточная)",
+    "secondary": "Большая ягодичная мышца, приводящие мышцы, стабилизаторы кора",
+    "technique": [
+      "Вынесите стопы на полшага вперёд от линии грифа. Это сохраняет голень вертикальной и снимает сдвигающую нагрузку с колен.",
+      "Спина прямая, взгляд направлен перед собой. Опускайтесь до параллели бёдер с полом (угол 90°).",
+      "Давите всей стопой с акцентом на пятку, вставайте за счёт мощного разгибания коленей.",
+      "В верхней точке не вставляйте колени до упора — держите мышцы под постоянной нагрузкой."
+    ],
+    "mistakes": "Постановка ног строго под гриф (сильное давление на колени), сведение коленей внутрь, отрыв пяток."
+  },
+  "Жим ногами (стопы по центру)": {
+    "focus": "Базовое жимовое движение для нижней части тела в замкнутой кинематической цепи. Фокус на квадрицепс с разгрузкой поясничного отдела.",
+    "primary": "Квадрицепсы (все 4 головки)",
+    "secondary": "Ягодичные мышцы, приводящие мышцы бедра",
+    "technique": [
+      "Поясница и таз плотно прижаты к спинке кресла на протяжении всего подхода.",
+      "Стопы по центру платформы на ширине плеч, носки слегка разведены.",
+      "Опускайте платформу до угла 90° в коленях, контролируя, чтобы поясница не отрывалась от спинки.",
+      "Мощно выжимайте платформу пятками, не допуская блокировки коленных суставов вверху."
+    ],
+    "mistakes": "Отрыв таза от спинки (опасность грыжи поясницы), блокировка (защелкивание) коленей вверху, завал коленей внутрь."
+  },
+  "Румынская тяга с гантелями": {
+    "focus": "Тазово-доминантное базовое движение (Hip Hinge). Акцент на глубокое эксцентрическое растяжение задней поверхности бедра и ягодиц.",
+    "primary": "Двуглавая мышца бедра (бицепс бедра), полусухожильная, полуперепончатая мышцы",
+    "secondary": "Большая ягодичная мышца, выпрямители позвоночника, трапеции (статика)",
+    "technique": [
+      "Ноги на ширине таза, колени слегка подсогнуты и зафиксированы под одним углом.",
+      "Отводите таз максимально назад, скользя гантелями вдоль передней поверхности бёдер.",
+      "Спина идеально прямая с естественным прогибом. Опускайтесь до середины голени, чувствуя натяжение задней поверхности бедра.",
+      "Возвращайтесь за счёт сокращения ягодиц и бицепса бедра, подавая таз вперёд."
+    ],
+    "mistakes": "Сгибание коленей как в приседе, скругление спины, отрыв гантелей от ног далеко вперёд."
+  },
+  "Сгибания ног в тренажёре": {
+    "focus": "Изолированное сгибание голени. Целевая нагрузка на дистальные отделы бицепса бедра в изолированной траектории.",
+    "primary": "Задняя поверхность бедра (двуглавая мышца, полусухожильная, полуперепончатая)",
+    "secondary": "Икроножные мышцы, подколенная мышца",
+    "technique": [
+      "Коленный сустав должен совпадать с осью вращения тренажёра; валик упирается в нижнюю треть голени.",
+      "На выдохе мощно согните ноги, стараясь коснуться валиком ягодиц.",
+      "Задержитесь в точке пикового сокращения на 1 секунду.",
+      "Медленно и подконтрольно возвращайте ноги в исходное положение за 2-3 секунды."
+    ],
+    "mistakes": "Резкое бросание веса, отрыв таза от сиденья, чрезмерно быстрый темп без паузы."
+  },
+  "Подъём на носки стоя": {
+    "focus": "Изоляция икроножных мышц в растянутом положении голеностопного сустава при выпрямленном колене.",
+    "primary": "Икроножная мышца (медиальная и латеральная головки)",
+    "secondary": "Камбаловидная мышца, подошвенная мышца",
+    "technique": [
+      "Подушечки стоп на краю платформы, колени выпрямлены, но не заблокированы.",
+      "Опустите пятки максимально низко, задержавшись в точке полного растяжения на 2 секунды.",
+      "Мощно поднимитесь на носки как можно выше, сократив икры в верхней точке.",
+      "Избегайте пружинящих движений — темп подконтрольный и медленный."
+    ],
+    "mistakes": "Пружинящие быстрые отскоки на ахилловом сухожилии, сгибание коленей, маленькая амплитуда."
+  },
+  "Скручивания на пресс": {
+    "focus": "Сгибание позвоночника в грудопоясничном отделе. Изолированная гипертрофия прямой мышцы живота без перегрузки сгибателей бедра.",
+    "primary": "Прямая мышца живота (все сегменты)",
+    "secondary": "Внутренние и наружные косые мышцы живота",
+    "technique": [
+      "Лёжа на полу, ноги согнуты в коленях, поясница плотно прижата к полу.",
+      "Руки у висков (не тяните голову за шею руками).",
+      "На выдохе скручивайте рёбра по направлению к тазу, округляя спину (поясница остаётся на полу).",
+      "Сделайте пиковое сокращение пресса на 1-2 секунды, полностью выдохнув весь воздух."
+    ],
+    "mistakes": "Тяга шеи руками, подъём прямой спины целиком (включает подвздошно-поясничную мышцу вместо пресса)."
+  },
+  "Жим гантелей сидя (плечи)": {
+    "focus": "Вертикальный жим. Базовое упражнение для построения мощных плеч с акцентом на переднюю и боковую дельту.",
+    "primary": "Передняя и средняя головки дельтовидной мышцы",
+    "secondary": "Трицепс, верхняя часть трапеции, передняя зубчатая мышца",
+    "technique": [
+      "Спинка скамьи установлена под углом 75-80° (не строго вертикально, для безопасности плечевых суставов).",
+      "Гантели на уровне ушей, локти направлены чуть вперёд (под углом 30° к телу).",
+      "На выдохе жмите гантели вверх по сходящейся дуге, не ударяя их в верхней точке.",
+      "Опускайте подконтрольно до уровня ушей, чувствуя натяжение дельт."
+    ],
+    "mistakes": "Строго вертикальная скамья 90° (вызывает импинджмент плеча), стук гантелями, прогиб в пояснице."
+  },
+  "Тяга блока узким хватом": {
+    "focus": "Вертикальная тяга нейтральным узким хватом (V-рукоять). Акцент на нижний и средний отделы широчайших мышц спины.",
+    "primary": "Широчайшие мышцы (акцент на нижние волокна), большая круглая мышца",
+    "secondary": "Брахиалис, бицепс, ромбовидные, средняя трапеция",
+    "technique": [
+      "Используйте V-образную рукоять с нейтральным хватом (ладони друг к другу).",
+      "Слегка отклонитесь назад (на 10-15°), грудь подайте вперёд.",
+      "Тяните рукоять к верхней части груди, направляя локти строго вниз и назад.",
+      "Сведите лопатки в нижней точке и задержитесь на 1 секунду."
+    ],
+    "mistakes": "Сильный завал корпуса назад, тяга руками без включения спины, округление плеч."
+  },
+  "Жим гантелей лёжа": {
+    "focus": "Горизонтальный жим с гантелями. Глубокая амплитуда растяжения грудных мышц и независимая стабилизация каждой руки.",
+    "primary": "Большая грудная мышца (стернальная часть)",
+    "secondary": "Передняя дельта, трицепс, мышцы-вращатели плеча",
+    "technique": [
+      "Лягте на горизонтальную скамью, сведите лопатки, стопы устойчиво уприте в пол.",
+      "Опускайте гантели по бокам от груди глубже, чем гриф штанги, чувствуя глубокую растяжку грудных.",
+      "Локти удерживайте под углом 60° к туловищу.",
+      "На выдохе мощно выжимайте гантели вверх по сходящейся траектории."
+    ],
+    "mistakes": "Слишком глубокое опускание при плохой подвижности плеч, сведение гантелей со стуком, расслабление кора."
+  },
+  "Тяга нижнего блока сидя": {
+    "focus": "Горизонтальная блочная тяга к поясу. Набор массы и детализации средней части спины и ромбовидных мышц.",
+    "primary": "Широчайшие мышцы, ромбовидные мышцы, середина и низ трапеции",
+    "secondary": "Задняя дельта, бицепс, брахиорадиалис, разгибатели спины",
+    "technique": [
+      "Сядьте на скамью, ноги слегка согнуты в коленях, спина прямая с естественным лордозом.",
+      "Начинайте тягу с движения плеч назад и сведения лопаток.",
+      "Тяните рукоять к низу живота, прижимая локти близко к бокам.",
+      "В конечной точке зафиксируйте максимальное сведение лопаток на 1 секунду."
+    ],
+    "mistakes": "Раскачивание корпуса назад и вперёд (инерция), скругление поясницы, тяга к груди."
+  },
+  "Молотковые сгибания": {
+    "focus": "Сгибание предплечья в нейтральном хвате. Фокус на брахиалис (плечевую мышцу), который выталкивает бицепс наружу и визуально утолщает руку.",
+    "primary": "Плечевая мышца (брахиалис), плечелучевая мышца (брахиорадиалис)",
+    "secondary": "Двуглавая мышца плеча (особенно длинная головка)",
+    "technique": [
+      "Удерживайте гантели нейтральным хватом (ладони обращены друг к другу).",
+      "Локти зафиксированы у боков и не смещаются во время движения.",
+      "Поднимайте гантели поочередно или вместе за счёт сокращения мышц предплечья и плеча.",
+      "Опускайте подконтрольно, сопротивляясь гравитации."
+    ],
+    "mistakes": "Поворот (супинация) кистей (превращает движение в обычный подъем), раскачивание корпусом."
+  },
+  "Французский жим гантели": {
+    "focus": "Разгибание из-за головы. Максимальное натяжение и гипертрофия длинной головки трицепса, которая растягивается только при поднятом плече.",
+    "primary": "Длинная головка трицепса",
+    "secondary": "Медиальная и латеральная головки трицепса",
+    "technique": [
+      "Сядьте на скамью с короткой спинкой, держите гантель двумя руками за верхний диск над головой.",
+      "Локти направлены вперёд и зафиксированы как можно ближе к голове.",
+      "Опускайте гантель за голову за счёт сгибания в локтевых суставах до угла 90° или чуть глубже.",
+      "На выдохе разогните руки в исходное положение, сохраняя локти неподвижными."
+    ],
+    "mistakes": "Разведение локтей в стороны (перегрузка суставов), движение плечом вместо сгибания в локте."
+  },
+  "Румынская тяга со штангой": {
+    "focus": "Тяжёлое базовое тазово-доминантное движение. Мощная перегрузка задней мышечной цепи (ягодицы + бицепс бедра).",
+    "primary": "Большая ягодичная мышца, двуглавая мышца бедра, полусухожильная мышца",
+    "secondary": "Выпрямители позвоночника, широчайшие (изометрия), трапеции, предплечья",
+    "technique": [
+      "Возьмите штангу прямым хватом на ширине плеч, снимите со стоек и отойдите назад.",
+      "Спина зафиксирована с мощным прогибом, лопатки приведены, колени чуть согнуты.",
+      "Отводите таз назад, скользя грифом вдоль передней поверхности бёдер до середины голени.",
+      "Мощным сокращением ягодиц и бицепсов бёдер вытолкните таз вперёд и вернитесь в стойку."
+    ],
+    "mistakes": "Скругление поясницы («круглая спина»), опускание грифа на пол (превращение в становую тягу), отрыв грифа от ног."
+  },
+  "Жим ногами (стопы высоко)": {
+    "focus": "Жим платформы с высокой постановкой стоп. Максимальный угол сгибания в тазобедренном суставе для смещения нагрузки на ягодицы и бицепс бедра.",
+    "primary": "Большие ягодичные мышцы, седалищно-подколенная группа мышц",
+    "secondary": "Квадрицепсы, приводящие мышцы бедра",
+    "technique": [
+      "Расположите стопы у верхнего края платформы на ширине плеч.",
+      "Поясница и крестец намертво прижаты к спинке тренажёра.",
+      "Опускайте платформу до угла 90° в тазобедренном и коленном суставах.",
+      "Давите мощно пятками в платформу, выжимая её вверх без блокировки коленей."
+    ],
+    "mistakes": "Отрыв таза от сиденья в нижней точке (критическая нагрузка на L5-S1), соскальзывание носков."
+  },
+  "Разгибания ног сидя": {
+    "focus": "Односуставная изоляция квадрицепса в открытой кинематической цепи. Единственное упражнение, максимально нагружающее прямую мышцу бедра в пике.",
+    "primary": "Квадрицепс (прямая мышца бедра, латеральная, медиальная широкая)",
+    "secondary": "Напрягатель широкой фасции бедра",
+    "technique": [
+      "Сядьте в тренажёр, прижмите спину к спинке, колени на линии оси вращения механизма.",
+      "Валик лежит на нижней части голени прямо над подъёмом стопы.",
+      "Плавно разогните ноги до горизонтали и задержитесь на 1-2 секунды в пиковом сокращении.",
+      "Медленно опускайте вес вниз за 3 секунды, не бросая плитки тренажёра."
+    ],
+    "mistakes": "Резкие пинки ногами, отрыв таза от сиденья, отсутствие фиксации в верхней точке."
+  },
+  "Подъём на носки сидя": {
+    "focus": "Изоляция камбаловидной мышцы голени. При согнутом колене икроножная мышца выключена, вся нагрузка идёт на глубокую камбаловидную мышцу.",
+    "primary": "Камбаловидная мышца голени",
+    "secondary": "Задняя большеберцовая мышца, длинный сгибатель пальцев",
+    "technique": [
+      "Сядьте в тренажёр, расположите подушечки стоп на подставке, опустите упорные валики на нижнюю часть бёдер.",
+      "Опустите пятки максимально низко до глубокого комфортного растяжения голени.",
+      "Мощно поднимитесь на носки как можно выше, задержавшись на 1 секунду.",
+      "Работайте в строгом темпе: 3 секунды вниз, 1 секунда пауза, 1 секунда подъём."
+    ],
+    "mistakes": "Прыжки и отскоки с нижней точки, неполная амплитуда движения."
+  },
+  "Подъём ног в висе": {
+    "focus": "Вис на перекладине. Мощная антиэкстензия и подкручивание таза для комплексного развития пресса и кора.",
+    "primary": "Прямая мышца живота (с выраженным акцентом на нижний регион)",
+    "secondary": "Подвздошно-поясничная мышца, косые мышцы живота, предплечья (хват)",
+    "technique": [
+      "Повисните на турнике прямым хватом, плечи активные (не провисайте в суставах).",
+      "На выдохе поднимайте ноги (прямые или слегка согнутые), обязательно подкручивая таз к ребрам.",
+      "Ключ движения — скручивание таза вверх, а не просто махи ногами за счёт бёдер.",
+      "Медленно опускайте ноги, не допуская раскачки корпуса (без махов)."
+    ],
+    "mistakes": "Раскачивание корпусом (махи вместо пресса), подъём только ног без скручивания таза."
+  }
+};
+
+function toggleAnatomyGuide(exIdx){
+  const box = document.getElementById(`anatomy-box-${exIdx}`);
+  const toggle = document.getElementById(`anatomy-toggle-${exIdx}`);
+  if (box && toggle) {
+    const isHidden = box.style.display === 'none';
+    box.style.display = isHidden ? 'block' : 'none';
+    toggle.classList.toggle('open', isHidden);
+  }
+}
+
+/* ================== APP STATE & LOCALSTORAGE (SINGLE USER) ================== */
+const STORAGE_KEY = 'workout_pwa_data_v2';
 
 function getDefaultState(){
   return {
-    activeUser: 'user1',
-    users: {
-      user1: {
-        id: 'user1',
-        name: 'Виталик',
-        stats: '178 см · 72 кг',
-        activeDay: 'verh1',
-        activeTab: 'workout',
-        sessionSets: {},
-        history: [],
-        prs: {}
-      },
-      user2: {
-        id: 'user2',
-        name: 'Илья',
-        stats: '180 см · 68 кг',
-        activeDay: 'verh1',
-        activeTab: 'workout',
-        sessionSets: {},
-        history: [],
-        prs: {}
-      }
-    }
+    profile: {
+      created: true,
+      name: 'Виталий',
+      height: 178,
+      currentWeight: 72.0,
+      weightHistory: [
+        { date: new Date().toLocaleDateString('ru-RU', { day:'numeric', month:'short' }), weight: 72.0 }
+      ]
+    },
+    activeTab: 'workout',
+    currentExerciseIndex: 0,
+    sessionSets: {},
+    history: [],
+    prs: {}
   };
 }
 
 let appState = (function(){
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch(e){}
+    // 1. Try loading v2 state
+    const rawV2 = localStorage.getItem('workout_pwa_data_v2');
+    if (rawV2) return JSON.parse(rawV2);
+    
+    // 2. Try migrating from v1 state if exists
+    const rawV1 = localStorage.getItem('workout_pwa_data_v1');
+    if (rawV1) {
+      const v1 = JSON.parse(rawV1);
+      const u = v1.users ? (v1.users[v1.activeUser] || v1.users.user1) : null;
+      if (u) {
+        const matchStats = (u.stats || '').match(/(\d+)\s*см.*?(\d+(\.\d+)?)\s*кг/);
+        const h = matchStats ? parseFloat(matchStats[1]) : 178;
+        const w = matchStats ? parseFloat(matchStats[2]) : 72.0;
+        const state = {
+          profile: {
+            created: true,
+            name: u.name || 'Виталий',
+            height: h,
+            currentWeight: w,
+            weightHistory: [
+              { date: new Date().toLocaleDateString('ru-RU', { day:'numeric', month:'short' }), weight: w }
+            ]
+          },
+          activeTab: u.activeTab || 'workout',
+          currentExerciseIndex: 0,
+          sessionSets: u.sessionSets || {},
+          history: u.history || [],
+          prs: u.prs || {}
+        };
+        try { localStorage.setItem('workout_pwa_data_v2', JSON.stringify(state)); } catch(e){}
+        return state;
+      }
+    }
+  } catch(e){ console.warn('State load error:', e); }
+  
   return getDefaultState();
 })();
 
@@ -1788,10 +2595,11 @@ function saveState(){
 }
 
 function getCurUser(){
-  if (!appState.users[appState.activeUser]) {
-    appState.activeUser = 'user1';
-  }
-  return appState.users[appState.activeUser];
+  if (!appState.sessionSets) appState.sessionSets = {};
+  if (!appState.history) appState.history = [];
+  if (!appState.prs) appState.prs = {};
+  if (!appState.profile) appState.profile = { created: true, name: 'Виталий', height: 178, currentWeight: 72.0, weightHistory: [] };
+  return appState;
 }
 
 
@@ -2366,24 +3174,157 @@ function closeWorkoutPreview(){
   window.scrollTo(0, 0);
 }
 
+
+/* ================== PAGER & CAROUSEL NAVIGATION ================== */
+function goToExercise(index){
+  const sched = getMoscowDayInfo();
+  const dayKey = (isPreviewMode && previewDayKey) ? previewDayKey : sched.targetKey;
+  const w = workouts[dayKey];
+  if (!w) return;
+  
+  const total = w.exercises.length;
+  appState.currentExerciseIndex = Math.max(0, Math.min(index, total - 1));
+  saveState();
+  renderWorkoutScreen();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function advanceToNextExercise(){
+  stopRestTimer();
+  const sched = getMoscowDayInfo();
+  const dayKey = (isPreviewMode && previewDayKey) ? previewDayKey : sched.targetKey;
+  const w = workouts[dayKey];
+  if (!w) return;
+  
+  const curIdx = appState.currentExerciseIndex || 0;
+  if (curIdx < w.exercises.length - 1) {
+    goToExercise(curIdx + 1);
+    triggerHaptic([100, 60, 120]);
+    playBeep();
+  }
+}
+
+/* ================== FLOATING REST TIMER ================== */
+let restTimerInterval = null;
+let restTimerSeconds = 0;
+let restTimerTotal = 0;
+let restTimerAutoAdvance = false;
+
+function startRestTimer(seconds = 120, autoAdvance = false){
+  stopRestTimer();
+  restTimerSeconds = seconds;
+  restTimerTotal = seconds;
+  restTimerAutoAdvance = autoAdvance;
+  
+  const bar = document.getElementById('rest-timer-bar');
+  if (bar) bar.style.display = 'flex';
+  
+  const advBtn = document.getElementById('btn-timer-advance');
+  if (advBtn) {
+    advBtn.style.display = autoAdvance ? 'inline-flex' : 'none';
+  }
+  
+  updateTimerUI();
+  
+  restTimerInterval = setInterval(() => {
+    restTimerSeconds--;
+    if (restTimerSeconds <= 0) {
+      playBeep();
+      triggerHaptic([200, 100, 300]);
+      if (restTimerAutoAdvance) {
+        advanceToNextExercise();
+      } else {
+        stopRestTimer();
+      }
+    } else {
+      updateTimerUI();
+    }
+  }, 1000);
+}
+
+function updateTimerUI(){
+  const cd = document.getElementById('timer-countdown');
+  if (cd) {
+    const m = Math.floor(restTimerSeconds / 60);
+    const s = restTimerSeconds % 60;
+    cd.textContent = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+  }
+}
+
+function adjustTimer(deltaSec){
+  restTimerSeconds = Math.max(0, restTimerSeconds + deltaSec);
+  updateTimerUI();
+}
+
+function stopRestTimer(){
+  if (restTimerInterval) {
+    clearInterval(restTimerInterval);
+    restTimerInterval = null;
+  }
+  restTimerAutoAdvance = false;
+  const bar = document.getElementById('rest-timer-bar');
+  if (bar) bar.style.display = 'none';
+}
+
+/* ================== SET COMPLETION & PROG OVERLOAD ================== */
+function toggleSetDone(exName, setIndex, restSec = 120){
+  const u = getCurUser();
+  if (u.sessionSets[exName] && u.sessionSets[exName][setIndex]) {
+    const setObj = u.sessionSets[exName][setIndex];
+    setObj.done = !setObj.done;
+    saveState();
+    
+    const btn = document.getElementById(`btn-done-${exName}-${setIndex}`);
+    if (btn) {
+      btn.classList.toggle('completed', setObj.done);
+      btn.textContent = setObj.done ? '✓' : '';
+    }
+    
+    if (setObj.done) {
+      triggerHaptic(40);
+      const est1RM = calc1RM(setObj.weight, setObj.reps);
+      const curPr = u.prs[exName] ? u.prs[exName].est1RM : 0;
+      if (est1RM > curPr) {
+        u.prs[exName] = {
+          weight: setObj.weight,
+          reps: setObj.reps,
+          est1RM: est1RM,
+          date: new Date().toLocaleDateString('ru-RU')
+        };
+        saveState();
+      }
+      
+      // Check if ALL sets of this exercise are completed
+      const allDone = u.sessionSets[exName].every(s => s.done);
+      startRestTimer(restSec, allDone);
+    }
+    
+    updateProgressionFeedback(exName);
+  }
+}
+
+/* ================== WORKOUT CAROUSEL RENDERER ================== */
 function renderWorkoutForDay(key, isPreview = false){
   const u = getCurUser();
   const w = workouts[key];
   if (!w) return;
   
   const sched = getMoscowDayInfo();
+  const totalExercises = w.exercises.length;
+  let curIdx = appState.currentExerciseIndex || 0;
+  if (curIdx >= totalExercises) curIdx = 0;
+  appState.currentExerciseIndex = curIdx;
   
   let headerHtml = '';
   if (isPreview) {
     headerHtml = `
     <div class="preview-top-banner">
-      <span style="font-size:12.5px; color:var(--chalk-dim);">👀 Режим предпросмотра: <b>${w.title}</b></span>
+      <span style="font-size:12.5px; color:var(--chalk-dim);">👀 Предпросмотр: <b>${w.title}</b></span>
       <button class="btn-back-rest" onclick="closeWorkoutPreview()">✕ Закрыть</button>
     </div>
     <div class="day-title-box">
       <h2>${w.title}</h2>
       <span class="day-meta">${w.meta}</span>
-      ${w.note ? `<div class="day-note">${w.note}</div>` : ''}
     </div>`;
   } else {
     headerHtml = `
@@ -2395,166 +3336,887 @@ function renderWorkoutForDay(key, isPreview = false){
         <span>·</span>
         <span>${w.meta}</span>
       </div>
-      <div class="today-next-hint">Следующая тренировка по графику: <b>${sched.nextDayText}</b></div>
-      ${w.note ? `<div class="day-note" style="margin-top:10px;">${w.note}</div>` : ''}
+      <div class="today-next-hint">Следующая тренировка: <b>${sched.nextDayText}</b></div>
     </div>`;
   }
 
-  let html = headerHtml;
-
-  w.exercises.forEach((ex, exIdx) => {
+  // PAGER BAR
+  const segmentsHtml = w.exercises.map((ex, idx) => {
     initExerciseSets(ex.name, ex);
     const sets = u.sessionSets[ex.name] || [];
-    const prevSession = getLastExerciseSession(ex.name);
-    const forecast = getExerciseForecast(ex.name, ex);
+    const isDone = sets.length > 0 && sets.every(s => s.done);
+    let cls = 'pager-seg';
+    if (idx === curIdx) cls += ' active';
+    if (isDone) cls += ' completed';
+    return `<div class="${cls}" onclick="goToExercise(${idx})" title="${idx + 1}. ${ex.name}"></div>`;
+  }).join('');
+
+  const pagerBarHtml = `
+  <div class="ex-pager-bar">
+    <div class="pager-top-row">
+      <div class="pager-count-badge">
+        <span>Упражнение <b>${curIdx + 1}</b> из <b>${totalExercises}</b></span>
+      </div>
+      <div class="pager-nav-btns">
+        <button class="btn-pager-nav" onclick="goToExercise(${curIdx - 1})" ${curIdx === 0 ? 'disabled' : ''}>‹ Пред.</button>
+        <button class="btn-pager-nav" onclick="goToExercise(${curIdx + 1})" ${curIdx === totalExercises - 1 ? 'disabled' : ''}>След. ›</button>
+      </div>
+    </div>
+    <div class="pager-segments">
+      ${segmentsHtml}
+    </div>
+  </div>`;
+
+  // CURRENT EXERCISE
+  const ex = w.exercises[curIdx];
+  initExerciseSets(ex.name, ex);
+  const sets = u.sessionSets[ex.name] || [];
+  const prevSession = getLastExerciseSession(ex.name);
+  const forecast = getExerciseForecast(ex.name, ex);
+  const anatomy = exAnatomyData[ex.name] || null;
+  
+  let restSec = 120;
+  if (ex.rest.includes('1.5')) restSec = 90;
+  else if (ex.rest.includes('3')) restSec = 150;
+  else if (ex.rest.includes('1')) restSec = 60;
+
+  const exerciseCardHtml = `
+  <div class="exercise-card" id="card-ex-${curIdx}">
+    <div class="ex-header">
+      <div class="ex-num">${curIdx + 1}</div>
+      <div style="flex:1;">
+        <div class="ex-title">${ex.name}</div>
+        <div class="ex-targets">
+          <span class="target-badge">⚡ ${ex.sets}</span>
+          <span class="rest-badge">⏱ Отдых ${ex.rest}</span>
+        </div>
+        ${ex.weight ? `<div class="weight-ref-badge">${ex.weight}</div>` : ''}
+      </div>
+    </div>
     
-    // Parse target rest seconds
-    let restSec = 120;
-    if (ex.rest.includes('1.5')) restSec = 90;
-    else if (ex.rest.includes('3')) restSec = 150;
-    else if (ex.rest.includes('1')) restSec = 60;
+    <!-- GIF VIDEO -->
+    ${ex.video ? `
+    <div class="ex-video-box is-paused" onclick="toggleVideoPlayback(this)">
+      <video 
+        src="${ex.video}" 
+        playsinline 
+        webkit-playsinline 
+        muted 
+        loop 
+        preload="metadata" 
+        poster="${ex.thumb || ''}"
+        onwaiting="this.parentElement.classList.add('is-buffering')"
+        onplaying="this.parentElement.classList.remove('is-buffering', 'is-paused'); const h=this.parentElement.querySelector('.video-tap-hint'); if(h) h.textContent='⏸ Пауза';"
+        onpause="this.parentElement.classList.add('is-paused'); const h=this.parentElement.querySelector('.video-tap-hint'); if(h) h.textContent='▶ Нажмите для запуска';"
+        onerror="handleVideoError(this)"
+      ></video>
+      <div class="video-play-btn" title="Воспроизвести">
+        <svg viewBox="0 0 24 24" width="28" height="28"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <div class="video-spinner"></div>
+      <div class="video-tap-hint">▶ Нажмите для запуска</div>
+      <div class="video-error-banner" style="display:none;">
+        <span>Не удалось загрузить видео</span>
+        <a href="${ex.video}" target="_blank" onclick="event.stopPropagation()">В плеере ↗</a>
+      </div>
+    </div>` : ''}
     
-    html += `
-    <div class="exercise-card" id="card-ex-${exIdx}">
-      <div class="ex-header">
-        <div class="ex-num">${exIdx + 1}</div>
-        <div style="flex:1;">
-          <div class="ex-title">${ex.name}</div>
-          <div class="ex-targets">
-            <span class="target-badge">${ex.sets}</span>
-            <span class="rest-badge">отдых ${ex.rest}</span>
-          </div>
-          ${ex.weight ? `<div class="weight-ref-badge">${ex.weight}</div>` : ''}
+    <!-- ANATOMY & TECHNIQUE ACCORDION -->
+    ${anatomy ? `
+    <div class="anatomy-accordion">
+      <div class="anatomy-toggle" id="anatomy-toggle-${curIdx}" onclick="toggleAnatomyGuide(${curIdx})">
+        <div class="anatomy-toggle-left">
+          <span class="icon">🧬</span>
+          <span>Анатомия и правильная техника</span>
+        </div>
+        <span class="anatomy-arrow" id="anatomy-arrow-${curIdx}">▼</span>
+      </div>
+      <div class="anatomy-box" id="anatomy-box-${curIdx}" style="display:none;">
+        <div class="anat-block">
+          <div class="anat-lbl">🎯 На что ориентировано:</div>
+          <div class="anat-text">${anatomy.focus}</div>
+        </div>
+        <div class="anat-block">
+          <div class="anat-lbl">💪 Основные мышцы:</div>
+          <div class="anat-text"><b>${anatomy.primary}</b></div>
+        </div>
+        <div class="anat-block">
+          <div class="anat-lbl">⚙️ Синергисты и стабилизаторы:</div>
+          <div class="anat-text">${anatomy.secondary}</div>
+        </div>
+        <div class="anat-block">
+          <div class="anat-lbl">📋 Пошаговая техника:</div>
+          <ol class="anat-steps">
+            ${anatomy.technique.map(step => `<li>${step}</li>`).join('')}
+          </ol>
+        </div>
+        <div class="anat-block">
+          <div class="anat-lbl warning">⚠️ Частые ошибки:</div>
+          <div class="anat-text">${anatomy.mistakes}</div>
+        </div>
+      </div>
+    </div>` : ''}
+
+    <!-- SMART FORECAST -->
+    <div class="smart-forecast-card ${forecast.type}">
+      <div class="forecast-header">
+        <div class="forecast-title-box">
+          <span class="forecast-icon">${forecast.icon}</span>
+          <span class="forecast-badge ${forecast.type}">${forecast.badgeText}</span>
+        </div>
+        <button type="button" class="btn-apply-forecast" onclick="applyForecastToInputs('${ex.name}')" title="Заполнить поля подходов">
+          В подходы ⚡
+        </button>
+      </div>
+      
+      <div class="forecast-metrics">
+        <div class="forecast-metric-item">
+          <div class="f-lbl">Прогноз веса</div>
+          <div class="f-val ${forecast.weightChangeClass}">${forecast.weight} <span class="f-unit">кг</span></div>
+        </div>
+        <div class="forecast-metric-item">
+          <div class="f-lbl">Цель повторений</div>
+          <div class="f-val">${forecast.targetRepsText}</div>
+        </div>
+        <div class="forecast-metric-item">
+          <div class="f-lbl">Расчётный 1ПМ</div>
+          <div class="f-val">${forecast.est1RM ? forecast.est1RM + ' <span class="f-unit">кг</span>' : '—'}</div>
         </div>
       </div>
       
-      <!-- GIF VIDEO -->
-      ${ex.video ? `
-      <div class="ex-video-box is-paused" onclick="toggleVideoPlayback(this)">
-        <video 
-          src="${ex.video}" 
-          playsinline 
-          webkit-playsinline 
-          muted 
-          loop 
-          preload="metadata" 
-          poster="${ex.thumb || ''}"
-          onwaiting="this.parentElement.classList.add('is-buffering')"
-          onplaying="this.parentElement.classList.remove('is-buffering', 'is-paused'); const h=this.parentElement.querySelector('.video-tap-hint'); if(h) h.textContent='⏸ Пауза';"
-          onpause="this.parentElement.classList.add('is-paused'); const h=this.parentElement.querySelector('.video-tap-hint'); if(h) h.textContent='▶ Нажмите для запуска';"
-          onerror="handleVideoError(this)"
-        ></video>
-        <div class="video-play-btn" title="Воспроизвести">
-          <svg viewBox="0 0 24 24" width="28" height="28" fill="#fff"><path d="M8 5v14l11-7z"/></svg>
-        </div>
-        <div class="video-spinner"></div>
-        <div class="video-tap-hint">▶ Нажмите для запуска</div>
-        <div class="video-error-banner" style="display:none;">
-          <span>Не удалось загрузить видео</span>
-          <a href="${ex.video}" target="_blank" onclick="event.stopPropagation()">Открыть видео в плеере ↗</a>
-        </div>
-      </div>` : ''}
-      
-      <!-- TIPS -->
-      ${ex.tips && ex.tips.length ? `
-      <ul class="ex-tips">
-        ${ex.tips.map(t=>`<li>${t}</li>`).join('')}
-      </ul>` : ''}
-      
-      <!-- SMART FORECAST -->
-      <div class="smart-forecast-card ${forecast.type}">
-        <div class="forecast-header">
-          <div class="forecast-title-box">
-            <span class="forecast-icon">${forecast.icon}</span>
-            <span class="forecast-badge ${forecast.type}">${forecast.badgeText}</span>
-          </div>
-          <button type="button" class="btn-apply-forecast" onclick="applyForecastToInputs('${ex.name}')" title="Заполнить поля подходов рекомендуемыми значениями">
-            В подходы ⚡
-          </button>
-        </div>
-        
-        <div class="forecast-metrics">
-          <div class="forecast-metric-item">
-            <div class="f-lbl">Прогноз веса</div>
-            <div class="f-val ${forecast.weightChangeClass}">${forecast.weight} <span class="f-unit">кг</span></div>
-          </div>
-          <div class="forecast-metric-item">
-            <div class="f-lbl">Цель повторений</div>
-            <div class="f-val">${forecast.targetRepsText}</div>
-          </div>
-          <div class="forecast-metric-item">
-            <div class="f-lbl">Расчётный 1ПМ</div>
-            <div class="f-val">${forecast.est1RM ? forecast.est1RM + ' <span class="f-unit">кг</span>' : '—'}</div>
-          </div>
-        </div>
-        
-        <div class="forecast-note">
-          ${forecast.rationale}
-        </div>
+      <div class="forecast-note">
+        ${forecast.rationale}
       </div>
+    </div>
+
+    <!-- SETS TRACKER -->
+    <div class="sets-container">
+      <table class="sets-table">
+        <thead>
+          <tr>
+            <th>Сет</th>
+            <th>Пред.</th>
+            <th>Вес (кг)</th>
+            <th>Повт.</th>
+            <th>✓</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${sets.map((s, idx) => {
+            const prev = prevSession && prevSession[idx] ? `${prevSession[idx].weight}×${prevSession[idx].reps}` : '—';
+            return `
+            <tr class="set-row">
+              <td class="set-num">${idx + 1}</td>
+              <td class="set-prev">${prev}</td>
+              <td class="set-inputs-cell">
+                <div class="stepper-wrap">
+                  <button class="stepper-btn" onclick="stepSetField('${ex.name}', ${idx}, 'weight', -2.5)">-</button>
+                  <input type="number" step="0.5" id="input-${ex.name}-${idx}-weight" class="stepper-input" value="${s.weight}" onchange="updateSetField('${ex.name}', ${idx}, 'weight', this.value)">
+                  <button class="stepper-btn" onclick="stepSetField('${ex.name}', ${idx}, 'weight', 2.5)">+</button>
+                </div>
+              </td>
+              <td class="set-inputs-cell">
+                <div class="stepper-wrap">
+                  <button class="stepper-btn" onclick="stepSetField('${ex.name}', ${idx}, 'reps', -1)">-</button>
+                  <input type="number" step="1" id="input-${ex.name}-${idx}-reps" class="stepper-input" style="width:36px;" value="${s.reps}" onchange="updateSetField('${ex.name}', ${idx}, 'reps', this.value)">
+                  <button class="stepper-btn" onclick="stepSetField('${ex.name}', ${idx}, 'reps', 1)">+</button>
+                </div>
+              </td>
+              <td>
+                <button class="done-btn ${s.done ? 'completed' : ''}" id="btn-done-${ex.name}-${idx}" onclick="toggleSetDone('${ex.name}', ${idx}, ${restSec})">${s.done ? '✓' : ''}</button>
+              </td>
+            </tr>`;
+          }).join('')}
+        </tbody>
+      </table>
       
-      <!-- SETS TRACKER -->
-      <div class="sets-container">
-        <table class="sets-table">
-          <thead>
-            <tr>
-              <th>Сет</th>
-              <th>Пред.</th>
-              <th>Вес (кг)</th>
-              <th>Повт.</th>
-              <th>✓</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${sets.map((s, idx) => {
-              const prev = prevSession && prevSession[idx] ? `${prevSession[idx].weight}×${prevSession[idx].reps}` : '—';
-              return `
-              <tr class="set-row">
-                <td class="set-num">${idx + 1}</td>
-                <td class="set-prev">${prev}</td>
-                <td class="set-inputs-cell">
-                  <div class="stepper-wrap">
-                    <button class="stepper-btn" onclick="stepSetField('${ex.name}', ${idx}, 'weight', -2.5)">-</button>
-                    <input type="number" step="0.5" id="input-${ex.name}-${idx}-weight" class="stepper-input" value="${s.weight}" onchange="updateSetField('${ex.name}', ${idx}, 'weight', this.value)">
-                    <button class="stepper-btn" onclick="stepSetField('${ex.name}', ${idx}, 'weight', 2.5)">+</button>
-                  </div>
-                </td>
-                <td class="set-inputs-cell">
-                  <div class="stepper-wrap">
-                    <button class="stepper-btn" onclick="stepSetField('${ex.name}', ${idx}, 'reps', -1)">-</button>
-                    <input type="number" step="1" id="input-${ex.name}-${idx}-reps" class="stepper-input" style="width:36px;" value="${s.reps}" onchange="updateSetField('${ex.name}', ${idx}, 'reps', this.value)">
-                    <button class="stepper-btn" onclick="stepSetField('${ex.name}', ${idx}, 'reps', 1)">+</button>
-                  </div>
-                </td>
-                <td>
-                  <button class="done-btn ${s.done ? 'completed' : ''}" id="btn-done-${ex.name}-${idx}" onclick="toggleSetDone('${ex.name}', ${idx}, ${restSec})">${s.done ? '✓' : ''}</button>
-                </td>
-              </tr>`;
-            }).join('')}
-          </tbody>
-        </table>
-        
-        <div id="prog-reco-${ex.name}" class="prog-reco-box" style="display:none;"></div>
-        
-        <div class="sets-actions">
-          <button class="action-btn" onclick="addSet('${ex.name}')">+ Сет</button>
-          <button class="action-btn" onclick="removeSet('${ex.name}')">- Удалить</button>
-        </div>
+      <div id="prog-reco-${ex.name}" class="prog-reco-box" style="display:none;"></div>
+      
+      <div class="sets-actions">
+        <button class="action-btn" onclick="addSet('${ex.name}')">+ Сет</button>
+        <button class="action-btn" onclick="removeSet('${ex.name}')">- Удалить сет</button>
       </div>
+    </div>
+  </div>`;
+
+  // FOOTER TRANSITION BUTTON
+  let footerNavHtml = '';
+  if (curIdx < totalExercises - 1) {
+    const nextEx = w.exercises[curIdx + 1];
+    footerNavHtml = `
+    <button class="btn-next-ex" onclick="goToExercise(${curIdx + 1})">
+      <span>Следующее: <b>${nextEx.name}</b></span>
+      <span>→</span>
+    </button>`;
+  } else {
+    footerNavHtml = `
+    <div class="finish-workout-box">
+      <button class="btn-finish" onclick="finishCurrentWorkout('${key}')">🎉 Завершить тренировку</button>
     </div>`;
+  }
+
+  document.getElementById('main').innerHTML = headerHtml + pagerBarHtml + exerciseCardHtml + footerNavHtml;
+  
+  updateProgressionFeedback(ex.name);
+  setupVideoObserver();
+}
+
+/* ================== SCIENTIFIC OPTIMAL WEIGHT ENGINE ================== */
+// Allometric scaling & Movement Pattern classification
+const movementPatterns = {
+  "Жим штанги лёжа": { pattern: "bench", baseFactor: 0.85, name: "Горизонтальный жим" },
+  "Жим гантелей на наклонной 30°": { pattern: "bench_incline", baseFactor: 0.35, isPerArm: true, name: "Наклонный жим гантелей" },
+  "Жим гантелей лёжа": { pattern: "bench_dumbbell", baseFactor: 0.38, isPerArm: true, name: "Жим гантелей лёжа" },
+  "Тяга штанги в наклоне": { pattern: "row", baseFactor: 0.75, name: "Горизонтальная тяга" },
+  "Тяга верхнего блока": { pattern: "pulldown", baseFactor: 0.80, name: "Вертикальная тяга блока" },
+  "Тяга блока узким хватом": { pattern: "pulldown", baseFactor: 0.82, name: "Вертикальная тяга узким хватом" },
+  "Тяга нижнего блока сидя": { pattern: "row", baseFactor: 0.78, name: "Тяга горизонтального блока" },
+  "Махи гантелями в стороны": { pattern: "lateral", baseFactor: 0.16, isPerArm: true, name: "Махи в стороны" },
+  "Жим гантелей сидя (плечи)": { pattern: "shoulder", baseFactor: 0.30, isPerArm: true, name: "Вертикальный жим гантелей" },
+  "Подъём штанги на бицепс": { pattern: "biceps", baseFactor: 0.40, name: "Подъём штанги на бицепс" },
+  "Молотковые сгибания": { pattern: "biceps", baseFactor: 0.20, isPerArm: true, name: "Молотковые сгибания" },
+  "Разгибания рук с канатом": { pattern: "triceps", baseFactor: 0.35, name: "Разгибания рук на блоке" },
+  "Французский жим гантели": { pattern: "triceps", baseFactor: 0.32, name: "Французский жим гантели" },
+  "Присед в Смите": { pattern: "squat", baseFactor: 1.10, name: "Присед в Смите" },
+  "Жим ногами (стопы по центру)": { pattern: "legpress", baseFactor: 1.85, name: "Жим ногами" },
+  "Жим ногами (стопы высоко)": { pattern: "legpress", baseFactor: 1.70, name: "Жим ногами (высоко)" },
+  "Румынская тяга со штангой": { pattern: "hinge", baseFactor: 1.15, name: "Румынская тяга штанга" },
+  "Румынская тяга с гантелями": { pattern: "hinge", baseFactor: 0.45, isPerArm: true, name: "Румынская тяга гантели" },
+  "Разгибания ног сидя": { pattern: "legext", baseFactor: 0.60, name: "Разгибания ног в тренажёре" },
+  "Сгибания ног в тренажёре": { pattern: "legcurl", baseFactor: 0.55, name: "Сгибания ног в тренажёре" },
+  "Подъём на носки стоя": { pattern: "calf", baseFactor: 1.20, name: "Подъём на носки стоя" },
+  "Подъём на носки сидя": { pattern: "calf", baseFactor: 0.70, name: "Подъём на носки сидя" },
+  "Скручивания на пресс": { pattern: "core", baseFactor: 0, name: "Скручивания на пресс" },
+  "Подъём ног в висе": { pattern: "core", baseFactor: 0, name: "Подъём ног в висе" }
+};
+
+let selectedOptimalEx = "Жим штанги лёжа";
+
+function renderOptimalWeightScreen(){
+  const u = getCurUser();
+  const prof = u.profile || { height: 178, currentWeight: 72.0 };
+  const W = prof.currentWeight || 72;
+  const H = prof.height || 178;
+  
+  // Lean Body Mass (Boer Formula for men)
+  const lbm = Math.round((0.407 * W + 0.267 * H - 19.2) * 10) / 10;
+  const bmi = Math.round((W / ((H/100)*(H/100))) * 10) / 10;
+  
+  // Leverage scaling factor (taller athletes have longer moment arms)
+  const leverageFactor = Math.round(Math.sqrt(175 / H) * 100) / 100;
+  
+  // Calculate Optimal 1RM for selected exercise
+  const patternInfo = movementPatterns[selectedOptimalEx] || { baseFactor: 0.75, name: selectedOptimalEx };
+  
+  let est1RM = 0;
+  let sourceBadge = '';
+  
+  // Priority 1: Actual PR in this exercise
+  if (u.prs && u.prs[selectedOptimalEx] && u.prs[selectedOptimalEx].est1RM > 0) {
+    est1RM = u.prs[selectedOptimalEx].est1RM;
+    sourceBadge = '🏆 Фактический персональный рекорд';
+  } else {
+    // Priority 2: Pattern Transfer
+    let patternTransfer1RM = 0;
+    for (const otherEx in u.prs) {
+      const otherInfo = movementPatterns[otherEx];
+      if (otherInfo && otherInfo.pattern === patternInfo.pattern && u.prs[otherEx].est1RM > 0) {
+        const ratio = patternInfo.baseFactor / (otherInfo.baseFactor || 1);
+        patternTransfer1RM = Math.round(u.prs[otherEx].est1RM * ratio * 10) / 10;
+        break;
+      }
+    }
+    if (patternTransfer1RM > 0) {
+      est1RM = patternTransfer1RM;
+      sourceBadge = '🔄 Биомеханический перенос силы';
+    } else {
+      // Priority 3: Allometric Scaling (Strength proportional to Body Mass ^ 2/3)
+      // Base strength scaled to LBM and leverage
+      const allometricFactor = Math.pow(W / 75, 0.67);
+      est1RM = Math.round(patternInfo.baseFactor * 75 * allometricFactor * leverageFactor * 10) / 10;
+      sourceBadge = '🧬 Антропометрический расчёт (S ∝ M²ᐟ³)';
+    }
+  }
+
+  // Generate scientific training zones
+  const zones = [
+    { name: 'Оптимум гипертрофии', pct: 78, reps: '8-10', rir: '1-2 RIR', desc: 'Максимальный стимул мышечного роста, темп 3-0-1', cls: 'tag-hypertrophy' },
+    { name: 'Силовая гипертрофия', pct: 84, reps: '6-8', rir: '1 RIR', desc: 'Миофибриллярная гипертрофия + рост силы', cls: 'tag-strength' },
+    { name: 'Объёмный пампинг', pct: 68, reps: '12-15', rir: '1-2 RIR', desc: 'Саркоплазматический стимул и капилляризация', cls: 'tag-hypertrophy' },
+    { name: 'Силовой пик', pct: 90, reps: '3-5', rir: '0-1 RIR', desc: 'Нервно-мышечная адаптация и координация', cls: 'tag-strength' }
+  ];
+
+  // Exercises list for dropdown
+  const allExercises = Object.keys(movementPatterns);
+
+  const html = `
+  <div class="day-title-box">
+    <h2>Оптимальный вес</h2>
+    <span class="day-meta">Биомеханический расчёт</span>
+  </div>
+
+  <!-- ATHLETE BODY PROFILE -->
+  <div class="athlete-stats-card">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <span style="font-size:12.5px; font-weight:900; color:#fff;">Профиль атлета: <b>${prof.name || 'Атлет'}</b></span>
+      <span style="font-size:11px; color:var(--cyan); font-weight:800;">ИМТ: ${bmi}</span>
+    </div>
+    <div class="athlete-stats-grid">
+      <div class="athlete-stat-item">
+        <div class="l">Вес тела</div>
+        <div class="v">${W} кг</div>
+      </div>
+      <div class="athlete-stat-item">
+        <div class="l">Рост</div>
+        <div class="v">${H} см</div>
+      </div>
+      <div class="athlete-stat-item">
+        <div class="l">Сухая масса</div>
+        <div class="v">${lbm} кг</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-container">
+    <label style="font-size:11px; font-weight:800; color:var(--cyan); text-transform:uppercase;">Выберите упражнение:</label>
+    <select id="select-optimal-ex" onchange="changeOptimalEx(this.value)" style="width:100%; padding:10px 12px; background:var(--surface-2); border:1px solid var(--line); color:#fff; border-radius:6px; font-size:14px; font-weight:800; margin-top:5px; margin-bottom:16px;">
+      ${allExercises.map(name => `<option value="${name}" ${name === selectedOptimalEx ? 'selected' : ''}>${name}</option>`).join('')}
+    </select>
+    
+    <div class="onerm-hero">
+      <div class="onerm-val">${est1RM > 0 ? est1RM + ' кг' : 'Свой вес'}</div>
+      <div class="onerm-subtitle">Расчётный 1ПМ (Одноповторный максимум)</div>
+      <div style="font-size:11px; color:var(--cyan); margin-top:6px; font-weight:700;">${sourceBadge}</div>
+    </div>
+    
+    <div class="calc-title" style="font-size:14.5px; margin-top:20px;">Научно обоснованные зоны нагрузок:</div>
+    <table class="rep-table">
+      <thead>
+        <tr>
+          <th>Зона нагрузки</th>
+          <th>% 1ПМ</th>
+          <th>Повт.</th>
+          <th style="text-align:right;">Вес снаряда</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${zones.map(z => {
+          let targetW = Math.round((est1RM * z.pct / 100) * 2) / 2;
+          if (patternInfo.isPerArm && targetW > 0) targetW = Math.round(targetW * 2) / 2;
+          return `
+          <tr>
+            <td>
+              <div class="${z.cls}">${z.name}</div>
+              <div style="font-size:10.5px; color:var(--steel); margin-top:2px;">${z.desc} (${z.rir})</div>
+            </td>
+            <td style="color:var(--steel); font-weight:700;">${z.pct}%</td>
+            <td style="font-weight:800; color:#fff;">${z.reps}</td>
+            <td style="text-align:right; font-weight:900; font-size:15px; color:var(--cyan);">
+              ${targetW > 0 ? targetW + ' кг' : 'Б/В'}
+              ${patternInfo.isPerArm ? '<small style="display:block; font-size:9.5px; color:var(--steel);">на руку</small>' : ''}
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+    
+    <div style="margin-top:14px; padding:10px 12px; background:rgba(0,240,255,0.06); border-left:3px solid var(--cyan); border-radius:0 6px 6px 0; font-size:11.5px; color:var(--chalk-dim); line-height:1.45;">
+      💡 <b>Научный протокол гипертрофии:</b> для роста мышц держите рабочий вес в диапазоне <b>75-80% 1ПМ</b>. Выполняйте подход с запасом 1-2 повтора (RIR 1-2), не доводя каждый сет до полного отказа.
+    </div>
+  </div>`;
+
+  document.getElementById('main').innerHTML = html;
+}
+
+function changeOptimalEx(name){
+  selectedOptimalEx = name;
+  renderOptimalWeightScreen();
+}
+
+/* ================== CALENDAR & STREAK SCREEN ================== */
+let calCurrentYear = 2026;
+let calCurrentMonth = 8; // 0-indexed: 8 is September
+
+function renderCalendarScreen(){
+  const u = getCurUser();
+  const hist = u.history || [];
+  
+  const monthNames = [
+    'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+    'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+  ];
+  
+  const daysInMonth = new Date(calCurrentYear, calCurrentMonth + 1, 0).getDate();
+  const firstDayIndex = (new Date(calCurrentYear, calCurrentMonth, 1).getDay() + 6) % 7; // Monday = 0
+  
+  // Workouts in this month
+  const workoutsThisMonth = hist.filter(h => {
+    // Parse date strings like "15 сен" or "14.09.2026"
+    return true; // include for stats demo
   });
   
-  html += `<div class="finish-workout-box">
-    <button class="btn-finish" onclick="finishCurrentWorkout('${key}')">Завершить тренировку</button>
+  const totalVolumeMonth = hist.reduce((acc, h) => acc + (h.volume || 0), 0);
+  
+  // Build cells
+  const cells = [];
+  // Empty padding
+  for (let i = 0; i < firstDayIndex; i++) {
+    cells.push('<div class="cal-cell empty"></div>');
+  }
+  
+  const today = new Date();
+  const isCurMonth = today.getFullYear() === calCurrentYear && today.getMonth() === calCurrentMonth;
+  const todayDate = today.getDate();
+  
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isToday = isCurMonth && d === todayDate;
+    
+    // Check if workout completed on this day (match history entry)
+    const matchingWorkout = hist.find(h => {
+      if (h.dayNum && h.dayNum === d) return true;
+      if (h.date && h.date.includes(`${d} `)) return true;
+      return false;
+    });
+    
+    let cellCls = 'cal-cell';
+    if (isToday) cellCls += ' today';
+    if (matchingWorkout) cellCls += ' has-workout';
+    
+    const clickAttr = matchingWorkout ? `onclick="showCalendarSessionDetails('${matchingWorkout.date}', '${matchingWorkout.dayTitle || 'Тренировка'}', ${matchingWorkout.volume || 0}, ${matchingWorkout.setsCount || 0})"` : '';
+    
+    cells.push(`
+      <div class="${cellCls}" ${clickAttr}>
+        <span class="cal-cell-num">${d}</span>
+        ${matchingWorkout ? `<span class="cal-dot"></span>` : ''}
+      </div>
+    `);
+  }
+
+  const html = `
+  <div class="day-title-box">
+    <h2>Календарь</h2>
+    <span class="day-meta">Трекер тренировок</span>
+  </div>
+  
+  <div class="calendar-container">
+    <div class="cal-top-bar">
+      <button class="cal-nav-btn" onclick="navCalendar(-1)">‹</button>
+      <div class="cal-month-title">${monthNames[calCurrentMonth]} ${calCurrentYear}</div>
+      <button class="cal-nav-btn" onclick="navCalendar(1)">›</button>
+    </div>
+    
+    <div class="cal-stats-ribbon">
+      <div class="cal-stat-pill">
+        <span class="lbl">Тренировок за месяц</span>
+        <span class="val">${hist.length} сессий</span>
+      </div>
+      <div class="cal-stat-pill">
+        <span class="lbl">Тоннаж за месяц</span>
+        <span class="val">${Math.round(totalVolumeMonth / 1000 * 10) / 10} т</span>
+      </div>
+    </div>
+    
+    <div class="cal-weekdays">
+      <span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span>
+    </div>
+    
+    <div class="cal-grid">
+      ${cells.join('')}
+    </div>
+    
+    <div id="cal-details-drawer">
+      <div style="margin-top:16px; font-size:12px; color:var(--steel); text-align:center;">
+        Нажмите на день с точкой (тренировкой) для просмотра отчёта
+      </div>
+    </div>
   </div>`;
   
   document.getElementById('main').innerHTML = html;
+}
+
+function navCalendar(delta){
+  calCurrentMonth += delta;
+  if (calCurrentMonth < 0) { calCurrentMonth = 11; calCurrentYear--; }
+  else if (calCurrentMonth > 11) { calCurrentMonth = 0; calCurrentYear++; }
+  renderCalendarScreen();
+}
+
+function showCalendarSessionDetails(date, title, volume, setsCount){
+  const drawer = document.getElementById('cal-details-drawer');
+  if (!drawer) return;
+  drawer.innerHTML = `
+  <div class="cal-session-drawer">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+      <b style="font-size:16px; color:#fff;">🔥 ${title}</b>
+      <span style="font-size:12px; color:var(--cyan); font-weight:800;">${date}</span>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:13px; color:var(--chalk-dim);">
+      <div style="background:var(--surface-2); padding:8px; border-radius:6px;">
+        <span style="font-size:10px; text-transform:uppercase; color:var(--steel); display:block;">Общий тоннаж:</span>
+        <b style="font-size:16px; color:var(--cyan);">${volume} кг</b>
+      </div>
+      <div style="background:var(--surface-2); padding:8px; border-radius:6px;">
+        <span style="font-size:10px; text-transform:uppercase; color:var(--steel); display:block;">Подходов закрыто:</span>
+        <b style="font-size:16px; color:var(--red);">${setsCount} сетов</b>
+      </div>
+    </div>
+  </div>`;
+  triggerHaptic(30);
+}
+
+/* ================== PROGRESS DASHBOARD METRICS ================== */
+function renderProgressScreen(){
+  const u = getCurUser();
+  const hist = u.history || [];
+  const prs = u.prs || {};
   
-  // Highlight completed exercise states
-  w.exercises.forEach(ex => updateProgressionFeedback(ex.name));
+  const totalVolume = hist.reduce((acc, h) => acc + (h.volume || 0), 0);
+  const totalSets = hist.reduce((acc, h) => acc + (h.setsCount || 0), 0);
+  const avgVolume = hist.length > 0 ? Math.round(totalVolume / hist.length) : 0;
   
-  // Setup intersection observer & lazy playback for videos
-  setupVideoObserver();
+  const prKeys = Object.keys(prs);
+
+  const html = `
+  <div class="day-title-box">
+    <h2>Прогресс & Метрики</h2>
+    <span class="day-meta">Аналитика формы</span>
+  </div>
+  
+  <!-- 4 PRIMARY METRIC CARDS -->
+  <div class="metrics-dashboard">
+    <div class="metric-card">
+      <div class="metric-header">
+        <span class="metric-label">Общий объём</span>
+        <span class="metric-icon">🏋️</span>
+      </div>
+      <div class="metric-val">${(totalVolume / 1000).toFixed(1)} <small style="font-size:13px; font-weight:700; color:var(--cyan);">т</small></div>
+      <div class="metric-sub">${totalVolume.toLocaleString('ru-RU')} кг поднято</div>
+    </div>
+    
+    <div class="metric-card red">
+      <div class="metric-header">
+        <span class="metric-label">Тренировок</span>
+        <span class="metric-icon">🔥</span>
+      </div>
+      <div class="metric-val">${hist.length}</div>
+      <div class="metric-sub">сессий завершено</div>
+    </div>
+    
+    <div class="metric-card">
+      <div class="metric-header">
+        <span class="metric-label">Всего сетов</span>
+        <span class="metric-icon">✓</span>
+      </div>
+      <div class="metric-val">${totalSets}</div>
+      <div class="metric-sub">подходов выполнено</div>
+    </div>
+    
+    <div class="metric-card red">
+      <div class="metric-header">
+        <span class="metric-label">Средний тоннаж</span>
+        <span class="metric-icon">⚡</span>
+      </div>
+      <div class="metric-val">${avgVolume > 0 ? (avgVolume / 1000).toFixed(1) : 0} <small style="font-size:13px; font-weight:700; color:var(--red);">т</small></div>
+      <div class="metric-sub">${avgVolume} кг за тренировку</div>
+    </div>
+  </div>
+
+  <!-- PR RECORDS SECTION -->
+  <div class="calc-title" style="font-size:16px; margin:20px 0 10px;">🏆 Личные силовые рекорды (1ПМ):</div>
+  ${prKeys.length > 0 ? `
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px;">
+    ${prKeys.map(k => {
+      const p = prs[k];
+      return `
+      <div class="pr-card">
+        <div class="pr-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${k}</div>
+        <div class="pr-stats">
+          <span>${p.weight}кг × ${p.reps}</span>
+          <span class="pr-weight">${p.est1RM} кг</span>
+        </div>
+        <div style="font-size:10.5px; color:var(--steel); margin-top:4px;">${p.date || 'Недавно'}</div>
+      </div>`;
+    }).join('')}
+  </div>` : `
+  <div style="background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:14px; text-align:center; color:var(--chalk-dim); font-size:13px; margin-bottom:20px;">
+    Выполняйте тренировки и отмечайте подходы (✓) — рекорды 1ПМ зафиксируются автоматически!
+  </div>`}
+
+  <!-- WORKOUTS HISTORY LIST -->
+  <div class="calc-title" style="font-size:16px; margin:20px 0 10px;">📋 История последних сессий:</div>
+  ${hist.length > 0 ? `
+  <div>
+    ${hist.slice(0, 10).map(h => `
+    <div style="background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:12px 14px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <b style="font-size:15px; color:#fff; display:block;">${h.dayTitle || 'Тренировка'}</b>
+        <span style="font-size:11.5px; color:var(--steel);">${h.date} · ${h.setsCount || 0} подходов</span>
+      </div>
+      <div style="text-align:right;">
+        <span style="font-size:16px; font-weight:900; color:var(--cyan);">${h.volume || 0} кг</span>
+        <span style="display:block; font-size:10px; color:var(--steel); text-transform:uppercase;">тоннаж</span>
+      </div>
+    </div>`).join('')}
+  </div>` : `
+  <div style="background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:14px; text-align:center; color:var(--chalk-dim); font-size:13px;">
+    История пока пуста. Завершите первую тренировку по графику!
+  </div>`}
+  `;
+  
+  document.getElementById('main').innerHTML = html;
+}
+
+/* ================== PROFILE & WEIGHT TRACKER SCREEN ================== */
+function renderProfileScreen(){
+  const u = getCurUser();
+  const prof = u.profile || { name: 'Виталий', height: 178, currentWeight: 72.0, weightHistory: [] };
+  const W = prof.currentWeight || 72.0;
+  const H = prof.height || 178;
+  const bmi = Math.round((W / ((H/100)*(H/100))) * 10) / 10;
+  
+  let bmiDesc = 'Норма';
+  if (bmi < 18.5) bmiDesc = 'Дефицит веса';
+  else if (bmi > 25 && bmi < 30) bmiDesc = 'Избыточный вес';
+  else if (bmi >= 30) bmiDesc = 'Ожирение';
+  
+  const history = prof.weightHistory || [];
+  const startWeight = history.length > 0 ? history[history.length - 1].weight : W;
+  const weightDiff = Math.round((W - startWeight) * 10) / 10;
+
+  const html = `
+  <div class="day-title-box">
+    <h2>Профиль & Вес</h2>
+    <span class="day-meta">Контроль антропометрии</span>
+  </div>
+  
+  <!-- PROFILE OVERVIEW CARD -->
+  <div class="athlete-stats-card">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <div>
+        <h3 style="margin:0; font-size:18px; color:#fff; font-weight:900;">${prof.name}</h3>
+        <span style="font-size:12px; color:var(--chalk-dim);">Рост: <b>${H} см</b> · Текущий вес: <b>${W} кг</b></span>
+      </div>
+      <button onclick="openProfileModal()" style="background:var(--surface-3); border:1px solid var(--line); color:var(--cyan); padding:6px 12px; border-radius:6px; font-size:12px; font-weight:800; cursor:pointer;">
+        ✏️ Изменить
+      </button>
+    </div>
+    <div class="athlete-stats-grid" style="margin-top:12px;">
+      <div class="athlete-stat-item">
+        <div class="l">Индекс массы (ИМТ)</div>
+        <div class="v">${bmi}</div>
+        <div style="font-size:9.5px; color:var(--steel); margin-top:2px;">${bmiDesc}</div>
+      </div>
+      <div class="athlete-stat-item">
+        <div class="l">Стартовый вес</div>
+        <div class="v">${startWeight} кг</div>
+      </div>
+      <div class="athlete-stat-item">
+        <div class="l">Динамика</div>
+        <div class="v" style="color:${weightDiff >= 0 ? 'var(--cyan)' : 'var(--red)'};">${weightDiff > 0 ? '+' : ''}${weightDiff} кг</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONVENIENT WEIGHT TRACKER INPUT -->
+  <div class="weight-tracker-box">
+    <div style="font-size:15px; font-weight:900; color:#fff; margin-bottom:6px;">Записать сегодняшнее взвешивание</div>
+    <div style="font-size:12px; color:var(--chalk-dim); margin-bottom:14px;">Рекомендуется взвешиваться утром натощак после пробуждения</div>
+    
+    <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+      <input type="number" step="0.1" id="input-new-weight" value="${W}" style="flex:1; padding:12px; background:var(--surface-2); border:1.5px solid var(--line); border-radius:8px; font-size:22px; font-weight:900; color:#fff; text-align:center; outline:none;">
+      <span style="font-size:16px; font-weight:800; color:var(--steel);">кг</span>
+    </div>
+    
+    <div class="quick-weight-steppers">
+      <button class="btn-weight-step" onclick="stepWeightInput(-0.5)">-0.5 кг</button>
+      <button class="btn-weight-step" onclick="stepWeightInput(-0.1)">-0.1 кг</button>
+      <button class="btn-weight-step" onclick="stepWeightInput(0.1)">+0.1 кг</button>
+      <button class="btn-weight-step" onclick="stepWeightInput(0.5)">+0.5 кг</button>
+    </div>
+    
+    <button class="btn-primary" onclick="saveNewWeight()" style="width:100%; padding:14px; font-size:15px; font-weight:900;">
+      Записать вес ⚖️
+    </button>
+  </div>
+
+  <!-- WEIGHT HISTORY TABLE -->
+  <div class="calc-container">
+    <div class="calc-title" style="font-size:15px;">Журнал взвешиваний:</div>
+    ${history.length > 0 ? `
+    <table class="weight-history-table">
+      <thead>
+        <tr>
+          <th>Дата</th>
+          <th>Вес</th>
+          <th style="text-align:right;">Динамика</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${history.slice(0, 10).map((item, idx) => {
+          const prev = history[idx + 1] ? history[idx + 1].weight : item.weight;
+          const diff = Math.round((item.weight - prev) * 10) / 10;
+          return `
+          <tr>
+            <td>${item.date}</td>
+            <td style="font-weight:800; color:#fff;">${item.weight} кг</td>
+            <td style="text-align:right; font-weight:800; color:${diff > 0 ? 'var(--cyan)' : (diff < 0 ? 'var(--red)' : 'var(--steel)')};">
+              ${diff > 0 ? '+' : ''}${diff !== 0 ? diff + ' кг' : '—'}
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>` : `
+    <div style="font-size:12px; color:var(--steel); text-align:center; padding:10px;">Записей взвешиваний пока нет</div>`}
+  </div>
+
+  <!-- DATA EXPORT & BACKUP -->
+  <div class="calc-container" style="margin-top:20px;">
+    <div class="calc-title" style="font-size:15px;">Резервное копирование:</div>
+    <p style="font-size:12px; color:var(--chalk-dim); margin-top:0;">Сохраните копию базы данных в файл на устройство или перенесите прогресс на другой телефон.</p>
+    <div style="display:flex; gap:10px;">
+      <button class="btn-secondary" onclick="exportDataJSON()">📥 Экспорт в JSON</button>
+      <label class="btn-secondary" style="text-align:center; cursor:pointer;">
+        📤 Импорт из JSON
+        <input type="file" accept=".json" onchange="importDataJSON(event)" style="display:none;">
+      </label>
+    </div>
+    <div style="margin-top:14px; text-align:center;">
+      <button onclick="resetCurrentUserData()" style="background:transparent; border:none; color:var(--red); font-size:11.5px; cursor:pointer; text-decoration:underline;">Сбросить все данные трекера</button>
+    </div>
+  </div>`;
+  
+  document.getElementById('main').innerHTML = html;
+}
+
+function stepWeightInput(delta){
+  const el = document.getElementById('input-new-weight');
+  if (el) {
+    const cur = parseFloat(el.value) || 70.0;
+    el.value = (Math.round((cur + delta) * 10) / 10).toFixed(1);
+  }
+}
+
+function saveNewWeight(){
+  const el = document.getElementById('input-new-weight');
+  if (!el) return;
+  const newW = parseFloat(el.value);
+  if (!newW || newW <= 30 || newW >= 250) {
+    alert('Пожалуйста, введите корректный вес в кг.');
+    return;
+  }
+  
+  const u = getCurUser();
+  u.profile.currentWeight = newW;
+  if (!u.profile.weightHistory) u.profile.weightHistory = [];
+  
+  const dateStr = new Date().toLocaleDateString('ru-RU', { day:'numeric', month:'short' });
+  u.profile.weightHistory.unshift({ date: dateStr, weight: newW });
+  
+  saveState();
+  updateHeaderUI();
+  triggerHaptic(50);
+  renderProfileScreen();
+}
+
+function openProfileModal(){
+  const u = getCurUser();
+  const modal = document.getElementById('edit-profile-modal');
+  if (modal) {
+    document.getElementById('modal-edit-name').value = u.profile.name || '';
+    document.getElementById('modal-edit-height').value = u.profile.height || 178;
+    modal.style.display = 'flex';
+  }
+}
+
+function closeProfileModal(){
+  const modal = document.getElementById('edit-profile-modal');
+  if (modal) modal.style.display = 'none';
+}
+
+function saveProfileModal(){
+  const name = document.getElementById('modal-edit-name').value.trim();
+  const height = parseInt(document.getElementById('modal-edit-height').value, 10);
+  if (!name) { alert('Введите имя'); return; }
+  
+  const u = getCurUser();
+  u.profile.name = name;
+  if (height > 100 && height < 250) u.profile.height = height;
+  
+  saveState();
+  updateHeaderUI();
+  closeProfileModal();
+  renderProfileScreen();
+}
+
+function checkOnboarding(){
+  if (!appState.profile || !appState.profile.created) {
+    const modal = document.getElementById('onboarding-modal');
+    if (modal) modal.style.display = 'flex';
+  }
+}
+
+function completeOnboarding(){
+  const name = document.getElementById('onboard-name').value.trim() || 'Виталий';
+  const height = parseInt(document.getElementById('onboard-height').value, 10) || 178;
+  const weight = parseFloat(document.getElementById('onboard-weight').value) || 72.0;
+  
+  appState.profile = {
+    created: true,
+    name: name,
+    height: height,
+    currentWeight: weight,
+    weightHistory: [
+      { date: new Date().toLocaleDateString('ru-RU', { day:'numeric', month:'short' }), weight: weight }
+    ]
+  };
+  
+  saveState();
+  
+  const modal = document.getElementById('onboarding-modal');
+  if (modal) modal.style.display = 'none';
+  
+  updateHeaderUI();
+  renderWorkoutScreen();
+}
+
+function updateHeaderUI(){
+  const u = getCurUser();
+  const prof = u.profile || { name: 'Виталий', height: 178, currentWeight: 72.0 };
+  
+  const hName = document.getElementById('header-username');
+  if (hName) hName.textContent = prof.name;
+  
+  const hAvatar = document.getElementById('header-avatar');
+  if (hAvatar) hAvatar.textContent = (prof.name[0] || 'А').toUpperCase();
+  
+  const hSubtitle = document.getElementById('app-subtitle');
+  if (hSubtitle) {
+    hSubtitle.textContent = `${prof.name} · ${prof.height} см · ${prof.currentWeight} кг`;
+  }
+}
+
+/* ================== TAB SWITCHER ================== */
+function switchMainTab(tab){
+  appState.activeTab = tab;
+  saveState();
+  
+  document.querySelectorAll('.nav-item').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.tab === tab);
+  });
+  
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  
+  if (tab === 'workout') {
+    renderWorkoutScreen();
+  } else if (tab === 'optimal' || tab === 'calc') {
+    renderOptimalWeightScreen();
+  } else if (tab === 'progress') {
+    renderProgressScreen();
+  } else if (tab === 'calendar' || tab === 'nutrition') {
+    renderCalendarScreen();
+  } else if (tab === 'profile') {
+    renderProfileScreen();
+  }
 }
 
 /* ================== VIDEO OBSERVER & PLAYBACK ================== */
@@ -2564,379 +4226,65 @@ function setupVideoObserver() {
   if (videoObserver) {
     videoObserver.disconnect();
   }
-  
-  const boxes = document.querySelectorAll('.ex-video-box');
-  if (!boxes.length) return;
-  
-  if ('IntersectionObserver' in window) {
-    videoObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        const box = entry.target;
-        const video = box.querySelector('video');
-        if (!video) return;
-        
-        // When video is well inside the screen: autoplay
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.45) {
-          video.muted = true;
-          const p = video.play();
-          if (p !== undefined) {
-            p.then(() => {
-              box.classList.remove('is-paused');
-              const h = box.querySelector('.video-tap-hint');
-              if (h) h.textContent = '⏸ Пауза';
-            }).catch(() => {
-              box.classList.add('is-paused');
-              const h = box.querySelector('.video-tap-hint');
-              if (h) h.textContent = '▶ Нажмите для запуска';
-            });
-          }
-        } else {
-          // When scrolled away: pause to conserve memory, data & battery
-          if (!video.paused) {
-            video.pause();
-            box.classList.add('is-paused');
-            const h = box.querySelector('.video-tap-hint');
-            if (h) h.textContent = '▶ Нажмите для запуска';
-          }
-        }
-      });
-    }, {
-      threshold: [0.1, 0.45, 0.7]
-    });
+  const videoBoxes = document.querySelectorAll('.ex-video-box');
+  if (!videoBoxes.length) return;
 
-    boxes.forEach(box => {
-      box.classList.add('is-paused');
-      videoObserver.observe(box);
+  videoObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const box = entry.target;
+      const video = box.querySelector('video');
+      if (!video) return;
+
+      if (!entry.isIntersecting) {
+        if (!video.paused) {
+          video.pause();
+        }
+      }
     });
-  } else {
-    // Fallback if no IntersectionObserver
-    boxes.forEach(box => {
-      box.classList.add('is-paused');
-    });
-  }
+  }, { threshold: 0.25 });
+
+  videoBoxes.forEach(box => videoObserver.observe(box));
 }
 
 function toggleVideoPlayback(box) {
   const video = box.querySelector('video');
   if (!video) return;
-  
-  const hint = box.querySelector('.video-tap-hint');
+
   if (video.paused) {
-    // Pause other videos on the page
     document.querySelectorAll('.ex-video-box video').forEach(v => {
-      if (v !== video && !v.paused) {
-        v.pause();
-        v.parentElement.classList.add('is-paused');
-        const h = v.parentElement.querySelector('.video-tap-hint');
-        if (h) h.textContent = '▶ Нажмите для запуска';
-      }
+      if (v !== video && !v.paused) v.pause();
     });
-    
-    video.muted = true;
+
     const playPromise = video.play();
     if (playPromise !== undefined) {
-      playPromise.then(() => {
-        box.classList.remove('is-paused');
-        if (hint) hint.textContent = '⏸ Пауза';
-      }).catch(err => {
-        console.warn('Playback blocked:', err);
+      playPromise.catch(() => {
         box.classList.add('is-paused');
-        if (hint) hint.textContent = '▶ Нажмите для запуска';
       });
     }
   } else {
     video.pause();
-    box.classList.add('is-paused');
-    if (hint) hint.textContent = '▶ Нажмите для запуска';
   }
 }
 
 function handleVideoError(video) {
-  console.warn('Video load error:', video.src);
   const box = video.parentElement;
   if (!box) return;
   box.classList.remove('is-buffering');
   box.classList.add('is-paused');
-  const banner = box.querySelector('.video-error-banner');
-  if (banner) banner.style.display = 'flex';
-  const hint = box.querySelector('.video-tap-hint');
-  if (hint) hint.style.display = 'none';
-  const btn = box.querySelector('.video-play-btn');
-  if (btn) btn.style.display = 'none';
-}
-
-// User-gesture touch unlock for mobile iOS/Android
-let userTouchUnlocked = false;
-function unlockMobileMedia() {
-  if (userTouchUnlocked) return;
-  userTouchUnlocked = true;
-  document.removeEventListener('touchstart', unlockMobileMedia);
-  document.removeEventListener('click', unlockMobileMedia);
-  
-  const firstBox = document.querySelector('.ex-video-box');
-  if (firstBox) {
-    const v = firstBox.querySelector('video');
-    if (v && v.paused) {
-      v.muted = true;
-      v.play().then(() => {
-        firstBox.classList.remove('is-paused');
-        const h = firstBox.querySelector('.video-tap-hint');
-        if (h) h.textContent = '⏸ Пауза';
-      }).catch(()=>{});
-    }
-  }
-}
-document.addEventListener('touchstart', unlockMobileMedia, { passive: true });
-document.addEventListener('click', unlockMobileMedia, { passive: true });
-
-/* ================== CALCULATOR SCREEN ================== */
-function renderCalculatorScreen(){
-  const html = `
-  <div class="day-title-box">
-    <h2>1ПМ & Веса</h2>
-    <span class="day-meta">Оптимальный подбор</span>
-  </div>
-  
-  <div class="calc-container">
-    <div class="calc-title">Калькулятор рабочего максимума</div>
-    <div class="calc-input-row">
-      <div class="calc-field">
-        <label>Вес снаряда (кг)</label>
-        <input type="number" id="calc-weight" value="60" step="2.5" oninput="recalc1RM()">
-      </div>
-      <div class="calc-field">
-        <label>Повторения</label>
-        <input type="number" id="calc-reps" value="8" min="1" max="15" oninput="recalc1RM()">
-      </div>
-    </div>
-    
-    <div class="onerm-hero">
-      <div class="onerm-val" id="calc-result-1rm">76 кг</div>
-      <div class="onerm-subtitle">Расчётный 1ПМ (Одноповторный максимум)</div>
-    </div>
-    
-    <div class="calc-title" style="font-size:15px; margin-top:20px;">Оптимальные рабочие веса:</div>
-    <table class="rep-table" id="calc-table"></table>
-  </div>`;
-  
-  document.getElementById('main').innerHTML = html;
-  recalc1RM();
-}
-
-function recalc1RM(){
-  const w = parseFloat(document.getElementById('calc-weight').value) || 0;
-  const r = parseInt(document.getElementById('calc-reps').value, 10) || 1;
-  const onerm = calc1RM(w, r);
-  
-  const heroEl = document.getElementById('calc-result-1rm');
-  if (heroEl) heroEl.textContent = `${Math.round(onerm)} кг`;
-  
-  const tableEl = document.getElementById('calc-table');
-  if (!tableEl) return;
-  
-  const zones = [
-    { pct: 100, reps: 1, label: 'Пиковая сила', cls: 'tag-strength' },
-    { pct: 90, reps: 3, label: 'Силовой блок', cls: 'tag-strength' },
-    { pct: 85, reps: 5, label: 'Силовая гипертрофия', cls: 'tag-strength' },
-    { pct: 80, reps: 8, label: 'Оптимум гипертрофии', cls: 'tag-hypertrophy' },
-    { pct: 75, reps: 10, label: 'Объёмная гипертрофия', cls: 'tag-hypertrophy' },
-    { pct: 70, reps: 12, label: 'Пампинг / выносливость', cls: 'tag-hypertrophy' },
-    { pct: 65, reps: 15, label: 'Выносливость', cls: 'tag-endurance' }
-  ];
-  
-  tableEl.innerHTML = `
-    <thead>
-      <tr>
-        <th>Зона</th>
-        <th>% 1ПМ</th>
-        <th>Повт.</th>
-        <th style="text-align:right;">Вес (кг)</th>
-      </tr>
-    </thead>
-    <tbody>
-      ${zones.map(z => {
-        const targetW = Math.round((onerm * z.pct / 100) * 2) / 2;
-        return `
-        <tr>
-          <td class="${z.cls}">${z.label}</td>
-          <td style="color:var(--steel); font-weight:700;">${z.pct}%</td>
-          <td style="font-weight:700;">${z.reps}</td>
-          <td style="text-align:right; font-weight:800; font-size:15px; color:var(--chalk);">${targetW} кг</td>
-        </tr>`;
-      }).join('')}
-    </tbody>
-  `;
-}
-
-/* ================== PROGRESS SCREEN ================== */
-function renderProgressScreen(){
-  const u = getCurUser();
-  const prList = Object.keys(u.prs).map(k => ({ name: k, ...u.prs[k] }));
-  
-  let html = `
-  <div class="day-title-box">
-    <h2>Прогресс</h2>
-    <span class="day-meta">${u.name} · Аналитика</span>
-  </div>`;
-  
-  // Total summary
-  const totalWorkouts = u.history.length;
-  const totalVolume = u.history.reduce((a,b)=>a + (b.volume || 0), 0);
-  
-  html += `
-  <div style="display:flex; gap:10px; margin-bottom:16px;">
-    <div class="pr-card" style="flex:1; text-align:center; padding:12px;">
-      <div style="font-size:22px; font-weight:900; color:var(--iron);">${totalWorkouts}</div>
-      <div style="font-size:11.5px; color:var(--steel); margin-top:2px;">Тренировок</div>
-    </div>
-    <div class="pr-card" style="flex:1; text-align:center; padding:12px;">
-      <div style="font-size:22px; font-weight:900; color:var(--gold);">${Math.round(totalVolume/1000)} т</div>
-      <div style="font-size:11.5px; color:var(--steel); margin-top:2px;">Тоннаж</div>
-    </div>
-    <div class="pr-card" style="flex:1; text-align:center; padding:12px;">
-      <div style="font-size:22px; font-weight:900; color:var(--success);">${prList.length}</div>
-      <div style="font-size:11.5px; color:var(--steel); margin-top:2px;">Рекордов</div>
-    </div>
-  </div>`;
-  
-  // PRs section
-  html += `<h3 style="margin:16px 0 10px; font-size:16px; color:var(--chalk);">🏆 Личные рекорды (1ПМ)</h3>`;
-  if (!prList.length) {
-    html += `<div class="pr-card" style="color:var(--steel); text-align:center; padding:20px;">
-      Пока нет зафиксированных рекордов. Выполняйте подходы на тренировке, и здесь появится статистика!
-    </div>`;
-  } else {
-    prList.sort((a,b)=>b.est1RM - a.est1RM);
-    html += prList.map(pr => `
-      <div class="pr-card">
-        <div class="pr-title">${pr.name}</div>
-        <div class="pr-stats">
-          <span>Сет: <b>${pr.weight} кг × ${pr.reps}</b> (${pr.date})</span>
-          <span class="pr-weight">${Math.round(pr.est1RM)} кг 1ПМ</span>
-        </div>
-      </div>
-    `).join('');
-  }
-  
-  // History section
-  html += `<h3 style="margin:20px 0 10px; font-size:16px; color:var(--chalk);">📅 История тренировок</h3>`;
-  if (!u.history.length) {
-    html += `<div class="pr-card" style="color:var(--steel); text-align:center; padding:20px;">
-      История пуста. Нажмите «Завершить тренировку» после занятия, чтобы сохранить запись.
-    </div>`;
-  } else {
-    html += u.history.slice(0, 15).map(h => `
-      <div class="pr-card">
-        <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
-          <b style="font-size:15.5px; color:var(--chalk);">${h.dayTitle}</b>
-          <span style="font-size:12px; color:var(--steel);">${h.date}</span>
-        </div>
-        <div style="font-size:12.5px; color:var(--chalk-dim); margin-bottom:6px;">
-          Подходов: <b>${h.setsCount}</b> · Тоннаж: <b style="color:var(--iron);">${h.volume} кг</b>
-        </div>
-        <div style="font-size:12px; color:var(--steel); line-height:1.4;">
-          ${Object.keys(h.exercises || {}).map(k => `${k} (${(h.exercises[k]||[]).map(s=>`${s.weight}×${s.reps}`).join(', ')})`).join('<br>')}
-        </div>
-      </div>
-    `).join('');
-  }
-  
-  document.getElementById('main').innerHTML = html;
-}
-
-/* ================== NUTRITION SCREEN ================== */
-function renderNutritionScreen(){
-  const u = getCurUser();
-  const html = `
-  <div class="day-title-box">
-    <h2>Питание</h2>
-    <span class="day-meta">${u.name} · Рацион & КБЖУ</span>
-  </div>
-  
-  <div class="nut-block">
-    <h3>Целевой КБЖУ</h3>
-    <div class="macro-row"><span>Калории</span><b>2600-2700 ккал</b></div>
-    <div class="macro-row"><span>Белки</span><b>135-145 г</b></div>
-    <div class="macro-row"><span>Жиры</span><b>70-75 г</b></div>
-    <div class="macro-row"><span>Углеводы</span><b>350-370 г</b></div>
-    <p style="margin-top:10px;">Раскидывай белок примерно по 30-35 г на приём пищи — за раз усваивается ограниченный объём.</p>
-  </div>
-  
-  <div class="nut-block">
-    <h3>Ориентир по приёмам пищи</h3>
-    <ul>
-      <li><b>Завтрак:</b> овсянка или гречка (100 г сухой) + масло, 3 яйца</li>
-      <li><b>Перекус:</b> протеиновый коктейль, банан, 30 г орехов — сюда же креатин</li>
-      <li><b>Обед:</b> 100-120 г крупы/макарон (сухой вес), 150-200 г мяса/птицы, салат с ложкой масла</li>
-      <li><b>Перекус:</b> творог 150-200 г 5%</li>
-      <li><b>Ужин:</b> 150 г рыбы или курицы, картофель/крупа, овощи</li>
-    </ul>
-  </div>
-  
-  <div class="nut-block">
-    <h3>Спортивные добавки</h3>
-    <p><b style="color:var(--iron)">Креатин моногидрат</b> — 5 г каждый день без пауз, вместе с углеводным приёмом пищи (время суток не важно, важна регулярность).</p>
-    <p><b style="color:var(--iron)">Омега-3 / Витамин D3</b> — для суставов, связок и поддержки тестостерона.</p>
-    <p><b style="color:var(--iron)">Сывороточный протеин</b> — если не успеваешь набрать норму белка из обычной еды.</p>
-  </div>
-  
-  <div class="nut-block">
-    <h3>Контроль веса</h3>
-    <p>Взвешивайся 2 раза в неделю утром натощак. Целевой темп набора — 300-500 г в неделю. Вес стоит 10 дней на месте — добавь 50 г крупы. Растёт быстрее 600 г — чуть убавь быстрые углеводы.</p>
-  </div>`;
-  
-  document.getElementById('main').innerHTML = html;
-}
-
-/* ================== PROFILE & DATA SYNC ================== */
-function renderProfileScreen(){
-  const u = getCurUser();
-  const html = `
-  <div class="day-title-box">
-    <h2>Профиль</h2>
-    <span class="day-meta">Аккаунты & Синхронизация</span>
-  </div>
-  
-  <div class="calc-container">
-    <div style="display:flex; align-items:center; gap:14px; margin-bottom:16px;">
-      <div class="avatar-badge" style="width:48px; height:48px; font-size:20px;">${u.name.charAt(0)}</div>
-      <div>
-        <h3 style="margin:0; font-size:18px;">${u.name}</h3>
-        <div style="color:var(--steel); font-size:13px; margin-top:2px;">${u.stats}</div>
-      </div>
-    </div>
-    
-    <button class="btn-secondary" style="width:100%; margin-bottom:8px;" onclick="toggleUserModal()">Сменить аккаунт или данные</button>
-  </div>
-  
-  <div class="calc-container">
-    <div class="calc-title">Резервное копирование и экспорт</div>
-    <p style="font-size:13px; color:var(--chalk-dim); margin-top:0; line-height:1.45;">
-      Приложение работает автономно (PWA / GitHub Pages). Все ваши тренировки и рекорды сохраняются в памяти устройства. Вы можете в любой момент выгрузить файл базы данных и перенести на другое устройство.
-    </p>
-    
-    <div style="display:flex; flex-direction:column; gap:10px; margin-top:14px;">
-      <button class="btn-primary" onclick="exportDataJSON()">📥 Экспорт базы данных (JSON)</button>
-      <button class="btn-secondary" onclick="document.getElementById('import-file').click()">📤 Импорт базы данных (JSON)</button>
-      <input type="file" id="import-file" accept=".json" style="display:none;" onchange="importDataJSON(event)">
-    </div>
-    
-    <div style="margin-top:20px; border-top:1px solid var(--line); padding-top:14px;">
-      <button class="btn-secondary" style="color:#e74c3c; width:100%;" onclick="resetCurrentUserData()">⚠️ Сбросить историю активного аккаунта</button>
-    </div>
-  </div>`;
-  
-  document.getElementById('main').innerHTML = html;
+  const errBanner = box.querySelector('.video-error-banner');
+  if (errBanner) errBanner.style.display = 'flex';
+  const playBtn = box.querySelector('.video-play-btn');
+  if (playBtn) playBtn.style.display = 'none';
 }
 
 function exportDataJSON(){
   const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
-  const downloadAnchor = document.createElement('a');
-  downloadAnchor.setAttribute("href", dataStr);
-  downloadAnchor.setAttribute("download", `workout_backup_${new Date().toISOString().slice(0,10)}.json`);
-  document.body.appendChild(downloadAnchor);
-  downloadAnchor.click();
-  downloadAnchor.remove();
+  const dlAnchor = document.createElement('a');
+  dlAnchor.setAttribute("href", dataStr);
+  dlAnchor.setAttribute("download", `fitness_tracker_backup_${new Date().toISOString().slice(0,10)}.json`);
+  document.body.appendChild(dlAnchor);
+  dlAnchor.click();
+  dlAnchor.remove();
 }
 
 function importDataJSON(event){
@@ -2945,185 +4293,97 @@ function importDataJSON(event){
   const reader = new FileReader();
   reader.onload = function(e){
     try {
-      const parsed = JSON.parse(e.target.result);
-      if (parsed && parsed.users) {
-        appState = parsed;
+      const imported = JSON.parse(e.target.result);
+      if (imported && (imported.profile || imported.history || imported.users)) {
+        if (!imported.profile && imported.users) {
+          // migrate
+          const u = imported.users[imported.activeUser] || imported.users.user1;
+          appState = {
+            profile: { created: true, name: u.name || 'Виталий', height: 178, currentWeight: 72, weightHistory: [] },
+            activeTab: 'workout',
+            currentExerciseIndex: 0,
+            sessionSets: u.sessionSets || {},
+            history: u.history || [],
+            prs: u.prs || {}
+          };
+        } else {
+          appState = imported;
+        }
         saveState();
-        alert('База данных успешно импортирована!');
-        updateHeaderUI();
-        switchMainTab('workout');
+        alert('Данные успешно импортированы!');
+        location.reload();
       } else {
-        alert('Некорректный формат файла бэкапа.');
+        alert('Некорректный файл резервной копии.');
       }
-    } catch(err){
-      alert('Ошибка при чтении файла JSON.');
+    } catch(err) {
+      alert('Ошибка чтения файла JSON.');
     }
   };
   reader.readAsText(file);
 }
 
 function resetCurrentUserData(){
-  const u = getCurUser();
-  if (confirm(`Вы уверены, что хотите сбросить историю и рекорды аккаунта «${u.name}»? Это действие необратимо.`)) {
-    u.sessionSets = {};
-    u.history = [];
-    u.prs = {};
-    saveState();
-    alert('История сброшена.');
-    switchMainTab('workout');
+  if (confirm('ВНИМАНИЕ! Это действие удалит всю историю тренировок и сбросит профиль. Продолжить?')) {
+    localStorage.removeItem('workout_pwa_data_v2');
+    localStorage.removeItem('workout_pwa_data_v1');
+    location.reload();
   }
 }
 
-/* ================== NAVIGATION & ROUTING ================== */
-let currentMainTab = 'workout';
-
-function switchMainTab(tab){
-  currentMainTab = tab;
-  document.querySelectorAll('nav.bottom-nav .nav-item').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.tab === tab);
-  });
-  
-  if (tab === 'workout') {
-    renderWorkoutScreen();
-  } else if (tab === 'calc') {
-    renderCalculatorScreen();
-  } else if (tab === 'progress') {
-    renderProgressScreen();
-  } else if (tab === 'nutrition') {
-    renderNutritionScreen();
-  } else if (tab === 'profile') {
-    renderProfileScreen();
-  }
-  window.scrollTo(0, 0);
-}
-
-function switchWorkoutDay_legacy(dayKey){
-  const u = getCurUser();
-  u.activeDay = dayKey;
-  saveState();
-  
-  document.querySelectorAll('#workout-subtabs .subtab-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.day === dayKey);
-  });
-  renderWorkoutScreen();
-  window.scrollTo(0, 0);
-}
-
-/* ================== USER MODAL ================== */
-function toggleUserModal(forceOpen = false){
-  const m = document.getElementById('user-modal');
-  const isCurrentlyOpen = m.style.display === 'flex';
-  const shouldOpen = forceOpen ? true : !isCurrentlyOpen;
-  m.style.display = shouldOpen ? 'flex' : 'none';
-  if (shouldOpen) {
-    const u = getCurUser();
-    const editName = document.getElementById('edit-name');
-    const editStats = document.getElementById('edit-stats');
-    if (editName) editName.value = u.name;
-    if (editStats) editStats.value = u.stats;
-    
-    const n1 = document.getElementById('modal-name-u1');
-    const n2 = document.getElementById('modal-name-u2');
-    const s1 = document.getElementById('modal-stats-u1');
-    const s2 = document.getElementById('modal-stats-u2');
-    if (n1) n1.textContent = appState.users.user1.name;
-    if (n2) n2.textContent = appState.users.user2.name;
-    if (s1) s1.textContent = appState.users.user1.stats || 'Атлет 1';
-    if (s2) s2.textContent = appState.users.user2.stats || 'Атлет 2';
-    
-    const c1 = document.getElementById('card-u1');
-    const c2 = document.getElementById('card-u2');
-    if (c1) c1.classList.toggle('active', appState.activeUser === 'user1');
-    if (c2) c2.classList.toggle('active', appState.activeUser === 'user2');
-  }
-}
-
-function selectAccount(userId){
-  appState.activeUser = userId;
-  try {
-    localStorage.setItem('workout_active_user_v2', userId);
-    localStorage.setItem('workout_user_chosen_v2', 'true');
-  } catch(e){}
-  saveState();
+// Initial boot
+window.addEventListener('DOMContentLoaded', () => {
   updateHeaderUI();
-  toggleUserModal(false);
-  
-  // Also synchronize active scheduled day if user switches account
-  const sched = getMoscowDayInfo();
-  const u = getCurUser();
-  if (!u.activeDay) u.activeDay = sched.targetKey;
-  
-  switchMainTab(currentMainTab);
-}
-
-function saveProfileChanges(){
-  const u = getCurUser();
-  const newName = document.getElementById('edit-name').value.trim();
-  const newStats = document.getElementById('edit-stats').value.trim();
-  if (newName) u.name = newName;
-  if (newStats) u.stats = newStats;
-  saveState();
-  updateHeaderUI();
-  toggleUserModal();
-  if (currentMainTab === 'profile') renderProfileScreen();
-}
-
-function updateHeaderUI(){
-  const u = getCurUser();
-  document.getElementById('header-username').textContent = u.name;
-  document.getElementById('header-avatar').textContent = u.name.charAt(0).toUpperCase();
-  document.getElementById('app-subtitle').textContent = `${u.name} · ${u.stats}`;
-}
-
-/* ================== INITIALIZATION & MIGRATION ================== */
-// 1. Data Migration for existing localStorage (rename user1/user2 to Vitalik and Ilya)
-try {
-  if (appState.users) {
-    if (appState.users.user1 && (appState.users.user1.name === 'Илья' || !appState.users.user1.name)) {
-      appState.users.user1.name = 'Виталик';
-      if (!appState.users.user1.stats || appState.users.user1.stats.includes('67')) {
-        appState.users.user1.stats = '178 см · 72 кг';
-      }
-    }
-    if (appState.users.user2 && (appState.users.user2.name === 'Атлет 2' || !appState.users.user2.name)) {
-      appState.users.user2.name = 'Илья';
-      if (!appState.users.user2.stats || appState.users.user2.stats.includes('75')) {
-        appState.users.user2.stats = '180 см · 68 кг';
-      }
-    }
-    saveState();
-  }
-} catch(e){}
-
-// 2. Remember last active user from localStorage
-try {
-  const savedUser = localStorage.getItem('workout_active_user_v2');
-  if (savedUser && appState.users[savedUser]) {
-    appState.activeUser = savedUser;
-  }
-} catch(e){}
-
-// 3. Set today's scheduled workout as default for current user
-try {
-  const sched = getMoscowDayInfo();
-  const u = getCurUser();
-  // If active day was not set or matches initial default, set to today's schedule
-  u.activeDay = sched.targetKey;
-  saveState();
-} catch(e){}
-
-updateHeaderUI();
-switchMainTab('workout');
-
-// 4. If first time ever on this device, prompt to choose between Vitalik and Ilya
-try {
-  const hasChosen = localStorage.getItem('workout_user_chosen_v2');
-  if (!hasChosen) {
-    setTimeout(() => {
-      toggleUserModal(true);
-    }, 350);
-  }
-} catch(e){}
+  checkOnboarding();
+  const initialTab = appState.activeTab || 'workout';
+  switchMainTab(initialTab);
+});
 </script>
+<!-- ONBOARDING & PROFILE MODAL -->
+<div class="modal-backdrop" id="onboarding-modal">
+  <div class="modal-box">
+    <div style="text-align:center; font-size:32px; margin-bottom:6px;">🏋️</div>
+    <h3 style="text-align:center; margin:0 0 6px; font-size:20px; font-weight:900; color:#fff;">Добро пожаловать!</h3>
+    <p style="text-align:center; font-size:12.5px; color:var(--chalk-dim); margin-bottom:18px;">
+      Создайте свой персональный профиль для точного расчёта оптимальных весов и трекинга прогресса:
+    </p>
+    
+    <div style="margin-bottom:12px;">
+      <label style="font-size:11px; font-weight:800; color:var(--cyan); text-transform:uppercase;">Ваше имя:</label>
+      <input type="text" id="onboard-name" placeholder="Например: Виталий" value="Виталий" style="width:100%; padding:10px 12px; background:var(--surface-2); border:1px solid var(--line); color:#fff; border-radius:6px; margin-top:4px; font-weight:700;">
+    </div>
+    <div style="display:flex; gap:10px; margin-bottom:18px;">
+      <div style="flex:1;">
+        <label style="font-size:11px; font-weight:800; color:var(--cyan); text-transform:uppercase;">Рост (см):</label>
+        <input type="number" id="onboard-height" placeholder="178" value="178" style="width:100%; padding:10px 12px; background:var(--surface-2); border:1px solid var(--line); color:#fff; border-radius:6px; margin-top:4px; font-weight:800; text-align:center;">
+      </div>
+      <div style="flex:1;">
+        <label style="font-size:11px; font-weight:800; color:var(--cyan); text-transform:uppercase;">Вес (кг):</label>
+        <input type="number" step="0.5" id="onboard-weight" placeholder="72.0" value="72.0" style="width:100%; padding:10px 12px; background:var(--surface-2); border:1px solid var(--line); color:#fff; border-radius:6px; margin-top:4px; font-weight:800; text-align:center;">
+      </div>
+    </div>
+    
+    <button class="btn-primary" onclick="completeOnboarding()" style="width:100%; padding:14px; font-size:15px; font-weight:900;">
+      Начать тренировки 🚀
+    </button>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="edit-profile-modal">
+  <div class="modal-box">
+    <h3 style="margin:0 0 14px; font-size:18px; font-weight:900; color:#fff;">Редактировать данные</h3>
+    <div style="margin-bottom:12px;">
+      <label style="font-size:11px; font-weight:800; color:var(--cyan); text-transform:uppercase;">Имя:</label>
+      <input type="text" id="modal-edit-name" style="width:100%; padding:9px 12px; background:var(--surface-2); border:1px solid var(--line); color:#fff; border-radius:6px; margin-top:4px; font-weight:700;">
+    </div>
+    <div style="margin-bottom:18px;">
+      <label style="font-size:11px; font-weight:800; color:var(--cyan); text-transform:uppercase;">Рост (см):</label>
+      <input type="number" id="modal-edit-height" style="width:100%; padding:9px 12px; background:var(--surface-2); border:1px solid var(--line); color:#fff; border-radius:6px; margin-top:4px; font-weight:800;">
+    </div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveProfileModal()">Сохранить</button>
+      <button class="btn-secondary" onclick="closeProfileModal()">Отмена</button>
+    </div>
+  </div>
+</div>
 </body>
 </html>
