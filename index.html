@@ -2207,7 +2207,7 @@ function iconSvg(cat){
 // Offline Service Worker & Persistent Storage Registration
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js?v=8').then(reg => {
+    navigator.serviceWorker.register('./sw.js?v=9').then(reg => {
       reg.update();
       reg.onupdatefound = () => {
         const installingWorker = reg.installing;
@@ -3520,18 +3520,11 @@ function renderWorkoutForDay(key, isPreview = false){
     </div>
   </div>`;
 
-  // FOOTER TRANSITION BUTTON
+  // FOOTER TRANSITION BUTTON (Only shown on the final exercise)
   let footerNavHtml = '';
-  if (curIdx < totalExercises - 1) {
-    const nextEx = w.exercises[curIdx + 1];
+  if (curIdx === totalExercises - 1) {
     footerNavHtml = `
-    <button class="btn-next-ex" onclick="goToExercise(${curIdx + 1})">
-      <span>Следующее: <b>${nextEx.name}</b></span>
-      <span>→</span>
-    </button>`;
-  } else {
-    footerNavHtml = `
-    <div class="finish-workout-box">
+    <div class="finish-workout-box" style="margin-top:16px;">
       <button class="btn-finish" onclick="finishCurrentWorkout('${key}')">🎉 Завершить тренировку</button>
     </div>`;
   }
